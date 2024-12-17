@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <unordered_map>
 #include "interval_optimizer.hpp"
 
 // Define the IntervalGroup structure
