@@ -30,7 +30,7 @@ int main() {
     double start = -10.0;  // Start Point
     double end = 10.0;     // End Point
     size_t num_points = 1024;  // Number of Points
-    std::string expression_str = "gelu(x)";
+    std::string expression_str = "0.5 * x * (1 + tanh( sqrt(2 / pi) * ( x + 0.044715 * x^3 ) ))";
 
     // Generate intervals with variable precision
     std::vector<Interval> intervals = generateAdaptiveIntervals(

@@ -27,6 +27,34 @@ struct Interval {
         : start(s), end(e), hessian(h), level(l) {}
 };
 
+inline double computeFunctionValue(const std::string& expression_str, double x) {
+    // Define the symbol table
+    exprtk::symbol_table<double> symbol_table;
+    double var_x = x;
+    symbol_table.add_variable("x", var_x);
+    symbol_table.add_constant("pi", 3.14159265358979323846);
+
+    // Define the lambda function for the expression
+    exprtk::expression<double> expression;
+    expression.register_symbol_table(symbol_table);
+
+    // Parse the expression
+    exprtk::parser<double> parser;
+    if (!parser.compile(expression_str, expression)) {
+        std::cerr << "Error parsing the expression: " << expression_str << std::endl;
+        for (std::size_t i = 0; i < parser.error_count(); ++i) {
+            exprtk::parser_error::type error = parser.get_error(i);
+            std::cerr << "Error: " << std::string(error.diagnostic) << std::endl;
+        }
+        return 0.0;
+    }
+
+    // Evaluate the expression
+    double funtion_value = expression.value();
+
+    return funtion_value;
+}
+
 // Calculate the Hessian (second derivative)
 inline double computeHessian(const std::function<double(double)>& f, double x, double h = 1e-5) {
     return (f(x + h) - 2 * f(x) + f(x - h)) / (h * h);
@@ -39,36 +67,13 @@ inline std::vector<Interval> generateInitialIntervals(double start, double end, 
 
     for (double x = start; x < end; x += step) {
         double mid = x + step / 2.0;
-        double hessian = 0.0;
+        // double hessian = 0.0;
+        double hessian = computeHessian([&](double val) { return computeFunctionValue(expression_str, val); }, mid);
 
         intervals.push_back(Interval{x, x + step, hessian, 0}); // level 0 represents the initial intervals
     }
 
     return intervals;
-}
-
-inline double computeFunctionValue(const std::string& expression_str, double x) {
-    // Define the symbol table
-    exprtk::symbol_table<double> symbol_table;
-    double var_x = x;
-    symbol_table.add_variable("x", var_x);
-    symbol_table.add_constants();
-
-    // Define the lambda function for the expression
-    exprtk::expression<double> expression;
-    expression.register_symbol_table(symbol_table);
-
-    // Parse the expression
-    exprtk::parser<double> parser;
-    if (!parser.compile(expression_str, expression)) {
-        std::cerr << "Error parsing the expression: " << expression_str << std::endl;
-        return 0.0;
-    }
-
-    // Evaluate the expression
-    double funtion_value = expression.value();
-
-    return funtion_value;
 }
 
 // Calcluate the normalized function difference

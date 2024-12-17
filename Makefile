@@ -3,7 +3,7 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -O2
 LDFLAGS = -lm
-INCLUDES = -I.
+INCLUDES = -I./tb -I./include
 
 SRC = main.cpp
 HEADERS = interval_optimizer.hpp function_fitter.hpp interval_group_compressor.hpp exprtk.hpp
@@ -22,23 +22,23 @@ $(EXEC): $(OBJ)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) $(OBJ) -o $(EXEC) $(LDFLAGS)
 
 # Build the test executable
-$(TEST_EXEC): $(TEST_OBJ) exprtk.o
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(TEST_OBJ) exprtk.o -o $(TEST_EXEC) $(LDFLAGS)
+$(TEST_EXEC): $(TEST_OBJ)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(TEST_OBJ) -o $(TEST_EXEC) $(LDFLAGS)
 
 # Compile object files for sources
-%.o: %.cpp exprtk.hpp
+%.o: %.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Compile object files for test sources
-tb/%.o: tb/%.cpp exprtk.hpp
+tb/%.o: tb/%.cpp $(HEADERS)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Compile object files for exprtk
-exprtk.o: exprtk.hpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c exprtk.hpp -o exprtk.o
+# exprtk.o: exprtk.hpp
+# 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c exprtk.hpp -o exprtk.o
 
 clean:
-	rm -f $(OBJ) $(TEST_OBJ) exprtk.o $(EXEC) $(TEST_EXEC)
+	rm -f $(OBJ) $(TEST_OBJ) $(EXEC) $(TEST_EXEC)
 
 run: $(EXEC)
 	./$(EXEC)

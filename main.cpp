@@ -5,6 +5,7 @@
 #include "interval_optimizer.hpp"
 #include "function_fitter.hpp"
 #include "interval_group_compressor.hpp"
+// #include "./tb/hls_lut_mapper.hpp"
 
 void saveCompressedFitParametersToFile(const std::vector<CompressedFitParameters>& compressed_params_list,
                                        const std::string& filename) {
@@ -48,12 +49,27 @@ void saveCompressedFitParametersToFile(const std::vector<CompressedFitParameters
 }
 
 
-int main() {
-    double start = -5.0;  // Start Point
-    double end = 5.0;     // End Point
+int main(int argc, char* argv[]) {
+
+    double start = 0.0;  // Start Point
+    double end = 1.0;     // End Point
+    if (argc >= 3) {
+        start = std::stod(argv[1]);
+        end = std::stod(argv[2]);
+    }
+
     size_t num_points = 1024;  // Initial Number of Points
     double initial_unit_length = (end - start) / num_points;
     double min_unit_length = initial_unit_length / 16; // Minimum Unit Length
+
+    FittingParametersConfig config;
+    config.min_unit_length = initial_unit_length / 16;
+    config.epsilon_start = 1e-4;
+    config.epsilon_end = 2e-3;
+    config.epsilon_steps = 20;
+    config.error_threshold = 1e-7;
+    config.acceptable_error = 1e-4;
+
 
     // Prompt the user to enter the function expression
     std::string expression_str;
@@ -67,9 +83,9 @@ int main() {
     }
 
     // Define the error threshold parameters
-    double epsilon_start = 1e-8;
-    double epsilon_end = 1e-4;
-    size_t epsilon_steps = 100; // Number of epsilon steps
+    double epsilon_start = 1e-4;
+    double epsilon_end = 2e-3;
+    size_t epsilon_steps = 20; // Number of epsilon steps
 
     // Generate initial intervals
     std::vector<Interval> initial_intervals = generateInitialIntervals(start, end, num_points, initial_unit_length, expression_str);
@@ -82,7 +98,7 @@ int main() {
     std::vector<CompressedFitParameters> best_compressed_params_list;
     double best_error = std::numeric_limits<double>::max();
 
-    double acceptable_error = 1e-5; // Acceptable total error threshold
+    double acceptable_error = 1e-4; // Acceptable total error threshold
 
     // **One-time splitting to obtain the finest interval list**
     std::vector<Interval> fine_intervals;
@@ -109,7 +125,7 @@ int main() {
 
         // Compress fit parameters by checking for symmetry and sharing parameters
         std::vector<CompressedFitParameters> compressed_params_list;
-        compressFitParameters(fit_params_list, merged_intervals, compressed_params_list, 1e-7);
+        compressFitParameters(fit_params_list, merged_intervals, compressed_params_list, 1e-5);
 
         // Evaluate the error after compression
         double compressed_error = evaluateCompressedError(expression_str, merged_intervals, compressed_params_list);
@@ -144,6 +160,10 @@ int main() {
     groupAndCompressIntervals(best_intervals, compressed_groups);
     saveCompressedGroupsToFile(compressed_groups, "compressed_groups.csv");
 
+    // **Generate Verilog ROM Module**
+    // std::string verilog_filename = "FitParametersROM.v";
+    // saveCompressedParametersToVerilogFile(best_compressed_params_list, best_intervals, verilog_filename);
+
     // Print the best results
     std::cout << "\nBest Epsilon: " << best_epsilon << std::endl;
     std::cout << "Initial Interval Count: " << initial_interval_count << std::endl;
@@ -152,5 +172,10 @@ int main() {
     std::cout << "Best Compression Ratio: " << best_compression_ratio << std::endl;
     std::cout << "Average Error: " << best_error << std::endl;
 
+    // **Evaluate the compressed error**
+    double compressed_error_with_quant = evaluateCompressedErrorWithQuantization(
+        expression_str, best_intervals, compressed_groups, best_compressed_params_list);
+    std::cout << "Compressed Error with Quantization: " << compressed_error_with_quant << std::endl;
+    
     return 0;
 }
