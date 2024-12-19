@@ -11,6 +11,7 @@
 #include <iostream>
 #include <unordered_map>
 #include "interval_optimizer.hpp"
+#include "function_fitter.hpp"
 
 // Define the IntervalGroup structure
 struct IntervalGroup {
@@ -53,11 +54,11 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, st
     }
     
     // Sorting the intervals by length
-    std::sort(sorted_intervals.begin(), sorted_intervals.end(), [&](const Interval& a, const Interval& b) -> bool {
-        double len_a = a.end - a.start;
-        double len_b = b.end - b.start;
+    std::sort(sorted_intervals.begin(), sorted_intervals.end(), [&](const IntervalWithIndex& a, const IntervalWithIndex& b) -> bool {
+        double len_a = a.interval.end - a.interval.start;
+        double len_b = b.interval.end - b.interval.start;
         if (std::abs(len_a - len_b) < tolerance)
-            return a.start < b.start; // Start point as tie-breaker
+            return a.interval.start < b.interval.start; // Start point as tie-breaker
         return len_a < len_b;
     });
     
