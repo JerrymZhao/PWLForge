@@ -43,6 +43,93 @@ inline std::string doubleToFixedHex(double value, int total_bits = 16, int frac_
     return ss.str();
 }
 
+inline void saveLUTToVerilog(
+    const std::vector<CompressedFitParameters>& compressed_params_list,
+    const std::vector<Interval>& intervals,
+    const std::string& filename
+) {
+    std::ofstream file(filename);
+    if (!file.is_open()) {
+        std::cerr << "Unable to open file: " << filename << " for writing." << std::endl;
+        return;
+    }
+
+    int lut-depth = 0;
+    for (const auto& comp_param : compressed_params_list) {
+        lut-depth += comp_param.interval_indices.size();
+    }
+    
+    int address_width = static_cast<int>(std::ceil(std::log2(lut_depth)));
+
+    // Write Verilog module definition
+    file << "module " << "LUT" << " (\n";
+    file << "   input wire [" << address_width - 1 << ":0] address,\n";
+    file << "   output reg [79:0] data\n";
+    file << ");\n\n";
+
+    file << "    reg [79:0] rom [0:" << lut_depth - 1 << "];\n\n";
+    file << "    initial begin\n";
+    int current_index = 0;
+    for (const auto& comp_param : compressed_params_list) {
+        for (auto interval_idx : comp_param.interval_indices) {
+            const Interval& interval = intervals[interval_idx];
+            double start_val = interval.start;
+            double end_val = interval.end;
+            double offset = comp_param.offsets[0];
+            const FitParameters& params = comp_param.params;
+            double a = 0.0, b = 0.0, c = 0.0;
+            switch (params.method) {
+                case FittingMethod::Linear:
+                    a = 0.0;
+                    b = params.b;
+                    c = params.c + offset;
+                    break;
+                case FittingMethod::Quadratic:
+                    a = params.a;
+                    b = params.b;
+                    c = params.c + offset;
+                    break;
+                case FittingMethod::BSpline:
+                    if (params.spline.order() > 3) {
+                        a = params.spline.controlPoints()(0,0) + offset;
+                        b = params.spline.controlPoints()(1,0);
+                        c = params.spline.controlPoints()(2,0);
+                    } else if (params.spline.order() > 2) {
+                        a = params.spline.controlPoints()(0,0) + offset;
+                        b = params.spline.controlPoints()(1,0);
+                        c = params.spline.controlPoints()(2,0);
+                    } else if (params.spline.order() > 1) {
+                        a = params.spline.controlPoints()(0,0) + offset;
+                        b = params.spline.controlPoints()(1,0);
+                        c = 0.0;
+                    } else {
+                        a = params.spline.controlPoints()(0,0) + offset;
+                        b = 0.0;
+                        c = 0.0;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            std::string start_hex = doubleToFixedHex(start_val, 16, 10);
+            std::string end_hex = doubleToFixedHex(end_val, 16, 10);
+            std::string a_hex = doubleToFixedHex(a, 16, 10);
+            std::string b_hex = doubleToFixedHex(b, 16, 10);
+            std::string c_hex = doubleToFixedHex(c, 16, 10);
+
+            std::stringstream data_stream;
+            data_stream << "80'h" << start_hex << end_hex << a_hex << b_hex <<
+        }
+    }
+    file << "    end\n\n";
+    file << "    always @(*) begin\n";
+    file << "        data = rom[address];\n";
+    file << "    end\n";
+    file << "endmodule\n";
+
+}
+
 // HLS module: Maps CompressedFitParameters data to FPGA LUT
 extern "C" {
     void lut_mapper(

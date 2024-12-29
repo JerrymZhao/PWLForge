@@ -7,6 +7,46 @@
 #include "interval_group_compressor.hpp"
 // #include "./tb/hls_lut_mapper.hpp"
 
+// double relu(double x) { return x > 0 ? x : 0; }
+// double gelu(double x) { return 0.5 * x * (1.0 + std::erf(x / std::sqrt(2.0))); }
+// double swishglu(double x) { return x / (1.0 + std::exp(-x)); }
+
+template <typename T>
+struct relu_fn : public exprtk::igeneric_function<T>
+{
+    std::size_t min_param_count() { return 1; }
+    std::size_t max_param_count() { return 1; }
+    inline T operator()(const std::vector<T>& params)
+    {
+        T x = params[0];
+        return (x > T(0)) ? x : T(0);
+    }
+};
+
+template <typename T>
+struct gelu_fn : public exprtk::igeneric_function<T>
+{
+    std::size_t min_param_count() { return 1; }
+    std::size_t max_param_count() { return 1; }
+    inline T operator()(const std::vector<T>& params)
+    {
+        T x = params[0];
+        return T(0.5) * x * (T(1.0) + std::erf(x / std::sqrt(T(2.0))));
+    }
+};
+
+template <typename T>
+struct swishglu_fn : public exprtk::igeneric_function<T>
+{
+    std::size_t min_param_count() { return 1; }
+    std::size_t max_param_count() { return 1; }
+    inline T operator()(const std::vector<T>& params)
+    {
+        T x = params[0];
+        return x / (T(1.0) + std::exp(-x));
+    }
+};
+
 void saveCompressedFitParametersToFile(const std::vector<CompressedFitParameters>& compressed_params_list,
                                        const std::string& filename) {
     std::ofstream file(filename);
@@ -70,7 +110,6 @@ int main(int argc, char* argv[]) {
     config.error_threshold = 1e-7;
     config.acceptable_error = 1e-4;
 
-
     // Prompt the user to enter the function expression
     std::string expression_str;
     std::cout << "Please enter the function expression (e.g., tanh(x)): ";
@@ -92,6 +131,39 @@ int main(int argc, char* argv[]) {
     size_t initial_interval_count = initial_intervals.size(); // Initial number of intervals
 
     double best_compression_ratio = 1.0;
+
+    {
+        double x = 0.0;
+        exprtk::symbol_table<double> symbol_table;
+        symbol_table.add_variable("x", x);
+
+        // Add ReLU
+        relu_fn<double> relu_f;
+        symbol_table.add_function("relu", relu_f);
+
+        // Add GELU
+        gelu_fn<double> gelu_f;
+        symbol_table.add_function("gelu", gelu_f);
+
+        // Add SwishGLU
+        swishglu_fn<double> swish_f;
+        symbol_table.add_function("swishglu", swish_f);
+
+        exprtk::expression<double> expression;
+        expression.register_symbol_table(symbol_table);
+
+        exprtk::parser<double> parser;
+        if (!parser.compile(expression_str, expression)) {
+            std::cerr << "Error parsing expression: " << parser.error() << std::endl;
+            return 1;
+        }
+
+        // 测试：x=0.5
+        x = 0.5;
+        double value = expression.value();
+        std::cout << "Computed result at x=0.5: " << value << std::endl;
+    }
+
     double best_epsilon = epsilon_start;
     std::vector<Interval> best_intervals;
     std::vector<FitParameters> best_fit_params_list;

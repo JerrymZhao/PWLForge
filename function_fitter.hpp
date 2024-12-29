@@ -326,6 +326,7 @@ inline FitParameters fitSegmentWithModels(const std::string& expression_str, con
             //     break;
             default:
                 param_count = 0;
+                break;
         }
 
         double score = error + 1e-4 * param_count;
