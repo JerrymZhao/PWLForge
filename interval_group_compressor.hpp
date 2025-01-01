@@ -20,6 +20,7 @@ struct IntervalGroup {
     size_t base_interval_idx;               // Index of the base interval
     // std::vector<double> delta_starts;    // Delta with the start point of the base interval
     // std::vector<double> delta_ends;      // Delta with the end point of the base interval
+    std::vector<size_t> member_interval_indices; // Indices of the intervals in the group
     std::vector<int8_t> quantized_delta_starts;  // Quantized deltas with the start point of the base interval
     std::vector<int8_t> quantized_delta_ends;    // Quantized deltas with the end point of the base interval
     double delta_scale_factor;              // Scale factor for quantization
@@ -90,6 +91,8 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, st
         IntervalGroup interval_group;
         interval_group.length = group[0].interval.end - group[0].interval.start;
         interval_group.base_interval = group[0].interval;
+        interval_group.base_interval_idx = group[0].index;
+        interval_group.member_interval_indices.push_back(group[0].index);
         interval_group.bitwidth = bitwidth;
         
         std::vector<double> delta_starts;
@@ -103,6 +106,7 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, st
             delta_ends.push_back(delta_end);
             max_abs_delta = std::max(max_abs_delta, std::abs(delta_start));
             max_abs_delta = std::max(max_abs_delta, std::abs(delta_end));
+            interval_group.member_interval_indices.push_back(group[i].index);
         }
         
         // Compute the scale factor for quantization
@@ -171,6 +175,8 @@ inline double evaluateCompressedErrorWithQuantization(
     // Build a map from interval index to group
     std::unordered_map<size_t, IntervalGroup*> interval_to_group_map;
     for (const auto& group : groups) {
+        // Map the base interval
+        // interval_to_group_map[group.base_interval_idx] = &group;
         size_t base_interval_idx = group.base_interval_idx;
         interval_to_group_map[base_interval_idx] = const_cast<IntervalGroup*>(&group);
 
@@ -235,6 +241,15 @@ inline double evaluateCompressedErrorWithQuantization(
             }
         }
     }
+
+    for (size_t i = 0; i < intervals.size(); ++i) {
+        if (interval_to_group_map.find(i) == interval_to_group_map.end()) {
+            std::cout << "Warning: Interval" << i << " is not mapped to any group." << std::endl;
+            continue;
+        }
+    }
+
+    return (total_points > 0) ? total_error / total_points : 0.0;
 }
 
 // Save the compressed groups to a file

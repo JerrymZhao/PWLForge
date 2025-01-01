@@ -47,6 +47,51 @@ struct swishglu_fn : public exprtk::igeneric_function<T>
     }
 };
 
+void replaceAll(std::string& str, const std::string& from, const std::string& to) {
+    if(from.empty())
+        return;
+    size_t start_pos = 0;
+    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
+        size_t open_paren = str.find("(", start_pos);
+        if(open_paren == std::string::npos) break;
+
+        int count = 1;
+        size_t end_pos = open_paren + 1;
+        while(end_pos < str.size() && count > 0) {
+            if(str[end_pos] == '(') count++;
+            else if(str[end_pos] == ')') count--;
+            end_pos++;
+        }
+
+        if(count != 0) {
+            std::cerr << "Mismatched parentheses in the expression!" << std::endl;
+            return;
+        }
+
+        std::string arg = str.substr(open_paren + 1, end_pos - open_paren - 2);
+
+        if(from == "relu") {
+            // relu(x) => (x > 0 ? x : 0)
+            std::string replacement = "(" + arg + " > 0 ? " + arg + " : 0)";
+            str.replace(start_pos, end_pos - start_pos, replacement);
+            start_pos += replacement.length();
+        } else if(from == "gelu") {
+            // gelu(x) => 0.5 * x * (1.0 + erf(x / sqrt(2.0)))
+            std::string replacement = "0.5 * " + arg + " * (1.0 + erf(" + arg + " / sqrt(2.0)))";
+            str.replace(start_pos, end_pos - start_pos, replacement);
+            start_pos += replacement.length();
+        } else if(from == "swishglu") {
+            // swishglu(x) => x / (1.0 + exp(-x))
+            std::string replacement = "(" + arg + " / (1.0 + exp(-" + arg + "))";
+            str.replace(start_pos, end_pos - start_pos, replacement);
+            start_pos += replacement.length();
+        }
+        else {
+            start_pos = end_pos;
+        }
+    }
+}
+
 void saveCompressedFitParametersToFile(const std::vector<CompressedFitParameters>& compressed_params_list,
                                        const std::string& filename) {
     std::ofstream file(filename);
@@ -110,6 +155,23 @@ int main(int argc, char* argv[]) {
     config.error_threshold = 1e-7;
     config.acceptable_error = 1e-4;
 
+    double x = 0.0; // Variable x
+    exprtk::symbol_table<double> symbol_table;
+    symbol_table.add_constants();
+    symbol_table.add_variable("x", x);
+
+    // Add ReLU
+    relu_fn<double> relu_f;
+    symbol_table.add_function("relu", relu_f);
+
+    // Add GELU
+    gelu_fn<double> gelu_f;
+    symbol_table.add_function("gelu", gelu_f);
+
+    // Add SwishGLU
+    swishglu_fn<double> swish_f;
+    symbol_table.add_function("swishglu", swish_f);
+
     // Prompt the user to enter the function expression
     std::string expression_str;
     std::cout << "Please enter the function expression (e.g., tanh(x)): ";
@@ -119,6 +181,40 @@ int main(int argc, char* argv[]) {
     if (expression_str.empty()) {
         expression_str = "tanh(x)";
         std::cout << "Use the default example function 'tanh(x)' " << std::endl;
+    }
+
+    std::vector<std::string> custom_functions = {"relu", "gelu", "swishglu"};
+    bool is_custom = false;
+    for (const auto& func : custom_functions) {
+        if (expression_str.find(func + "(") != std::string::npos) {
+            is_custom = true;
+            replaceAll(expression_str, func, func);
+        }
+    }
+
+    // if (expression_str.find("relu") != std::string::npos ||
+    //     expression_str.find("gelu") != std::string::npos ||
+    //     expression_str.find("swishglu") != std::string::npos) {
+    //     is_custom = true;
+    // }
+
+    if(is_custom) {
+        std::cout << "Custom function detected: " << expression_str << std::endl;
+    } else {
+        std::cout << "No Custom Function Detected: " << expression_str << std::endl;
+    }
+
+    exprtk::expression<double> expression;
+    expression.register_symbol_table(symbol_table);
+
+    exprtk::parser<double> parser;
+    if (!parser.compile(expression_str, expression)) {
+        std::cerr << "Self Defined Error parsing expression: " << parser.error() << std::endl;
+        for (std::size_t i = 0; i < parser.error_count(); ++i) {
+            exprtk::parser_error::type error = parser.get_error(i);
+            std::cerr << "Error: " << std::string(error.diagnostic) << std::endl;
+        }
+        return 1;
     }
 
     // Define the error threshold parameters
@@ -131,38 +227,6 @@ int main(int argc, char* argv[]) {
     size_t initial_interval_count = initial_intervals.size(); // Initial number of intervals
 
     double best_compression_ratio = 1.0;
-
-    {
-        double x = 0.0;
-        exprtk::symbol_table<double> symbol_table;
-        symbol_table.add_variable("x", x);
-
-        // Add ReLU
-        relu_fn<double> relu_f;
-        symbol_table.add_function("relu", relu_f);
-
-        // Add GELU
-        gelu_fn<double> gelu_f;
-        symbol_table.add_function("gelu", gelu_f);
-
-        // Add SwishGLU
-        swishglu_fn<double> swish_f;
-        symbol_table.add_function("swishglu", swish_f);
-
-        exprtk::expression<double> expression;
-        expression.register_symbol_table(symbol_table);
-
-        exprtk::parser<double> parser;
-        if (!parser.compile(expression_str, expression)) {
-            std::cerr << "Error parsing expression: " << parser.error() << std::endl;
-            return 1;
-        }
-
-        // 测试：x=0.5
-        x = 0.5;
-        double value = expression.value();
-        std::cout << "Computed result at x=0.5: " << value << std::endl;
-    }
 
     double best_epsilon = epsilon_start;
     std::vector<Interval> best_intervals;

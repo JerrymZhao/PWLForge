@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <fstream>
+#include <mutex>
 // #include <Eigen/Dense>
 // #include <unsupported/Eigen/Splines> // Comment out if you don't want B-spline support at all
 #include "exprtk.hpp"
@@ -57,6 +58,8 @@ struct FittingParametersConfig {
 inline double evaluateError(const std::string& expression_str, const std::vector<Interval>& intervals, const std::vector<FitParameters>& fit_params_list) {
     double total_error = 0.0;
     size_t total_points = 0;
+
+    std::mutex error_mutex;
 
     for (size_t idx = 0; idx < intervals.size(); ++idx) {
         const Interval& interval = intervals[idx];
