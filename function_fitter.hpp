@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 #include <mutex>
+#include <future>
+#include <limits>
 // #include <Eigen/Dense>
 // #include <unsupported/Eigen/Splines> // Comment out if you don't want B-spline support at all
 #include "exprtk.hpp"
@@ -59,7 +61,9 @@ inline double evaluateError(const std::string& expression_str, const std::vector
     double total_error = 0.0;
     size_t total_points = 0;
 
-    std::mutex error_mutex;
+    // std::mutex error_mutex;
+    // std::vector<std::future<void>> futures;
+
 
     for (size_t idx = 0; idx < intervals.size(); ++idx) {
         const Interval& interval = intervals[idx];
@@ -101,6 +105,36 @@ inline double evaluateError(const std::string& expression_str, const std::vector
     // Calculate the average error
     double average_error = total_error / total_points;
     return average_error;
+}
+
+inline double estimateSegmentError(const std::string& expression_str, const Interval& interval, const FitParameters& params) {
+    size_t num_samples = 10;
+    double step = (interval.end - interval.start) / (num_samples - 1);
+    double total_error = 0.0;
+
+    for (size_t i = 0; i < num_samples; ++i) {
+        double x = interval.start + i * step;
+        double y_true = computeFunctionValue(expression_str, x);
+        double y_pred;
+
+        switch (params.method) {
+            case FittingMethod::Linear:
+                y_pred = params.b * x + params.c;
+                break;
+            case FittingMethod::Quadratic:
+                y_pred = params.a * x * x + params.b * x + params.c;
+                break;
+            // case FittingMethod::BSpline:
+            //     y_pred = params.spline(x);
+            //     break;
+            default:
+                y_pred = 0.0;
+        }
+        
+        total_error += std::abs(y_true - y_pred);
+    }
+
+    return total_error / num_samples;
 }
 
 // Compute error weight based on sensitivity
@@ -180,32 +214,52 @@ inline FitParameters fitSegment(const std::string& expression_str, const Interva
     double y1 = computeFunctionValue(expression_str, x1);
     double ym = computeFunctionValue(expression_str, xm);
 
+    // Try linear fit first
+    params.method = FittingMethod::Linear;
+    params.a = 0.0;
+    params.b = (y1 - y0) / (x1 - x0);
+    params.c = y0 - params.b * x0;
+    params.order = 1;
     double linear_error = std::abs((y1 + y0) / 2.0 - ym);
 
-    if (linear_error < error_threshold) {
-        // Linear fitting: y = b * x + c
-        params.method = FittingMethod::Linear;
-        params.a = 0.0;
-        params.b = (y1 - y0) / (x1 - x0);
-        params.c = y0 - params.b * x0;
-        params.order = 1;
-    } else {
+    if (linear_error > error_threshold) {
         // Quadratic fitting: y = a * x^2 + b * x + c
+        FitParameters quad_params;
         params.method = FittingMethod::Quadratic;
         double denom = (x0 - x1) * (x0 - xm) * (x1 - xm);
-        if (denom == 0.0) {
-            // Linear fitting if denominator is zero
-            params.method = FittingMethod::Linear;
-            params.a = 0.0;
-            params.b = (y1 - y0) / (x1 - x0);
-            params.c = y0 - params.b * x0;
-            params.order = 1;
-        } else {
+
+        if (std::abs(denom) > 1e-8) {
             params.a = (x1 * (ym - y0) + x0 * (y1 - ym) + xm * (y0 - y1)) / denom;
             params.b = ((x1 * x1) * (y0 - ym) + (x0 * x0) * (ym - y1) + (xm * xm) * (y1 - y0)) / denom;
             params.c = (x0 * (x1 * ym - xm * y1) + x1 * xm * y0 - x0 * xm * y1) / denom;
             params.order = 2;
+
+            // Check quadratic fit error
+            double quad_error = estimateSegmentError(expression_str, interval, quad_params);
+
+            // Use quadratic if it's better
+            if (quad_error < linear_error) {
+                params = quad_params;
+            }
         }
+    }
+
+    // Final error check
+    double final_error = estimateSegmentError(expression_str, interval, params);
+    if (final_error > error_threshold) {
+        // Further subdivide if needed
+        double mid = (interval.start + interval.end) / 2.0;
+        Interval left{interval.start, mid, 0.0, interval.level + 1};
+        Interval right{mid, interval.end, 0.0, interval.level + 1};
+
+        FitParameters left_params = fitSegment(expression_str, left);
+        FitParameters right_params = fitSegment(expression_str, right);
+
+        // Use the better fitting half
+        double left_error = estimateSegmentError(expression_str, left, left_params);
+        double right_error = estimateSegmentError(expression_str, right, right_params);
+
+        params = (left_error < right_error) ? left_params : right_params;
     }
 
     return params;
@@ -263,36 +317,6 @@ inline FitParameters fitBSplineSegment(const std::string& expression_str, const 
     return params;
 }
 */
-
-inline double estimateSegmentError(const std::string& expression_str, const Interval& interval, const FitParameters& params) {
-    size_t num_samples = 10;
-    double step = (interval.end - interval.start) / (num_samples - 1);
-    double total_error = 0.0;
-
-    for (size_t i = 0; i < num_samples; ++i) {
-        double x = interval.start + i * step;
-        double y_true = computeFunctionValue(expression_str, x);
-        double y_pred;
-
-        switch (params.method) {
-            case FittingMethod::Linear:
-                y_pred = params.b * x + params.c;
-                break;
-            case FittingMethod::Quadratic:
-                y_pred = params.a * x * x + params.b * x + params.c;
-                break;
-            // case FittingMethod::BSpline:
-            //     y_pred = params.spline(x);
-            //     break;
-            default:
-                y_pred = 0.0;
-        }
-        
-        total_error += std::abs(y_true - y_pred);
-    }
-
-    return total_error / num_samples;
-}
 
 inline FitParameters fitSegmentWithModels(const std::string& expression_str, const Interval& interval) {
     std::vector<std::pair<FitParameters,double>> candidate_models;
@@ -415,9 +439,19 @@ inline void compressFitParameters(const std::vector<FitParameters>& fit_params_l
 // Fit all segments (linear/quadratic)
 inline void fitAllSegments(const std::string& expression_str, const std::vector<Interval>& intervals, std::vector<FitParameters>& fit_params_list) {
     fit_params_list.clear();
+    fit_params_list.reserve(intervals.size());
+    double total_error = 0.0;
+    
     for (const auto& interval : intervals) {
         FitParameters params = fitSegment(expression_str, interval);
+        double error = estimateSegmentError(expression_str, interval, params);
+        total_error += error;
         fit_params_list.push_back(params);
+    }
+
+    double avg_error = total_error / intervals.size();
+    if (avg_error > error_threshold) {
+        std::cout << "Warning: High average fitting error: " << avg_error << std::endl;
     }
 }
 
@@ -471,21 +505,33 @@ inline double RecoveredFunctionValue(const CompressedFitParameters& comp_param, 
 
 // Evaluate compressed error
 inline double evaluateCompressedError(const std::string& expression_str,
-                                      const std::vector<Interval>& intervals,
-                                      const std::vector<CompressedFitParameters>& compressed_params_list) {
+                                    const std::vector<Interval>& intervals,
+                                    const std::vector<CompressedFitParameters>& compressed_params_list) {
+    if (intervals.empty() || compressed_params_list.empty()) {
+        std::cerr << "Error: Empty intervals or parameters list\n";
+        return 0.0;
+    }
+
     double total_error = 0.0;
     size_t total_points = 0;
+    size_t valid_points = 0;
+    const size_t num_samples = 10;
 
     for (const auto& comp_param : compressed_params_list) {
-        const FitParameters& params = comp_param.params;
-
         for (size_t idx = 0; idx < comp_param.interval_indices.size(); ++idx) {
-            size_t interval_idx = static_cast<size_t>(comp_param.interval_indices[idx]);
-            double offset = comp_param.offsets[idx];
-            const Interval& interval = intervals[interval_idx];
+            if (idx >= comp_param.offsets.size()) {
+                std::cerr << "Warning: Mismatched indices and offsets at idx " << idx << "\n";
+                continue;
+            }
 
-            // Sample several points
-            size_t num_samples = 10; 
+            size_t interval_idx = comp_param.interval_indices[idx];
+            if (interval_idx >= intervals.size()) {
+                std::cerr << "Warning: Invalid interval index " << interval_idx << "\n";
+                continue;
+            }
+
+            const Interval& interval = intervals[interval_idx];
+            double offset = comp_param.offsets[idx];
             double step = (interval.end - interval.start) / (num_samples - 1);
 
             for (size_t i = 0; i < num_samples; ++i) {
@@ -493,15 +539,24 @@ inline double evaluateCompressedError(const std::string& expression_str,
                 double y_true = computeFunctionValue(expression_str, x);
                 double y_pred = RecoveredFunctionValue(comp_param, x, offset);
 
-                double error = std::abs(y_true - y_pred);
-                total_error += error;
+                if (!std::isnan(y_true) && !std::isnan(y_pred)) {
+                    double error = std::abs(y_true - y_pred);
+                    total_error += error;
+                    valid_points++;
+                }
                 total_points++;
             }
         }
     }
 
-    double average_error = total_error / total_points;
-    return average_error;
+    if (valid_points == 0) {
+        std::cerr << "Warning: No valid points evaluated\n";
+        return 0.0;
+    }
+
+    std::cout << "Evaluated " << total_points << " points (" 
+              << valid_points << " valid)\n";
+    return total_error / valid_points;
 }
 
 // Save compressed fit parameters to a file

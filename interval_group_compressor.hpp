@@ -43,13 +43,17 @@ inline std::string serializeDeltas(const std::vector<double>& deltas) {
 }
 
 // Grouping the same length intervals and delta encoding
-inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, std::vector<IntervalGroup>& groups, double tolerance = 1e-4, int bitwidth = 8) {
+inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, 
+                                    std::vector<IntervalGroup>& groups, 
+                                    double tolerance = 1e-4, 
+                                    int bitwidth = 8) {
     struct IntervalWithIndex {
         Interval interval;
         size_t index;
     };
 
     std::vector<IntervalWithIndex> sorted_intervals;
+    sorted_intervals.reserve(intervals.size());
     for (size_t i = 0; i < intervals.size(); ++i) {
         sorted_intervals.push_back({intervals[i], i});
     }
@@ -161,6 +165,17 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, st
         groups.push_back(interval_group);
     }
 }
+
+// inline double RecoveredFunctionValue(const CompressedFitParameters& comp_param, double x, double offset) {
+//     const FitParameters& shared_params = comp_param.params;
+//     double y_pred = 0.0;
+//     if (shared_params.order == 1) {
+//         y_pred = shared_params.b * x + shared_params.c + offset;
+//     } else {
+//         y_pred = shared_params.a * x * x + shared_params.b * x + shared_params.c + offset;
+//     }
+//     return y_pred;
+// }
 
 // Evaluate the compressed error including quantization error
 inline double evaluateCompressedErrorWithQuantization(

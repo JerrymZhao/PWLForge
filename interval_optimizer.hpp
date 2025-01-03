@@ -9,6 +9,8 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <mutex>
+#include <future>
 #include "exprtk.hpp"
 
 // Define the Interval structure
@@ -62,16 +64,58 @@ inline double computeHessian(const std::function<double(double)>& f, double x, d
 
 // Generate initial intervals and calculate the Hessian
 inline std::vector<Interval> generateInitialIntervals(double start, double end, size_t num_points, double initial_unit_length, const std::string& expression_str) {
+    std::cout << "Starting interval generation with " << num_points << " points...\n";
     std::vector<Interval> intervals;
     double step = initial_unit_length;
 
-    for (double x = start; x < end; x += step) {
-        double mid = x + step / 2.0;
-        // double hessian = 0.0;
-        double hessian = computeHessian([&](double val) { return computeFunctionValue(expression_str, val); }, mid);
+    std::mutex interval_mutex;
+    std::vector<std::future<void>> futures;
 
-        intervals.push_back(Interval{x, x + step, hessian, 0}); // level 0 represents the initial intervals
+    size_t total_intervals = static_cast<size_t>((end - start) / step);
+    intervals.reserve(total_intervals);
+
+    const size_t batch_size = 100; // Process in batches
+    // std::cout << "Processing in batches of " << batch_size << std::endl;
+    for (size_t batch_start = 0; batch_start < num_points; batch_start += batch_size) {
+        size_t batch_end = std::min(batch_start + batch_size, num_points);
+        // std::cout << "Processing batch " << batch_start/batch_size + 1 
+                //   << "/" << (num_points + batch_size - 1)/batch_size << "\n";
+
+        futures.clear();
+        for (size_t i = batch_start; i < batch_end; ++i) {
+            double current_start = start + i * step;
+            double current_end = std::min(current_start + step, end);
+
+            futures.emplace_back(std::async(std::launch::async, 
+                [&interval_mutex, &intervals, &expression_str]
+                (double s, double e) {
+                    double mid = (s + e) / 2.0;
+                    double hessian = computeHessian(
+                        [&](double val) { 
+                            return computeFunctionValue(expression_str, val); 
+                        }, mid);
+                    
+                    std::lock_guard<std::mutex> lock(interval_mutex);
+                    intervals.push_back(Interval{s, e, hessian, 0});
+                }, current_start, current_end));
+        }
+
+        // Wait for batch completion with timeout
+        for (auto& future : futures) {
+            auto status = future.wait_for(std::chrono::seconds(5));
+            if (status != std::future_status::ready) {
+                std::cerr << "Warning: Task timeout detected\n";
+            }
+        }
     }
+ 
+    // for (double x = start; x < end; x += step) {
+    //     double mid = x + step / 2.0;
+    //     // double hessian = 0.0;
+    //     double hessian = computeHessian([&](double val) { return computeFunctionValue(expression_str, val); }, mid);
+
+    //     intervals.push_back(Interval{x, x + step, hessian, 0}); // level 0 represents the initial intervals
+    // }
 
     return intervals;
 }
@@ -118,23 +162,38 @@ inline void mergeIntervals(std::vector<Interval>& intervals, double epsilon, con
     if (intervals.empty()) return;
 
     std::vector<Interval> merged_intervals;
-
     size_t i = 0;
+
     while (i < intervals.size()) {
         Interval current = intervals[i];
         size_t j = i + 1;
+        double max_error = 0.0;
 
         while (j < intervals.size()) {
             // Compute the normalized difference of the function values of the intervals
-            double normalized_diff = computeNormalizedFunctionDifference(expression_str, current.end, intervals[j].end);
+            double normalized_diff = computeNormalizedFunctionDifference(
+                expression_str, current.end, intervals[j].end);
 
-            // if the levels are the same and the normalized difference is less than epsilon, merge the intervals
-            if (current.level == intervals[j].level && normalized_diff < epsilon) {
+            // Add error bound check
+            double mid_point = (current.start + intervals[j].end) / 2.0;
+            double actual = computeFunctionValue(expression_str, mid_point);
+            double interpolated = (computeFunctionValue(expression_str, current.start) + 
+                                 computeFunctionValue(expression_str, intervals[j].end)) / 2.0;
+            double error = std::abs(actual - interpolated);
+
+            // If the levels are the same and the normalized difference is less than epsilon, merge the intervals
+            if (current.level == intervals[j].level && normalized_diff < epsilon && error < epsilon) {
                 current.end = intervals[j].end;
+                max_error = std::max(max_error, error);
                 j++;
             } else {
                 break;
             }
+        }
+
+        if (max_error > 0.0) {
+            std::cout << "Merged interval [" << current.start << "," << current.end 
+                      << "] max error: " << max_error << std::endl;
         }
 
         merged_intervals.push_back(current);
