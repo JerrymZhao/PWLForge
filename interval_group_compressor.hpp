@@ -377,9 +377,10 @@ inline std::string serializeFitParameters(const FitParameters& params) {
 inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups, const std::string& filename) {
     // Print group statistics first
     std::map<double, std::vector<size_t>> length_groups;
+    size_t total_intervals = 0;
+    size_t total_bits = 0;
     
-    std::cout << "\nGroup Analysis:\n";
-    std::cout << "Total groups: " << groups.size() << "\n";
+    std::cout << "\nGroup and LUT Mapping Analysis:\n";
     std::cout << "------------------------\n";
     
     for (size_t i = 0; i < groups.size(); i++) {
@@ -387,12 +388,37 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         double length = group.base_interval.end - group.base_interval.start;
         length_groups[length].push_back(i);
         
+        // Calculate bits for this group
+        size_t group_bits = 0;
+        // Base interval (start, end) and fit parameters (a, b, c)
+        group_bits += 5 * 16; // 16-bit fixed point for each parameter
+        // Delta encodings
+        for (const auto& delta : group.delta_encodings) {
+            if (delta.transform == DeltaEncoding::TransformType::Raw) {
+                group_bits += 2 * group.bitwidth; // start and end deltas
+            } else {
+                group_bits += 16; // y_offset for symmetric/translated intervals
+                group_bits += 2;  // 2 bits for transform type
+            }
+        }
+        
+        total_bits += group_bits;
+        total_intervals += group.member_interval_indices.size();
+        
         std::cout << "Group " << i << ":\n"
                   << "  Length: " << length << "\n"
                   << "  Base interval: [" << group.base_interval.start 
                   << ", " << group.base_interval.end << "]\n"
-                  << "  Members: " << group.member_interval_indices.size() << "\n";
+                  << "  Members: " << group.member_interval_indices.size() << "\n"
+                  << "  Bits required: " << group_bits << "\n"
+                  << "  Bits per interval: " << (double)group_bits / group.member_interval_indices.size() << "\n";
     }
+    
+    std::cout << "\nLUT Mapping Summary:\n";
+    std::cout << "------------------------\n";
+    std::cout << "Total intervals: " << total_intervals << "\n";
+    std::cout << "Total bits: " << total_bits << "\n";
+    std::cout << "Average bits per interval: " << (double)total_bits / total_intervals << "\n";
     
     std::cout << "\nLength Distribution:\n";
     std::cout << "------------------------\n";
@@ -406,52 +432,53 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         std::cout << "\n";
     }
     std::cout << "------------------------\n";
-    
+
     std::ofstream file(filename);
     if (file.is_open()) {
         // File format:
         // GroupID,Length,BaseStart,BaseEnd,DeltaStarts,DeltaEnds
-        file << "GroupID,Length,BaseStart,BaseEnd,BaseFitParams,"
-             << "DeltaEncodings,BitWidth,ScaleFactor\n";
+        file << "GroupID,Length,BaseStart,BaseEnd,FitMethod,FitA,FitB,FitC,"
+             << "BitWidth,ScaleFactor,DeltaEncodings\n";
 
         size_t group_id = 0;
         for (const auto& group : groups) {
-            file << group_id << "," << group.length << "," << group.base_interval.start << "," << group.base_interval.end << ",";
-            file << group.bitwidth << "," << group.delta_scale_factor << ",";
+            // Group metadata and base parameters
+            file << group_id << ","
+                 << (group.base_interval.end - group.base_interval.start) << ","
+                 << std::scientific 
+                 << group.base_interval.start << ","
+                 << group.base_interval.end << ","
+                 << (group.base_params.method == FittingMethod::Linear ? "L" : "Q") << ","
+                 << group.base_params.a << ","
+                 << group.base_params.b << ","
+                 << group.base_params.c << ","
+                 << group.bitwidth << ","
+                 << group.delta_scale_factor << ",\"";
 
-            // Base fit parameters
-            file << serializeFitParameters(group.base_params) << ",";
-
-            // Save DeltaStarts
-            file << "\"";
+            // Delta encodings
             for (size_t i = 0; i < group.delta_encodings.size(); ++i) {
                 const auto& delta = group.delta_encodings[i];
                 file << static_cast<int>(delta.transform) << ":"
                      << delta.y_offset;
-                if (i != group.quantized_delta_starts.size() - 1) {
-                    file << ";";
+                if (delta.transform == DeltaEncoding::TransformType::Raw) {
+                    file << ":" << static_cast<int>(group.quantized_delta_starts[i])
+                         << ":" << static_cast<int>(group.quantized_delta_ends[i]);
                 }
-            }
-            file << "\",";
-            
-            // Save DeltaEnds
-            file << "\"";
-            for (size_t i = 0; i < group.quantized_delta_ends.size(); ++i) {
-                file << static_cast<int>(group.quantized_delta_ends[i]);
-                if (i != group.quantized_delta_ends.size() - 1) {
-                    file << ";";
-                }
+                if (i < group.delta_encodings.size() - 1) file << ";";
             }
             file << "\"\n";
-
-            // Save configuration
-            file << group.bitwidth << "," 
-                 << group.delta_scale_factor << "\n";
             
             group_id++;
         }
         file.close();
-        std::cout << "Compressed Interval Groups saved to: " << filename << std::endl;
+        std::cout << "Compressed groups saved to: " << filename << "\n";
+        std::cout << "\nTo reconstruct function f(x):\n"
+                  << "1. Find group containing x\n"
+                  << "2. If x in base interval: f(x) = ax² + bx + c\n"
+                  << "3. If x in delta interval:\n"
+                  << "   - Raw: reconstruct using quantized deltas\n"
+                  << "   - Translation: apply y_offset\n"
+                  << "   - YReflection: reflect and apply y_offset\n";
     } else {
         std::cout << "Failed to open file to save compressed Interval Groups!" << std::endl;
     }

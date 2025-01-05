@@ -321,14 +321,14 @@ int main(int argc, char* argv[]) {
 
     std::vector<std::string> custom_functions = {"relu", "gelu", "swishglu"};
 
-    double start = -1.0;  // Start Point
-    double end = 5.0;     // End Point
+    double start = -3.0;  // Start Point
+    double end = 4.0;     // End Point
     if (argc >= 3) {
         start = std::stod(argv[1]);
         end = std::stod(argv[2]);
     }
 
-    size_t num_points = 1024;  // Initial Number of Points
+    size_t num_points = 2048;  // Initial Number of Points
     double initial_unit_length = (end - start) / num_points;
 
     FittingParametersConfig config;
