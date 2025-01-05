@@ -27,12 +27,16 @@ struct FitParameters {
     double b; // One order term coefficient
     double c; // Constant term
     int order; // Order of the fitting function
+    double range_start;
+    double range_end;
 
     // Comment out B-spline related fields
     // Eigen::Spline<double, 1, 3> spline; // B-spline fitting
     // int degree; // Degree of the B-spline
 
-    FitParameters(FittingMethod m = FittingMethod::Linear) : method(m), a(0.0), b(0.0), c(0.0), order(2)/*, degree(3)*/ {}
+    FitParameters(FittingMethod m = FittingMethod::Linear) 
+            : method(m), a(0.0), b(0.0), c(0.0), order(2), 
+            range_start(0.0), range_end(0.0)/*, degree(3)*/ {}
 };
 
 // Data structure for the shared parameters and offsets
@@ -206,19 +210,19 @@ static const double error_threshold = 1e-5;
 // Fitting for a single segment (linear or quadratic)
 inline FitParameters fitSegment(const std::string& expression_str, const Interval& interval) {
     FitParameters params;
-    double x0 = interval.start;
-    double x1 = interval.end;
-    double xm = (x0 + x1) / 2.0;
+    params.range_start = interval.start;
+    params.range_end = interval.end;
+    double xm = (params.range_start + params.range_end) / 2.0;
 
-    double y0 = computeFunctionValue(expression_str, x0);
-    double y1 = computeFunctionValue(expression_str, x1);
+    double y0 = computeFunctionValue(expression_str, params.range_start);
+    double y1 = computeFunctionValue(expression_str, params.range_end);
     double ym = computeFunctionValue(expression_str, xm);
 
     // Try linear fit first
     params.method = FittingMethod::Linear;
     params.a = 0.0;
-    params.b = (y1 - y0) / (x1 - x0);
-    params.c = y0 - params.b * x0;
+    params.b = (y1 - y0) / (params.range_end - params.range_start);
+    params.c = y0 - params.b * params.range_start;
     params.order = 1;
     double linear_error = std::abs((y1 + y0) / 2.0 - ym);
 
@@ -226,12 +230,12 @@ inline FitParameters fitSegment(const std::string& expression_str, const Interva
         // Quadratic fitting: y = a * x^2 + b * x + c
         FitParameters quad_params;
         params.method = FittingMethod::Quadratic;
-        double denom = (x0 - x1) * (x0 - xm) * (x1 - xm);
+        double denom = (params.range_start - params.range_end) * (params.range_start - xm) * (params.range_end - xm);
 
         if (std::abs(denom) > 1e-8) {
-            params.a = (x1 * (ym - y0) + x0 * (y1 - ym) + xm * (y0 - y1)) / denom;
-            params.b = ((x1 * x1) * (y0 - ym) + (x0 * x0) * (ym - y1) + (xm * xm) * (y1 - y0)) / denom;
-            params.c = (x0 * (x1 * ym - xm * y1) + x1 * xm * y0 - x0 * xm * y1) / denom;
+            params.a = (params.range_end * (ym - y0) + params.range_start * (y1 - ym) + xm * (y0 - y1)) / denom;
+            params.b = ((params.range_end * params.range_end) * (y0 - ym) + (params.range_start * params.range_start) * (ym - y1) + (xm * xm) * (y1 - y0)) / denom;
+            params.c = (params.range_start * (params.range_end * ym - xm * y1) + params.range_end * xm * y0 - params.range_start * xm * y1) / denom;
             params.order = 2;
 
             // Check quadratic fit error

@@ -3,13 +3,13 @@ Function Analysis for: tanh(x)
 Type: Built-in
 Best Epsilon: 0.002
 Initial Intervals: 1024
-Final Intervals: 456
-Compression Ratio: 0.445312
-Final Error: 1.01822e-05
+Final Intervals: 702
+Compression Ratio: 0.685547
+Final Error: 2.09049e-06
 Error Analysis:
 - Acceptable Error Threshold: 0.0001
-- Error/Threshold Ratio: 0.101822
+- Error/Threshold Ratio: 0.0209049
 - Status: PASS
 ROM Generation:
-- Parameters Count: 454
-- Memory Footprint: 18160 bytes
+- Parameters Count: 683
+- Memory Footprint: 38248 bytes

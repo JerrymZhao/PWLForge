@@ -271,7 +271,7 @@ void processFunction(const std::string& expression_str,
 
         // Save intervals groups
         std::vector<IntervalGroup> compressed_groups;
-        groupAndCompressIntervals(best_intervals, compressed_groups);
+        groupAndCompressIntervals(best_intervals, best_fit_params_list, compressed_groups);
         saveCompressedGroupsToFile(compressed_groups, groups_file);
 
         double compressed_error_with_quant = 

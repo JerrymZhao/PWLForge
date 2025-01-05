@@ -9,26 +9,88 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <unordered_map>
 #include "interval_optimizer.hpp"
 #include "function_fitter.hpp"
+
+struct DeltaEncoding {
+    enum class TransformType {
+        Raw,
+        Translation,
+        YReflection
+    };
+    TransformType transform;
+    double y_offset;
+    std::vector<int8_t> quantized_deltas;
+};
 
 // Define the IntervalGroup structure
 struct IntervalGroup {
     double length;                          // All intervals in the group have the same length
     Interval base_interval;                 // base interval
     size_t base_interval_idx;               // Index of the base interval
-    // std::vector<double> delta_starts;    // Delta with the start point of the base interval
-    // std::vector<double> delta_ends;      // Delta with the end point of the base interval
     std::vector<size_t> member_interval_indices; // Indices of the intervals in the group
+    FitParameters base_params;              // Base fit parameters
+    std::vector<DeltaEncoding> delta_encodings;    // Deltas with the base interval
     std::vector<int8_t> quantized_delta_starts;  // Quantized deltas with the start point of the base interval
     std::vector<int8_t> quantized_delta_ends;    // Quantized deltas with the end point of the base interval
     double delta_scale_factor;              // Scale factor for quantization
     int bitwidth;                           // Bitwidth for the deltas
     double quantization_error;              // Quantization error
 
-    IntervalGroup() : length(0.0), base_interval(Interval()), base_interval_idx(0), delta_scale_factor(1.0), bitwidth(8), quantization_error(0.0) {}
+    IntervalGroup() : length(0.0), base_interval(Interval()), 
+                    base_interval_idx(0), delta_scale_factor(1.0), 
+                    bitwidth(8), quantization_error(0.0) {}
 };
+
+struct SymmetryInfo {
+    bool is_symmetric;
+    bool is_translated;
+    bool is_y_reflected;
+    double y_offset;
+};
+
+inline SymmetryInfo checkIntervalEquivalence(const FitParameters& params1, 
+                                           const FitParameters& params2,
+                                           double error_threshold = 1e-5) {
+    SymmetryInfo info{false, false, false, 0.0};
+    
+    if (params1.method != params2.method) return info;
+
+    if (params1.method == FittingMethod::Linear) {
+        // Check direct translation (same slope)
+        if (std::abs(params1.b - params2.b) < error_threshold) {
+            info.is_translated = true;
+            info.y_offset = params2.c - params1.c;
+            info.is_symmetric = true;
+        }
+        // Check y-axis reflection + translation
+        else if (std::abs(params1.b + params2.b) < error_threshold) {
+            info.is_y_reflected = true;
+            info.y_offset = params2.c - params1.c;
+            info.is_symmetric = true;
+        }
+    } 
+    else if (params1.method == FittingMethod::Quadratic) {
+        // Check direct translation (same quadratic and linear terms)
+        if (std::abs(params1.a - params2.a) < error_threshold &&
+            std::abs(params1.b - params2.b) < error_threshold) {
+            info.is_translated = true;
+            info.y_offset = params2.c - params1.c;
+            info.is_symmetric = true;
+        }
+        // Check y-axis reflection + translation
+        else if (std::abs(params1.a - params2.a) < error_threshold &&
+                 std::abs(params1.b + params2.b) < error_threshold) {
+            info.is_y_reflected = true;
+            info.y_offset = params2.c - params1.c;
+            info.is_symmetric = true;
+        }
+    }
+
+    return info;
+}
 
 inline std::string serializeDeltas(const std::vector<double>& deltas) {
     std::string serialized = "\"";
@@ -44,6 +106,7 @@ inline std::string serializeDeltas(const std::vector<double>& deltas) {
 
 // Grouping the same length intervals and delta encoding
 inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, 
+                                    const std::vector<FitParameters>& fit_params,
                                     std::vector<IntervalGroup>& groups, 
                                     double tolerance = 1e-4, 
                                     int bitwidth = 8) {
@@ -59,20 +122,25 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
     }
     
     // Sorting the intervals by length
-    std::sort(sorted_intervals.begin(), sorted_intervals.end(), [&](const IntervalWithIndex& a, const IntervalWithIndex& b) -> bool {
+    std::sort(sorted_intervals.begin(), sorted_intervals.end(), 
+            [&](const IntervalWithIndex& a, const IntervalWithIndex& b) -> bool {
         double len_a = a.interval.end - a.interval.start;
         double len_b = b.interval.end - b.interval.start;
-        if (std::abs(len_a - len_b) < tolerance)
-            return a.interval.start < b.interval.start; // Start point as tie-breaker
-        return len_a < len_b;
+        return (std::abs(len_a - len_b) < tolerance) ?
+            a.interval.start < b.interval.start : len_a < len_b; // Start point as tie-breaker
     });
-    
+
+    std::cout << "\nInterval Distribution Analysis:\n";
+    std::cout << "Total intervals: " << intervals.size() << "\n";
+
     // Grouping intervals by length
     std::vector<std::vector<IntervalWithIndex>> grouped_intervals;
     if (!sorted_intervals.empty()) {
         std::vector<IntervalWithIndex> current_group;
         current_group.push_back(sorted_intervals[0]);
         double current_length = sorted_intervals[0].interval.end - sorted_intervals[0].interval.start;
+        
+        std::cout << "Starting new group with length: " << current_length << "\n";
         
         for (size_t i = 1; i < sorted_intervals.size(); ++i) {
             double len = sorted_intervals[i].interval.end - sorted_intervals[i].interval.start;
@@ -85,56 +153,81 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
                 current_length = len;
             }
         }
-        grouped_intervals.push_back(current_group);
+
+        if (!current_group.empty()) {
+            std::cout << "Final group size: " << current_group.size() 
+                    << ", length: " << current_length << "\n";
+            grouped_intervals.push_back(current_group);
+        }
     }
+
+    std::cout << "Total groups: " << grouped_intervals.size() << "\n";
     
     // Delta encoding for each group, with compression and quantization
     for (const auto& group : grouped_intervals) {
         if (group.empty()) continue;
         
-        IntervalGroup interval_group;
-        interval_group.length = group[0].interval.end - group[0].interval.start;
-        interval_group.base_interval = group[0].interval;
-        interval_group.base_interval_idx = group[0].index;
-        interval_group.member_interval_indices.push_back(group[0].index);
-        interval_group.bitwidth = bitwidth;
+        IntervalGroup new_group;
+        new_group.length = group[0].interval.end - group[0].interval.start;
+        new_group.base_interval = group[0].interval;
+        new_group.base_interval_idx = group[0].index;
+        new_group.base_params = fit_params[group[0].index];
+        new_group.member_interval_indices.push_back(group[0].index);
+        new_group.bitwidth = bitwidth;
         
         std::vector<double> delta_starts;
         std::vector<double> delta_ends;
         double max_abs_delta = 0.0;
 
         for (size_t i = 1; i < group.size(); ++i) {
-            double delta_start = group[i].interval.start - interval_group.base_interval.start;
-            double delta_end = group[i].interval.end - interval_group.base_interval.end;
-            delta_starts.push_back(delta_start);
-            delta_ends.push_back(delta_end);
-            max_abs_delta = std::max(max_abs_delta, std::abs(delta_start));
-            max_abs_delta = std::max(max_abs_delta, std::abs(delta_end));
-            interval_group.member_interval_indices.push_back(group[i].index);
+            // Check symmtery with the base interval
+            auto sym_info = checkIntervalEquivalence(
+                new_group.base_params, fit_params[group[i].index], tolerance);
+            
+            if (sym_info.is_symmetric) {
+                DeltaEncoding delta;
+                delta.transform = sym_info.is_translated ?
+                    DeltaEncoding::TransformType::Translation : 
+                    DeltaEncoding::TransformType::YReflection;
+                delta.y_offset = sym_info.y_offset;
+                new_group.delta_encodings.push_back(delta);
+            } else {
+                double delta_start = group[i].interval.start - new_group.base_interval.start;
+                double delta_end = group[i].interval.end - new_group.base_interval.end;
+                delta_starts.push_back(delta_start);
+                delta_ends.push_back(delta_end);
+                max_abs_delta = std::max({max_abs_delta, std::abs(delta_start), std::abs(delta_end)});
+
+                DeltaEncoding delta;
+                delta.transform = DeltaEncoding::TransformType::Raw;
+                new_group.delta_encodings.push_back(delta);
+            }
+            new_group.member_interval_indices.push_back(group[i].index);
         }
+        
         
         // Compute the scale factor for quantization
         int max_quantized_value = (1 << (bitwidth - 1)) - 1;
         if (max_abs_delta > 0) {
-            interval_group.delta_scale_factor = max_abs_delta / max_quantized_value;
+            new_group.delta_scale_factor = max_abs_delta / max_quantized_value;
         } else {
-            interval_group.delta_scale_factor = 1.0;
+            new_group.delta_scale_factor = 1.0;
         }
 
         double quantization_error = 0.0;
         for (size_t i = 0; i < delta_starts.size(); ++i) {
-            int8_t quantized_delta_start = static_cast<int8_t>(std::round(delta_starts[i] / interval_group.delta_scale_factor));
-            int8_t quantized_delta_end = static_cast<int8_t>(std::round(delta_ends[i] / interval_group.delta_scale_factor));
-            interval_group.quantized_delta_starts.push_back(quantized_delta_start);
-            interval_group.quantized_delta_ends.push_back(quantized_delta_end);
+            int8_t quantized_delta_start = static_cast<int8_t>(std::round(delta_starts[i] / new_group.delta_scale_factor));
+            int8_t quantized_delta_end = static_cast<int8_t>(std::round(delta_ends[i] / new_group.delta_scale_factor));
+            new_group.quantized_delta_starts.push_back(quantized_delta_start);
+            new_group.quantized_delta_ends.push_back(quantized_delta_end);
 
-            double reconstructed_delta_start = quantized_delta_start * interval_group.delta_scale_factor;
-            double reconstructed_delta_end = quantized_delta_end * interval_group.delta_scale_factor;
+            double reconstructed_delta_start = quantized_delta_start * new_group.delta_scale_factor;
+            double reconstructed_delta_end = quantized_delta_end * new_group.delta_scale_factor;
             double error_start = std::abs(reconstructed_delta_start - delta_starts[i]);
             double error_end = std::abs(reconstructed_delta_end - delta_ends[i]);
             quantization_error += error_start + error_end;
         }
-        interval_group.quantization_error = quantization_error;
+        new_group.quantization_error = quantization_error;
 
         // Sorting the group by start points
         // std::vector<Interval> sorted_group = group;
@@ -162,7 +255,13 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
         //     interval_group.delta_ends.push_back(delta_end);
         // }
         
-        groups.push_back(interval_group);
+        std::sort(new_group.member_interval_indices.begin(),
+                  new_group.member_interval_indices.end()),
+                  [&intervals](size_t a, size_t b) {
+                        return intervals[a].start < intervals[b].start;
+                  };
+
+        groups.push_back(new_group);
     }
 }
 
@@ -267,22 +366,68 @@ inline double evaluateCompressedErrorWithQuantization(
     return (total_points > 0) ? total_error / total_points : 0.0;
 }
 
+inline std::string serializeFitParameters(const FitParameters& params) {
+    std::stringstream ss;
+    ss << (params.method == FittingMethod::Linear ? "L," : "Q,")
+       << params.a << "," << params.b << "," << params.c;
+    return ss.str();
+}
+
 // Save the compressed groups to a file
 inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups, const std::string& filename) {
+    // Print group statistics first
+    std::map<double, std::vector<size_t>> length_groups;
+    
+    std::cout << "\nGroup Analysis:\n";
+    std::cout << "Total groups: " << groups.size() << "\n";
+    std::cout << "------------------------\n";
+    
+    for (size_t i = 0; i < groups.size(); i++) {
+        const auto& group = groups[i];
+        double length = group.base_interval.end - group.base_interval.start;
+        length_groups[length].push_back(i);
+        
+        std::cout << "Group " << i << ":\n"
+                  << "  Length: " << length << "\n"
+                  << "  Base interval: [" << group.base_interval.start 
+                  << ", " << group.base_interval.end << "]\n"
+                  << "  Members: " << group.member_interval_indices.size() << "\n";
+    }
+    
+    std::cout << "\nLength Distribution:\n";
+    std::cout << "------------------------\n";
+    for (const auto& [length, group_ids] : length_groups) {
+        std::cout << "Length " << length << ":\n"
+                  << "  Count: " << group_ids.size() << "\n"
+                  << "  Groups: ";
+        for (size_t id : group_ids) {
+            std::cout << id << " ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << "------------------------\n";
+    
     std::ofstream file(filename);
     if (file.is_open()) {
         // File format:
         // GroupID,Length,BaseStart,BaseEnd,DeltaStarts,DeltaEnds
-        file << "GroupID,Length,BaseStart,BaseEnd,DeltaStarts,DeltaEnds\n";
+        file << "GroupID,Length,BaseStart,BaseEnd,BaseFitParams,"
+             << "DeltaEncodings,BitWidth,ScaleFactor\n";
+
         size_t group_id = 0;
         for (const auto& group : groups) {
             file << group_id << "," << group.length << "," << group.base_interval.start << "," << group.base_interval.end << ",";
             file << group.bitwidth << "," << group.delta_scale_factor << ",";
 
+            // Base fit parameters
+            file << serializeFitParameters(group.base_params) << ",";
+
             // Save DeltaStarts
             file << "\"";
-            for (size_t i = 0; i < group.quantized_delta_starts.size(); ++i) {
-                file << static_cast<int>(group.quantized_delta_starts[i]);
+            for (size_t i = 0; i < group.delta_encodings.size(); ++i) {
+                const auto& delta = group.delta_encodings[i];
+                file << static_cast<int>(delta.transform) << ":"
+                     << delta.y_offset;
                 if (i != group.quantized_delta_starts.size() - 1) {
                     file << ";";
                 }
@@ -298,6 +443,10 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
                 }
             }
             file << "\"\n";
+
+            // Save configuration
+            file << group.bitwidth << "," 
+                 << group.delta_scale_factor << "\n";
             
             group_id++;
         }

@@ -161,8 +161,16 @@ inline void splitInterval(const Interval& interval, double epsilon, double min_u
 inline void mergeIntervals(std::vector<Interval>& intervals, double epsilon, const std::string& expression_str) {
     if (intervals.empty()) return;
 
+    // Updated merged intervals
+    std::sort(intervals.begin(), intervals.end(), 
+        [](const Interval& a, const Interval& b) -> bool {
+            return a.start < b.start;
+        });
+
     std::vector<Interval> merged_intervals;
     size_t i = 0;
+
+    std::map<double, size_t> length_distribution;
 
     while (i < intervals.size()) {
         Interval current = intervals[i];
@@ -170,26 +178,38 @@ inline void mergeIntervals(std::vector<Interval>& intervals, double epsilon, con
         double max_error = 0.0;
 
         while (j < intervals.size()) {
-            // Compute the normalized difference of the function values of the intervals
-            double normalized_diff = computeNormalizedFunctionDifference(
-                expression_str, current.end, intervals[j].end);
+            double current_length = current.end - current.start;
+            double next_length = intervals[j].end - intervals[j].start;
 
-            // Add error bound check
-            double mid_point = (current.start + intervals[j].end) / 2.0;
-            double actual = computeFunctionValue(expression_str, mid_point);
-            double interpolated = (computeFunctionValue(expression_str, current.start) + 
-                                 computeFunctionValue(expression_str, intervals[j].end)) / 2.0;
-            double error = std::abs(actual - interpolated);
+            // Updated Merge
+            if (std::abs(current_length - next_length) < epsilon && std::abs(current.end - intervals[j].start) < epsilon) {
+                // Compute the normalized difference of the function values of the intervals
+                double normalized_diff = computeNormalizedFunctionDifference(
+                    expression_str, current.end, intervals[j].end);
 
-            // If the levels are the same and the normalized difference is less than epsilon, merge the intervals
-            if (current.level == intervals[j].level && normalized_diff < epsilon && error < epsilon) {
-                current.end = intervals[j].end;
-                max_error = std::max(max_error, error);
-                j++;
+                // Add error bound check
+                double mid_point = (current.start + intervals[j].end) / 2.0;
+                double actual = computeFunctionValue(expression_str, mid_point);
+                double interpolated = (computeFunctionValue(expression_str, current.start) + 
+                                    computeFunctionValue(expression_str, intervals[j].end)) / 2.0;
+                double error = std::abs(actual - interpolated);
+
+                // If the levels are the same and the normalized difference is less than epsilon, merge the intervals
+                if (current.level == intervals[j].level && normalized_diff < epsilon && error < epsilon) {
+                    current.end = intervals[j].end;
+                    max_error = std::max(max_error, error);
+                    j++;
+                } else {
+                    break;
+                }
             } else {
                 break;
             }
         }
+
+        // Length distribution
+        double final_length = current.end - current.start;
+        length_distribution[final_length]++;
 
         if (max_error > 0.0) {
             std::cout << "Merged interval [" << current.start << "," << current.end 
@@ -200,6 +220,16 @@ inline void mergeIntervals(std::vector<Interval>& intervals, double epsilon, con
         i = j;
     }
 
+    // Output length distribution statistics
+    std::cout << "\nInterval Length Distribution after merging:\n";
+    std::cout << "Length\t\tCount\n";
+    std::cout << "------------------------\n";
+    for (const auto& entry : length_distribution) {
+        std::cout << entry.first << "\t\t" << entry.second << "\n";
+    }
+    std::cout << "------------------------\n";
+    std::cout << "Total unique lengths: " << length_distribution.size() << "\n";
+    
     intervals = merged_intervals;
 }
 
