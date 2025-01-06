@@ -25,6 +25,15 @@ struct DeltaEncoding {
     std::vector<int8_t> quantized_deltas;
 };
 
+struct GroupStatistics {
+    size_t total_intervals;
+    size_t symmetry_pairs;
+    size_t translation_pairs;
+    double avg_delta;
+    double max_delta;
+    int optimal_bitwidth{8};
+};
+
 // Define the IntervalGroup structure
 struct IntervalGroup {
     double length;                          // All intervals in the group have the same length
@@ -38,6 +47,7 @@ struct IntervalGroup {
     double delta_scale_factor;              // Scale factor for quantization
     int bitwidth;                           // Bitwidth for the deltas
     double quantization_error;              // Quantization error
+    GroupStatistics stats;                  // Group statistics
 
     IntervalGroup() : length(0.0), base_interval(Interval()), 
                     base_interval_idx(0), delta_scale_factor(1.0), 
@@ -50,6 +60,14 @@ struct SymmetryInfo {
     bool is_y_reflected;
     double y_offset;
 };
+
+inline int calculateOptimalBitwidth(const std::vector<double>& deltas) {
+    double max_delta = 0.0;
+    for (const auto& d : deltas) {
+        max_delta = std::max(max_delta, std::abs(d));
+    }
+    return std::ceil(std::log2(max_delta + 1)) + 1;
+}
 
 inline SymmetryInfo checkIntervalEquivalence(const FitParameters& params1, 
                                            const FitParameters& params2,
@@ -108,8 +126,7 @@ inline std::string serializeDeltas(const std::vector<double>& deltas) {
 inline void groupAndCompressIntervals(const std::vector<Interval>& intervals, 
                                     const std::vector<FitParameters>& fit_params,
                                     std::vector<IntervalGroup>& groups, 
-                                    double tolerance = 1e-4, 
-                                    int bitwidth = 8) {
+                                    double tolerance = 1e-4) {
     struct IntervalWithIndex {
         Interval interval;
         size_t index;
@@ -138,12 +155,14 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
     if (!sorted_intervals.empty()) {
         std::vector<IntervalWithIndex> current_group;
         current_group.push_back(sorted_intervals[0]);
-        double current_length = sorted_intervals[0].interval.end - sorted_intervals[0].interval.start;
+        double current_length = sorted_intervals[0].interval.end - 
+                                sorted_intervals[0].interval.start;
         
         std::cout << "Starting new group with length: " << current_length << "\n";
         
         for (size_t i = 1; i < sorted_intervals.size(); ++i) {
-            double len = sorted_intervals[i].interval.end - sorted_intervals[i].interval.start;
+            double len = sorted_intervals[i].interval.end - 
+                        sorted_intervals[i].interval.start;
             if (std::abs(len - current_length) < tolerance) {
                 current_group.push_back(sorted_intervals[i]);
             } else {
@@ -167,13 +186,17 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
     for (const auto& group : grouped_intervals) {
         if (group.empty()) continue;
         
+        size_t symmetry_pairs = 0;
+        size_t translation_pairs = 0;
+        std::vector<double> deltas;
+        
         IntervalGroup new_group;
         new_group.length = group[0].interval.end - group[0].interval.start;
         new_group.base_interval = group[0].interval;
         new_group.base_interval_idx = group[0].index;
         new_group.base_params = fit_params[group[0].index];
         new_group.member_interval_indices.push_back(group[0].index);
-        new_group.bitwidth = bitwidth;
+        // new_group.bitwidth = bitwidth;
         
         std::vector<double> delta_starts;
         std::vector<double> delta_ends;
@@ -182,20 +205,30 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
         for (size_t i = 1; i < group.size(); ++i) {
             // Check symmtery with the base interval
             auto sym_info = checkIntervalEquivalence(
-                new_group.base_params, fit_params[group[i].index], tolerance);
+                new_group.base_params, 
+                fit_params[group[i].index], 
+                tolerance
+            );
             
             if (sym_info.is_symmetric) {
+                symmetry_pairs++;
+                if (sym_info.is_translated) {
+                    translation_pairs++;
+                }
                 DeltaEncoding delta;
                 delta.transform = sym_info.is_translated ?
                     DeltaEncoding::TransformType::Translation : 
                     DeltaEncoding::TransformType::YReflection;
                 delta.y_offset = sym_info.y_offset;
+                deltas.push_back(sym_info.y_offset);
                 new_group.delta_encodings.push_back(delta);
             } else {
                 double delta_start = group[i].interval.start - new_group.base_interval.start;
                 double delta_end = group[i].interval.end - new_group.base_interval.end;
                 delta_starts.push_back(delta_start);
                 delta_ends.push_back(delta_end);
+                deltas.push_back(delta_start);
+                deltas.push_back(delta_end);
                 max_abs_delta = std::max({max_abs_delta, std::abs(delta_start), std::abs(delta_end)});
 
                 DeltaEncoding delta;
@@ -205,14 +238,22 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
             new_group.member_interval_indices.push_back(group[i].index);
         }
         
+        int optimal_bitwidth = calculateOptimalBitwidth(deltas);
+        new_group.bitwidth = std::min(8, optimal_bitwidth);
         
         // Compute the scale factor for quantization
-        int max_quantized_value = (1 << (bitwidth - 1)) - 1;
+        int max_quantized_value = (1 << (new_group.bitwidth - 1)) - 1;
         if (max_abs_delta > 0) {
             new_group.delta_scale_factor = max_abs_delta / max_quantized_value;
         } else {
             new_group.delta_scale_factor = 1.0;
         }
+
+        new_group.stats.symmetry_pairs = symmetry_pairs;
+        new_group.stats.translation_pairs = translation_pairs;
+        new_group.stats.total_intervals = group.size();
+        new_group.stats.optimal_bitwidth = optimal_bitwidth;
+        new_group.stats.max_delta = max_abs_delta;
 
         double quantization_error = 0.0;
         for (size_t i = 0; i < delta_starts.size(); ++i) {
@@ -262,6 +303,10 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
                   };
 
         groups.push_back(new_group);
+        std::cout << "\nGroup Statistics:\n"
+                  << "Size: " << group.size() << "\n"
+                  << "Symmetry pairs: " << symmetry_pairs << "\n"
+                  << "Max delta: " << max_abs_delta << "\n";
     }
 }
 

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <mutex>
 #include <future>
+#include <unordered_map>
 #include "exprtk.hpp"
 
 // Define the Interval structure
@@ -63,16 +64,22 @@ inline double computeHessian(const std::function<double(double)>& f, double x, d
 }
 
 // Generate initial intervals and calculate the Hessian
-inline std::vector<Interval> generateInitialIntervals(double start, double end, size_t num_points, double initial_unit_length, const std::string& expression_str) {
+inline std::vector<Interval> generateInitialIntervals(double start, 
+                                                    double end, 
+                                                    size_t num_points, 
+                                                    double initial_unit_length, 
+                                                    const std::string& expression_str) {
     std::cout << "Starting interval generation with " << num_points << " points...\n";
     std::vector<Interval> intervals;
-    double step = initial_unit_length;
+
+    double step = (end - start) / static_cast<double>(num_points - 1);
+    double eps = step * 1e-6;  // Relative epsilon based on step size
 
     std::mutex interval_mutex;
     std::vector<std::future<void>> futures;
 
-    size_t total_intervals = static_cast<size_t>((end - start) / step);
-    intervals.reserve(total_intervals);
+    size_t total_points = num_points + 1;
+    intervals.reserve(total_points);
 
     const size_t batch_size = 100; // Process in batches
     // std::cout << "Processing in batches of " << batch_size << std::endl;
@@ -80,11 +87,12 @@ inline std::vector<Interval> generateInitialIntervals(double start, double end, 
         size_t batch_end = std::min(batch_start + batch_size, num_points);
         // std::cout << "Processing batch " << batch_start/batch_size + 1 
                 //   << "/" << (num_points + batch_size - 1)/batch_size << "\n";
-
         futures.clear();
+
         for (size_t i = batch_start; i < batch_end; ++i) {
-            double current_start = start + i * step;
-            double current_end = std::min(current_start + step, end);
+            double current_start = (i == 0) ? start : start + (i * step) - eps;
+            double current_end = (i == total_points - 1) ? end : 
+                               std::min(start + ((i + 1) * step) + eps, end);
 
             futures.emplace_back(std::async(std::launch::async, 
                 [&interval_mutex, &intervals, &expression_str]
@@ -108,14 +116,22 @@ inline std::vector<Interval> generateInitialIntervals(double start, double end, 
             }
         }
     }
- 
-    // for (double x = start; x < end; x += step) {
-    //     double mid = x + step / 2.0;
-    //     // double hessian = 0.0;
-    //     double hessian = computeHessian([&](double val) { return computeFunctionValue(expression_str, val); }, mid);
 
-    //     intervals.push_back(Interval{x, x + step, hessian, 0}); // level 0 represents the initial intervals
-    // }
+    // Ensure final interval reaches the end
+    if (!intervals.empty() && intervals.back().end < end) {
+        double last_start = intervals.back().end - eps;
+        double hessian = computeHessian(
+            [&](double val) { 
+                return computeFunctionValue(expression_str, val); 
+            }, (last_start + end) / 2.0);
+        intervals.push_back(Interval{last_start, end, hessian, 0});
+    }
+
+    // Sort intervals by start point
+    std::sort(intervals.begin(), intervals.end(), 
+        [](const Interval& a, const Interval& b) {
+            return a.start < b.start;
+        });
 
     return intervals;
 }
@@ -132,6 +148,44 @@ inline double computeNormalizedFunctionDifference(const std::string& expression_
     return normalized_diff;
 }
 
+inline bool shouldSplit(const Interval& interval, double epsilon, 
+                       const std::string& expression_str) {
+    // Sample points
+    double start = interval.start;
+    double mid = (interval.start + interval.end) / 2.0;
+    double end = interval.end;
+    double length = end - start;
+    
+    // Function values
+    double f_start = computeFunctionValue(expression_str, start);
+    double f_mid = computeFunctionValue(expression_str, mid);
+    double f_end = computeFunctionValue(expression_str, end);
+
+    // Adaptive thresholds based on interval length
+    double length_factor = std::min(1.0 + length, 2.0);
+    double adaptive_epsilon = epsilon * length_factor;
+
+    // Enhanced linearity check
+    double linear_interp = (f_start + f_end) / 2.0;
+    double linearity_error = std::abs(f_mid - linear_interp);
+    double value_range = std::max(std::abs(f_end - f_start), 1e-6);
+    double normalized_error = linearity_error / value_range;
+
+    // Relaxed slope check
+    double left_slope = (f_mid - f_start) / (mid - start);
+    double right_slope = (f_end - f_mid) / (end - mid);
+    double slope_diff = std::abs(right_slope - left_slope);
+    double slope_threshold = adaptive_epsilon * (1.0 + std::abs(interval.hessian));
+
+    // Combined criteria with relaxed thresholds
+    bool should_split = 
+        (normalized_error > adaptive_epsilon * 1.5) ||  // Relaxed linearity check
+        (slope_diff > slope_threshold) ||              // Adaptive slope check
+        (std::abs(interval.hessian) > adaptive_epsilon * 10.0);  // Hessian check
+
+    return should_split;
+}
+
 // Split the interval function
 inline void splitInterval(const Interval& interval, double epsilon, double min_unit_length, const std::string& expression_str, std::vector<Interval>& result) {
     double length = interval.end - interval.start;
@@ -145,16 +199,52 @@ inline void splitInterval(const Interval& interval, double epsilon, double min_u
         return;
     }
 
-    // Split the interval in half
-    double mid = (interval.start + interval.end) / 2.0;
+   if (!shouldSplit(interval, epsilon, expression_str)) {
+        result.push_back(interval);
+        return;
+    }
 
-    // Sub-intervals at the next level
-    Interval left = {interval.start, mid, 0.0, interval.level + 1};
-    Interval right = {mid, interval.end, 0.0, interval.level + 1};
+    double mid = (interval.start + interval.end) / 2.0;
+    double hessian = computeHessian(
+        [&](double x) { return computeFunctionValue(expression_str, x); }, 
+        mid);
+
+    Interval left = {interval.start, mid, hessian, interval.level + 1};
+    Interval right = {mid, interval.end, hessian, interval.level + 1};
 
     // Recursively split the sub-intervals
     splitInterval(left, epsilon, min_unit_length, expression_str, result);
     splitInterval(right, epsilon, min_unit_length, expression_str, result);
+}
+
+inline bool canMerge(const Interval& a, const Interval& b, 
+                    double epsilon, 
+                    const std::string& expression_str) {
+    // Length-based adaptive threshold
+    double avg_length = (a.end - a.start + b.end - b.start) / 2.0;
+    double length_factor = std::min(1.0 + avg_length, 2.0);
+    double adaptive_epsilon = epsilon * length_factor;
+
+    // Relaxed continuity check
+    if (std::abs(a.end - b.start) > adaptive_epsilon * 1.5) return false;
+
+    // Function values with error weighting
+    double f_start = computeFunctionValue(expression_str, a.start);
+    double f_mid = computeFunctionValue(expression_str, a.end);
+    double f_end = computeFunctionValue(expression_str, b.end);
+
+    // Enhanced slope check with adaptive threshold
+    double slope1 = (f_mid - f_start) / (a.end - a.start);
+    double slope2 = (f_end - f_mid) / (b.end - b.start);
+    double avg_slope = std::abs((slope1 + slope2) / 2.0);
+    double slope_threshold = adaptive_epsilon * (1.0 + avg_slope);
+    
+    // Relaxed curvature check
+    double hessian_threshold = adaptive_epsilon * (1.0 + std::abs(a.hessian));
+    bool similar_hessian = std::abs(a.hessian - b.hessian) < hessian_threshold;
+    bool similar_slopes = std::abs(slope1 - slope2) < slope_threshold;
+
+    return similar_hessian && similar_slopes;
 }
 
 // Merge the interval Funtion
@@ -168,40 +258,53 @@ inline void mergeIntervals(std::vector<Interval>& intervals, double epsilon, con
         });
 
     std::vector<Interval> merged_intervals;
-    size_t i = 0;
-
     std::map<double, size_t> length_distribution;
+    merged_intervals.reserve(intervals.size());
 
+    // Cache for function values
+    std::unordered_map<double, double> function_cache;
+    auto cached_compute = [&](double x) {
+        auto it = function_cache.find(x);
+        if (it != function_cache.end()) return it->second;
+        double val = computeFunctionValue(expression_str, x);
+        function_cache[x] = val;
+        return val;
+    };
+
+    size_t i = 0;
     while (i < intervals.size()) {
         Interval current = intervals[i];
         size_t j = i + 1;
         double max_error = 0.0;
 
         while (j < intervals.size()) {
-            double current_length = current.end - current.start;
-            double next_length = intervals[j].end - intervals[j].start;
+            // Length-based adaptive threshold
+            double avg_length = (current.end - current.start + 
+                               intervals[j].end - intervals[j].start) / 2.0;
+            double length_factor = std::min(1.0 + avg_length, 2.0);
+            double adaptive_epsilon = epsilon * length_factor;
 
-            // Updated Merge
-            if (std::abs(current_length - next_length) < epsilon && std::abs(current.end - intervals[j].start) < epsilon) {
-                // Compute the normalized difference of the function values of the intervals
-                double normalized_diff = computeNormalizedFunctionDifference(
-                    expression_str, current.end, intervals[j].end);
+            // Basic continuity check
+            if (std::abs(current.end - intervals[j].start) > adaptive_epsilon) {
+                break;
+            }
 
-                // Add error bound check
+            // Level check and merge criteria
+            if (current.level == intervals[j].level && 
+                canMerge(current, intervals[j], adaptive_epsilon, expression_str)) {
+                
+                // Calculate merge error
                 double mid_point = (current.start + intervals[j].end) / 2.0;
-                double actual = computeFunctionValue(expression_str, mid_point);
-                double interpolated = (computeFunctionValue(expression_str, current.start) + 
-                                    computeFunctionValue(expression_str, intervals[j].end)) / 2.0;
-                double error = std::abs(actual - interpolated);
+                double f_start = cached_compute(current.start);
+                double f_mid = cached_compute(mid_point);
+                double f_end = cached_compute(intervals[j].end);
+                double error = std::abs(f_mid - (f_start + f_end) / 2.0);
 
-                // If the levels are the same and the normalized difference is less than epsilon, merge the intervals
-                if (current.level == intervals[j].level && normalized_diff < epsilon && error < epsilon) {
-                    current.end = intervals[j].end;
-                    max_error = std::max(max_error, error);
-                    j++;
-                } else {
-                    break;
-                }
+                // Update current interval
+                current.end = intervals[j].end;
+                current.hessian = (current.hessian + intervals[j].hessian) / 2.0;
+                max_error = std::max(max_error, error);
+                j++;
             } else {
                 break;
             }
@@ -229,7 +332,7 @@ inline void mergeIntervals(std::vector<Interval>& intervals, double epsilon, con
     }
     std::cout << "------------------------\n";
     std::cout << "Total unique lengths: " << length_distribution.size() << "\n";
-    
+
     intervals = merged_intervals;
 }
 

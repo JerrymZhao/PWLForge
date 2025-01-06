@@ -1,0 +1,15 @@
+Function Analysis for: cos(x)
+================================
+Type: Built-in
+Best Epsilon: 0.002
+Initial Intervals: 2048
+Final Intervals: 158
+Compression Ratio: 0.0771484
+Final Error: 2.62266e-06
+Error Analysis:
+- Acceptable Error Threshold: 0.0001
+- Error/Threshold Ratio: 0.0262266
+- Status: PASS
+ROM Generation:
+- Parameters Count: 158
+- Memory Footprint: 8848 bytes

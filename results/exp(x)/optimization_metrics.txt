@@ -1,0 +1,15 @@
+Function Analysis for: exp(x)
+================================
+Type: Built-in
+Best Epsilon: 0.002
+Initial Intervals: 2048
+Final Intervals: 161
+Compression Ratio: 0.0786133
+Final Error: 4.82865e-06
+Error Analysis:
+- Acceptable Error Threshold: 0.0001
+- Error/Threshold Ratio: 0.0482865
+- Status: PASS
+ROM Generation:
+- Parameters Count: 161
+- Memory Footprint: 9016 bytes

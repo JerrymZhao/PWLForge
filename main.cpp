@@ -138,6 +138,70 @@ void createDirectory(const std::string& path) {
     mkdir(path.c_str(), 0777);
 }
 
+struct RangeCoverage {
+    double start;
+    double end;
+    bool is_covered;
+};
+
+inline void verifyIntervalCoverage(
+    const std::string& stage,
+    const std::vector<Interval>& intervals,
+    const std::vector<IntervalGroup>& groups,
+    double function_start,
+    double function_end) {
+    
+    std::vector<std::pair<double, double>> ranges;
+    
+    if (stage == "Initial" || stage == "Split" || stage == "Merge") {
+        // Process raw intervals
+        for (const auto& interval : intervals) {
+            ranges.push_back({interval.start, interval.end});
+        }
+    } else {
+        // Process compressed groups
+        for (const auto& group : groups) {
+            ranges.push_back({group.base_interval.start, group.base_interval.end});
+            for (size_t i = 0; i < group.quantized_delta_starts.size(); i++) {
+                double start = group.base_interval.start + 
+                             group.quantized_delta_starts[i] * group.delta_scale_factor;
+                double end = group.base_interval.end + 
+                           group.quantized_delta_ends[i] * group.delta_scale_factor;
+                ranges.push_back({start, end});
+            }
+        }
+    }
+    
+    std::sort(ranges.begin(), ranges.end());
+    std::vector<std::pair<double, double>> gaps;
+    double current_end = function_start;
+    
+    for (const auto& range : ranges) {
+        if (range.first > current_end) {
+            gaps.push_back({current_end, range.first});
+        }
+        current_end = std::max(current_end, range.second);
+    }
+    
+    if (current_end < function_end) {
+        gaps.push_back({current_end, function_end});
+    }
+    
+    std::cout << "\nInterval Coverage Analysis (" << stage << "):\n"
+              << "------------------------\n"
+              << "Function range: [" << function_start << ", " << function_end << "]\n"
+              << "Total intervals: " << intervals.size() << "\n";
+    
+    if (!gaps.empty()) {
+        std::cout << "WARNING: Found " << gaps.size() << " gaps in " << stage << " stage:\n";
+        for (const auto& gap : gaps) {
+            std::cout << "Gap: [" << gap.first << ", " << gap.second << "]\n";
+        }
+    } else {
+        std::cout << "Complete coverage achieved in " << stage << " stage!\n";
+    }
+}
+
 void processFunction(const std::string& expression_str,
                     const std::string& results_dir,
                     double start, double end,
@@ -196,6 +260,7 @@ void processFunction(const std::string& expression_str,
     double initial_unit_length = (end - start) / num_points;
     std::vector<Interval> initial_intervals = 
         generateInitialIntervals(start, end, num_points, initial_unit_length, parsed_expr);
+    verifyIntervalCoverage("Initial", initial_intervals, {}, start, end);
     size_t initial_interval_count = initial_intervals.size();
     std::cout << "Generated " << initial_interval_count << " initial intervals\n";
 
@@ -210,6 +275,7 @@ void processFunction(const std::string& expression_str,
         splitInterval(interval, config.epsilon_start, config.min_unit_length, 
                      parsed_expr, fine_intervals);
     }
+    verifyIntervalCoverage("Split", fine_intervals, {}, start, end);
     std::cout << "Generated " << fine_intervals.size() << " fine intervals\n";
 
     // Initialize optimization variables
@@ -228,6 +294,7 @@ void processFunction(const std::string& expression_str,
         std::vector<Interval> merged_intervals = initial_intervals;
         mergeIntervals(merged_intervals, epsilon, parsed_expr);
         std::cout << "Merged intervals: " << merged_intervals.size() << std::endl;
+        verifyIntervalCoverage("Merge", merged_intervals, {}, start, end);
         
         std::vector<FitParameters> fit_params_list;
         fitAllSegments(parsed_expr, merged_intervals, fit_params_list);
@@ -272,6 +339,7 @@ void processFunction(const std::string& expression_str,
         // Save intervals groups
         std::vector<IntervalGroup> compressed_groups;
         groupAndCompressIntervals(best_intervals, best_fit_params_list, compressed_groups);
+        verifyIntervalCoverage("Final", best_intervals, compressed_groups, start, end);
         saveCompressedGroupsToFile(compressed_groups, groups_file);
 
         double compressed_error_with_quant = 
@@ -320,9 +388,10 @@ int main(int argc, char* argv[]) {
     };
 
     std::vector<std::string> custom_functions = {"relu", "gelu", "swishglu"};
-
-    double start = -3.0;  // Start Point
-    double end = 4.0;     // End Point
+    
+    // defalut start and end points
+    double start = 0.0;  // Start Point
+    double end = 1.0;     // End Point
     if (argc >= 3) {
         start = std::stod(argv[1]);
         end = std::stod(argv[2]);
@@ -341,50 +410,68 @@ int main(int argc, char* argv[]) {
 
     // Prompt the user to enter the function expression
     std::string expression_str;
-    std::cout << "Please enter the function expression (e.g., tanh(x)): ";
-    std::getline(std::cin, expression_str);
+    std::cout << "Please enter the function expression and range (e.g., tanh(x) -3 4 1e-7): ";
+    
+    std::string input_line;
+    std::getline(std::cin, input_line);
+    std::istringstream iss(input_line);
+    if (iss >> expression_str) {
+        if (expression_str == "test_all") {
+            std::cout << "Running batch test mode...\n";
+            for (const auto& expr : test_expressions) {
+                bool is_custom = false;
+                std::string parsed_expr = expr;
+                // Check if custom function
+                for (const auto& func : custom_functions) {
+                    if (parsed_expr.find(func + "(") != std::string::npos) {
+                        is_custom = true;
+                        replaceAll(parsed_expr, func, func);
+                    }
+                }
+                if(is_custom) {
+                    std::cout << "Custom function detected: " << expression_str << std::endl;
+                } else {
+                    std::cout << "No Custom Function Detected: " << expression_str << std::endl;
+                }
 
-    if (expression_str == "test_all") {
-        std::cout << "Running batch test mode...\n";
-        for (const auto& expr : test_expressions) {
-            bool is_custom = false;
-            std::string parsed_expr = expr;
-            // Check if custom function
-            for (const auto& func : custom_functions) {
-                if (parsed_expr.find(func + "(") != std::string::npos) {
-                    is_custom = true;
-                    replaceAll(parsed_expr, func, func);
+                std::cout << "\nProcessing function: " << (is_custom ? "Custom" : "built-in")
+                        << " function: " << expr << std::endl;
+                processFunction(parsed_expr, results_dir, start, end, num_points, config, custom_functions);
+            }
+            std::cout << "Batch test mode completed.\n";
+        } else {
+            double input_start, input_end, error_acceptable;
+            if (iss >> input_start >> input_end >> error_acceptable) {
+                if (input_start < input_end && error_acceptable > 0) {
+                    start = input_start;
+                    end = input_end;
+                    config.acceptable_error = error_acceptable;
+                    config.min_unit_length = (end - start) / (num_points * 16);
+                } else {
+                    std::cout << "Invalid range. Using defalut:\n [" 
+                            << "Range: [" << start << ", " << end << "]\n"
+                            << "Acceptable error: " << config.acceptable_error << "\n";
                 }
             }
-            if(is_custom) {
-                std::cout << "Custom function detected: " << expression_str << std::endl;
-            } else {
-                std::cout << "No Custom Function Detected: " << expression_str << std::endl;
+
+            // If no expression is provided, use the default function 'tanh(x)'
+            if (expression_str.empty()) {
+                expression_str = "tanh(x)";
+                std::cout << "Use the default example function 'tanh(x)' " << std::endl;
+            }
+            // Check if input is custom function
+            bool is_custom = false;
+            for (const auto& func : custom_functions) {
+                if (expression_str.find(func + "(") != std::string::npos) {
+                    is_custom = true;
+                    replaceAll(expression_str, func, func);
+                }
             }
 
-            std::cout << "\nProcessing function: " << (is_custom ? "Custom" : "built-in")
-                    << " function: " << expr << std::endl;
-            processFunction(parsed_expr, results_dir, start, end, num_points, config, custom_functions);
+            std::cout << "Processing " << (is_custom ? "custom" : "built-in") 
+                    << " function: " << expression_str << std::endl;
+            processFunction(expression_str, results_dir, start, end, num_points, config, custom_functions);
         }
-        std::cout << "Batch test mode completed.\n";
-    } else {
-        // If no expression is provided, use the default function 'tanh(x)'
-        if (expression_str.empty()) {
-            expression_str = "tanh(x)";
-            std::cout << "Use the default example function 'tanh(x)' " << std::endl;
-        }
-        // Check if input is custom function
-        bool is_custom = false;
-        for (const auto& func : custom_functions) {
-            if (expression_str.find(func + "(") != std::string::npos) {
-                is_custom = true;
-                replaceAll(expression_str, func, func);
-            }
-        }
-
-        std::cout << "Processing " << (is_custom ? "custom" : "built-in") 
-                  << " function: " << expression_str << std::endl;
-        processFunction(expression_str, results_dir, start, end, num_points, config, custom_functions);
     }
 
     // **Generate Verilog ROM Module**

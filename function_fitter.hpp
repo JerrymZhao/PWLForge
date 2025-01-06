@@ -60,6 +60,12 @@ struct FittingParametersConfig {
     FittingParametersConfig() : error_threshold(1e-5), min_unit_length(1e-5), epsilon_start(1e-4), epsilon_end(2e-3), epsilon_steps(20), acceptable_error(1e-4) {}
 };
 
+struct ModelSelectionConfig {
+    double hessian_threshold = 1e-4;
+    double error_ratio = 2.0;
+    double slope_threshold = 1e-3;
+};
+
 // Evaluate the error of the fitting function
 inline double evaluateError(const std::string& expression_str, const std::vector<Interval>& intervals, const std::vector<FitParameters>& fit_params_list) {
     double total_error = 0.0;
@@ -226,13 +232,13 @@ inline FitParameters fitSegment(const std::string& expression_str, const Interva
     params.order = 1;
     double linear_error = std::abs((y1 + y0) / 2.0 - ym);
 
-    if (linear_error > error_threshold) {
+    if (linear_error > error_threshold * 0.8) {
         // Quadratic fitting: y = a * x^2 + b * x + c
         FitParameters quad_params;
         params.method = FittingMethod::Quadratic;
         double denom = (params.range_start - params.range_end) * (params.range_start - xm) * (params.range_end - xm);
 
-        if (std::abs(denom) > 1e-8) {
+        if (std::abs(denom) > 1e-7) {
             params.a = (params.range_end * (ym - y0) + params.range_start * (y1 - ym) + xm * (y0 - y1)) / denom;
             params.b = ((params.range_end * params.range_end) * (y0 - ym) + (params.range_start * params.range_start) * (ym - y1) + (xm * xm) * (y1 - y0)) / denom;
             params.c = (params.range_start * (params.range_end * ym - xm * y1) + params.range_end * xm * y0 - params.range_start * xm * y1) / denom;
@@ -242,7 +248,7 @@ inline FitParameters fitSegment(const std::string& expression_str, const Interva
             double quad_error = estimateSegmentError(expression_str, interval, quad_params);
 
             // Use quadratic if it's better
-            if (quad_error < linear_error) {
+            if (quad_error < linear_error * 1.2) {
                 params = quad_params;
             }
         }
@@ -250,7 +256,7 @@ inline FitParameters fitSegment(const std::string& expression_str, const Interva
 
     // Final error check
     double final_error = estimateSegmentError(expression_str, interval, params);
-    if (final_error > error_threshold) {
+    if (final_error > error_threshold * 1.5) {
         // Further subdivide if needed
         double mid = (interval.start + interval.end) / 2.0;
         Interval left{interval.start, mid, 0.0, interval.level + 1};

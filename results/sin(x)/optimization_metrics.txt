@@ -1,0 +1,15 @@
+Function Analysis for: sin(x)
+================================
+Type: Built-in
+Best Epsilon: 0.002
+Initial Intervals: 2048
+Final Intervals: 67
+Compression Ratio: 0.0327148
+Final Error: 8.29052e-06
+Error Analysis:
+- Acceptable Error Threshold: 0.0001
+- Error/Threshold Ratio: 0.0829052
+- Status: PASS
+ROM Generation:
+- Parameters Count: 67
+- Memory Footprint: 3752 bytes
