@@ -2,14 +2,14 @@ Function Analysis for: log(x)
 ================================
 Type: Built-in
 Best Epsilon: 0.0015
-Initial Intervals: 2048
-Final Intervals: 1326
-Compression Ratio: 0.647461
-Final Error: 9.72624e-05
+Initial Intervals: 2049
+Final Intervals: 1328
+Compression Ratio: 0.648121
+Final Error: 9.7116e-05
 Error Analysis:
 - Acceptable Error Threshold: 0.0001
-- Error/Threshold Ratio: 0.972624
+- Error/Threshold Ratio: 0.97116
 - Status: PASS
 ROM Generation:
-- Parameters Count: 1326
-- Memory Footprint: 74256 bytes
+- Parameters Count: 1328
+- Memory Footprint: 74368 bytes

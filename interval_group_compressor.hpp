@@ -20,9 +20,13 @@ struct DeltaEncoding {
         Translation,
         YReflection
     };
-    TransformType transform;
-    double y_offset;
+    TransformType transform{TransformType::Raw};
+    double y_offset{0.0};
     std::vector<int8_t> quantized_deltas;
+
+    DeltaEncoding() = default;
+    DeltaEncoding(const DeltaEncoding&) = default;
+    DeltaEncoding& operator=(const DeltaEncoding&) = default;
 };
 
 struct GroupStatistics {
@@ -134,8 +138,15 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
 
     std::vector<IntervalWithIndex> sorted_intervals;
     sorted_intervals.reserve(intervals.size());
+
+    // Track full range coverage
+    double full_start = intervals[0].start;
+    double full_end = intervals[0].end;
+
     for (size_t i = 0; i < intervals.size(); ++i) {
         sorted_intervals.push_back({intervals[i], i});
+        full_start = std::min(full_start, intervals[i].start);
+        full_end = std::max(full_end, intervals[i].end);
     }
     
     // Sorting the intervals by length
@@ -157,19 +168,25 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
         current_group.push_back(sorted_intervals[0]);
         double current_length = sorted_intervals[0].interval.end - 
                                 sorted_intervals[0].interval.start;
-        
-        std::cout << "Starting new group with length: " << current_length << "\n";
+        double prev_end = sorted_intervals[0].interval.end;
+        current_group.push_back(sorted_intervals[0]);
         
         for (size_t i = 1; i < sorted_intervals.size(); ++i) {
             double len = sorted_intervals[i].interval.end - 
                         sorted_intervals[i].interval.start;
-            if (std::abs(len - current_length) < tolerance) {
+
+            if (std::abs(len - current_length) < tolerance && 
+                sorted_intervals[i].interval.start <= prev_end + tolerance) {
                 current_group.push_back(sorted_intervals[i]);
+                prev_end = sorted_intervals[i].interval.end;
             } else {
-                grouped_intervals.push_back(current_group);
+                if (!current_group.empty()) {
+                    grouped_intervals.push_back(current_group);
+                }
                 current_group.clear();
                 current_group.push_back(sorted_intervals[i]);
                 current_length = len;
+                prev_end = sorted_intervals[i].interval.end;
             }
         }
 
@@ -198,8 +215,8 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
         new_group.member_interval_indices.push_back(group[0].index);
         // new_group.bitwidth = bitwidth;
         
-        std::vector<double> delta_starts;
-        std::vector<double> delta_ends;
+        std::vector<double> delta_starts, delta_ends;
+        double prev_end = group[0].interval.end;
         double max_abs_delta = 0.0;
 
         for (size_t i = 1; i < group.size(); ++i) {
@@ -221,7 +238,7 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
                     DeltaEncoding::TransformType::YReflection;
                 delta.y_offset = sym_info.y_offset;
                 deltas.push_back(sym_info.y_offset);
-                new_group.delta_encodings.push_back(delta);
+                new_group.delta_encodings.push_back(std::move(delta));
             } else {
                 double delta_start = group[i].interval.start - new_group.base_interval.start;
                 double delta_end = group[i].interval.end - new_group.base_interval.end;
@@ -233,7 +250,7 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
 
                 DeltaEncoding delta;
                 delta.transform = DeltaEncoding::TransformType::Raw;
-                new_group.delta_encodings.push_back(delta);
+                new_group.delta_encodings.push_back(std::move(delta));
             }
             new_group.member_interval_indices.push_back(group[i].index);
         }
@@ -269,32 +286,6 @@ inline void groupAndCompressIntervals(const std::vector<Interval>& intervals,
             quantization_error += error_start + error_end;
         }
         new_group.quantization_error = quantization_error;
-
-        // Sorting the group by start points
-        // std::vector<Interval> sorted_group = group;
-        // std::sort(sorted_group.begin(), sorted_group.end(), [&](const Interval& a, const Interval& b) -> bool {
-        //     return a.start < b.start;
-        // });
-        
-        // Delta encoding: start and end points
-        // double prev_start = sorted_group[0].start;
-        // double prev_end = sorted_group[0].end;
-        
-        // for (size_t i = 1; i < sorted_group.size(); ++i) {
-        //     double delta_start = sorted_group[i].start - prev_start;
-        //     double delta_end = sorted_group[i].end - prev_end;
-        //     interval_group.delta_starts.push_back(delta_start);
-        //     interval_group.delta_ends.push_back(delta_end);
-        //     prev_start = sorted_group[i].start;
-        //     prev_end = sorted_group[i].end;
-        // }
-
-        // for (size_t i = 1; i < sorted_group.size(); ++i) {
-        //     double delta_start = sorted_group[i].start - interval_group.base_interval.start;
-        //     double delta_end = sorted_group[i].end - interval_group.base_interval.end;
-        //     interval_group.delta_starts.push_back(delta_start);
-        //     interval_group.delta_ends.push_back(delta_end);
-        // }
         
         std::sort(new_group.member_interval_indices.begin(),
                   new_group.member_interval_indices.end()),
@@ -330,18 +321,44 @@ inline double evaluateCompressedErrorWithQuantization(
 
     double total_error = 0.0;
     size_t total_points = 0;
+    const double eps = 1e-10;
 
     // Build a map from interval index to group
     std::unordered_map<size_t, IntervalGroup*> interval_to_group_map;
+    std::vector<std::pair<double, double>> covered_ranges;
+    double prev_end = intervals[0].start - eps;
+
     for (const auto& group : groups) {
         // Map the base interval
-        // interval_to_group_map[group.base_interval_idx] = &group;
         size_t base_interval_idx = group.base_interval_idx;
         interval_to_group_map[base_interval_idx] = const_cast<IntervalGroup*>(&group);
 
+        if (group.base_interval.start > prev_end + eps) {
+            covered_ranges.push_back({prev_end, group.base_interval.start});
+            std::cout << "Warning: Gap before base interval " 
+                    << base_interval_idx << std::endl;
+        }
+        covered_ranges.push_back({group.base_interval.start, group.base_interval.end});
+        prev_end = group.base_interval.end;
+
         // Other intervals in the group
-        for (size_t i = 1; i < group.quantized_delta_starts.size() + 1; ++i) {
-            interval_to_group_map[base_interval_idx + i] = const_cast<IntervalGroup*>(&group);
+        for (size_t i = 0; i < group.quantized_delta_starts.size(); i++) {
+            size_t current_idx = base_interval_idx + i + 1;
+            double current_start = group.base_interval.start +
+                                 group.quantized_delta_starts[i] * group.delta_scale_factor;
+            double current_end = group.base_interval.end +
+                               group.quantized_delta_ends[i] * group.delta_scale_factor;
+
+            if (current_start > prev_end + eps) {
+                covered_ranges.push_back({prev_end, current_start});
+                std::cout << "Warning: Gap detected between intervals " 
+                         << current_idx - 1 << " and " << current_idx 
+                         << " (" << prev_end << " -> " << current_start << ")" << std::endl;
+            }
+            covered_ranges.push_back({current_start, current_end});
+            
+            interval_to_group_map[current_idx] = const_cast<IntervalGroup*>(&group);
+            prev_end = current_end;
         }
     }
 
@@ -422,8 +439,10 @@ inline std::string serializeFitParameters(const FitParameters& params) {
 inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups, const std::string& filename) {
     // Print group statistics first
     std::map<double, std::vector<size_t>> length_groups;
+    std::vector<std::pair<double, double>> gaps;
     size_t total_intervals = 0;
     size_t total_bits = 0;
+    double prev_end = groups[0].base_interval.start;
     
     std::cout << "\nGroup and LUT Mapping Analysis:\n";
     std::cout << "------------------------\n";
@@ -433,10 +452,17 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         double length = group.base_interval.end - group.base_interval.start;
         length_groups[length].push_back(i);
         
+        if (group.base_interval.start > prev_end + 1e-10) {
+            gaps.push_back({prev_end, group.base_interval.start});
+        }
+
         // Calculate bits for this group
         size_t group_bits = 0;
         // Base interval (start, end) and fit parameters (a, b, c)
         group_bits += 5 * 16; // 16-bit fixed point for each parameter
+        if (!gaps.empty()) {
+            group_bits += 16 * gaps.size(); // 16-bit fixed point for each gap
+        }
         // Delta encodings
         for (const auto& delta : group.delta_encodings) {
             if (delta.transform == DeltaEncoding::TransformType::Raw) {

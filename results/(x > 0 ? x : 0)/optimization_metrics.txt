@@ -1,15 +1,15 @@
 Function Analysis for: (x > 0 ? x : 0)
 ================================
 Type: Built-in
-Best Epsilon: 0.002
+Best Epsilon: 0.0001
 Initial Intervals: 2048
-Final Intervals: 1274
-Compression Ratio: 0.62207
-Final Error: 1.40531e-07
+Final Intervals: 2
+Compression Ratio: 0.000976562
+Final Error: 0
 Error Analysis:
 - Acceptable Error Threshold: 0.0001
-- Error/Threshold Ratio: 0.00140531
+- Error/Threshold Ratio: 0
 - Status: PASS
 ROM Generation:
-- Parameters Count: 2
-- Memory Footprint: 112 bytes
+- Parameters Count: 1
+- Memory Footprint: 56 bytes
