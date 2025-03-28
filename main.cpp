@@ -156,37 +156,62 @@ inline void verifyIntervalCoverage(
     if (stage == "Initial" || stage == "Split" || stage == "Merge") {
         // Process raw intervals
         for (const auto& interval : intervals) {
-            ranges.push_back({interval.start, interval.end});
+            ranges.emplace_back(interval.start, interval.end);
         }
     } else {
         // Process compressed groups
         for (const auto& group : groups) {
-            ranges.push_back({group.base_interval.start, group.base_interval.end});
-            for (size_t i = 0; i < group.quantized_delta_starts.size(); i++) {
-                double start = group.base_interval.start + 
-                             group.quantized_delta_starts[i] * group.delta_scale_factor;
-                double end = group.base_interval.end + 
-                           group.quantized_delta_ends[i] * group.delta_scale_factor;
-                ranges.push_back({start, end});
+            if (group.storage_type == ORPHAN_GROUP) {
+                // Handle ORPHAN_GROUP: Use original intervals directly
+                for (const auto& delta : group.delta_encodings) {
+                    size_t idx = delta.original_index;
+                    if (idx < intervals.size()) {
+                        const auto& orig_iv = intervals[idx];
+                        ranges.emplace_back(orig_iv.start, orig_iv.end);
+                    } else {
+                        std::cerr << "Invalid original_index in ORPHAN_GROUP: " 
+                                  << idx << "/" << intervals.size() << "\n";
+                    }
+                }
+            } else {
+                // Handle normal compressed groups
+                for (const auto& delta : group.delta_encodings) {
+                    // Quantize and dequantize delta_start to simulate compression effect
+                    int quantized_delta_start = static_cast<int>(
+                        std::round(delta.delta_start / group.start_scale_factor));
+                    double dequantized_delta_start = quantized_delta_start * group.start_scale_factor;
+                    
+                    double current_start = group.base_interval.start + dequantized_delta_start;
+                    double current_end = current_start + group.length;
+                    
+                    ranges.emplace_back(current_start, current_end);
+                }
             }
         }
     }
     
-    std::sort(ranges.begin(), ranges.end());
+    // Sort ranges by start
+    std::sort(ranges.begin(), ranges.end(),
+              [](const std::pair<double, double>& a, const std::pair<double, double>& b) -> bool {
+                  return a.first < b.first;
+              });
+    
+    // Identify gaps
     std::vector<std::pair<double, double>> gaps;
     double current_end = function_start;
     
     for (const auto& range : ranges) {
-        if (range.first > current_end) {
-            gaps.push_back({current_end, range.first});
+        if (range.first > current_end + 1e-10) {
+            gaps.emplace_back(current_end, range.first);
         }
         current_end = std::max(current_end, range.second);
     }
     
-    if (current_end < function_end) {
-        gaps.push_back({current_end, function_end});
+    if (current_end < function_end - 1e-10) {
+        gaps.emplace_back(current_end, function_end);
     }
     
+    // Print coverage analysis
     std::cout << "\nInterval Coverage Analysis (" << stage << "):\n"
               << "------------------------\n"
               << "Function range: [" << function_start << ", " << function_end << "]\n"
@@ -194,13 +219,21 @@ inline void verifyIntervalCoverage(
     
     if (!gaps.empty()) {
         std::cout << "WARNING: Found " << gaps.size() << " gaps in " << stage << " stage:\n";
-        for (const auto& gap : gaps) {
-            std::cout << "Gap: [" << gap.first << ", " << gap.second << "]\n";
-        }
+        // for (const auto& gap : gaps) {
+        //     std::cout << "Gap: [" << gap.first << ", " << gap.second << "]\n";
+        // }
     } else {
         std::cout << "Complete coverage achieved in " << stage << " stage!\n";
     }
 }
+
+struct ParetoResult {
+    double epsilon;
+    double min_unit_length;
+    size_t final_interval_count;
+    double final_error;
+    double compression_ratio;
+};
 
 void processFunction(const std::string& expression_str,
                     const std::string& results_dir,
@@ -221,12 +254,18 @@ void processFunction(const std::string& expression_str,
     symbol_table.add_variable("x", x);
 
     // Add custom functions
-    relu_fn<double> relu_f;
-    symbol_table.add_function("relu", relu_f);
-    gelu_fn<double> gelu_f;
-    symbol_table.add_function("gelu", gelu_f);
-    swishglu_fn<double> swish_f;
-    symbol_table.add_function("swishglu", swish_f);
+    for (const auto& func : custom_functions) {
+        if (func == "relu") {
+            relu_fn<double> relu_f;
+            symbol_table.add_function("relu", relu_f);
+        } else if (func == "gelu") {
+            gelu_fn<double> gelu_f;
+            symbol_table.add_function("gelu", gelu_f);
+        } else if (func == "swishglu") {
+            swishglu_fn<double> swish_f;
+            symbol_table.add_function("swishglu", swish_f);
+        }
+    }
 
     // Check if custom function
     bool is_custom = false;
@@ -257,9 +296,22 @@ void processFunction(const std::string& expression_str,
     std::cout << "Successfully parsed expression\n";
 
     // Initial setup
+    MergeParams merge_params;
+    merge_params.base_len_tol = 0.15 + 0.05 * log10(config.acceptable_error * 1e4);
+    
+    // Continuity tolerance
+    merge_params.base_continuity_tol = 0.05 * (config.acceptable_error * 1e3);
+    // Curvature base
+    merge_params.curvature_base = 0.8 / (1.0 + 5.0 * config.acceptable_error);
+    // Slope base
+    merge_params.slope_base = 0.3 * sqrt(config.acceptable_error * 1e3);
+    // Curvature sensitivity
+    merge_params.curvature_sensitivity = 1.5 + 0.5 * sin(config.acceptable_error * 1e4);
+
     double initial_unit_length = (end - start) / num_points;
+    OptimizationConfig opt_config;
     std::vector<Interval> initial_intervals = 
-        generateInitialIntervals(start, end, num_points, initial_unit_length, parsed_expr);
+        generateInitialIntervals(start, end, num_points, initial_unit_length, parsed_expr, opt_config);
     verifyIntervalCoverage("Initial", initial_intervals, {}, start, end);
     size_t initial_interval_count = initial_intervals.size();
     std::cout << "Generated " << initial_interval_count << " initial intervals\n";
@@ -273,7 +325,7 @@ void processFunction(const std::string& expression_str,
     std::vector<Interval> fine_intervals;
     for (const auto& interval : initial_intervals) {
         splitInterval(interval, config.epsilon_start, config.min_unit_length, 
-                     parsed_expr, fine_intervals);
+                     parsed_expr, fine_intervals, config.acceptable_error, 1.0);
     }
     verifyIntervalCoverage("Split", fine_intervals, {}, start, end);
     std::cout << "Generated " << fine_intervals.size() << " fine intervals\n";
@@ -286,27 +338,39 @@ void processFunction(const std::string& expression_str,
     std::vector<FitParameters> best_fit_params_list;
     std::vector<CompressedFitParameters> best_compressed_params_list;
 
+    std::vector<ParetoResult> pareto_results;
     // Optimization loop
     for (size_t i = 0; i < config.epsilon_steps; ++i) {
-        double epsilon = config.epsilon_start + 
-            (config.epsilon_end - config.epsilon_start) * i / (config.epsilon_steps - 1);
+        // Handle single step case to avoid division by zero
+        double epsilon = (config.epsilon_steps == 1) ? 
+                        config.epsilon_start :
+                        config.epsilon_start + (config.epsilon_end - config.epsilon_start) * 
+                        i / (config.epsilon_steps - 1);
         
         std::vector<Interval> merged_intervals = initial_intervals;
-        mergeIntervals(merged_intervals, epsilon, parsed_expr);
+        mergeIntervals(merged_intervals, epsilon, config.acceptable_error, parsed_expr, merge_params, config.min_unit_length, 1.0);
         std::cout << "Merged intervals: " << merged_intervals.size() << std::endl;
         verifyIntervalCoverage("Merge", merged_intervals, {}, start, end);
         
         std::vector<FitParameters> fit_params_list;
-        fitAllSegments(parsed_expr, merged_intervals, fit_params_list);
+        fitAllSegments(parsed_expr, merged_intervals, fit_params_list, config.acceptable_error);
         
         std::vector<CompressedFitParameters> compressed_params_list;
         compressFitParameters(fit_params_list, merged_intervals, 
-                            compressed_params_list, 1e-5);
+                            compressed_params_list, config.acceptable_error);
         
         double compressed_error = 
             evaluateCompressedError(parsed_expr, merged_intervals, compressed_params_list);
         double compression_ratio = 
             static_cast<double>(merged_intervals.size()) / initial_interval_count;
+        
+        ParetoResult pr;
+        pr.epsilon = epsilon;
+        pr.min_unit_length = config.min_unit_length;
+        pr.final_interval_count = merged_intervals.size();
+        pr.final_error = compressed_error;
+        pr.compression_ratio = compression_ratio;
+        pareto_results.push_back(pr);
 
         if (compressed_error <= config.acceptable_error && 
             compression_ratio < best_compression_ratio) {
@@ -326,7 +390,77 @@ void processFunction(const std::string& expression_str,
         }
     }
 
+    // Pareto front results
+    std::vector<ParetoResult> pareto_front;
+    for (size_t i = 0; i < pareto_results.size(); i++) {
+        bool dominated = false;
+        for (size_t j = 0; j < pareto_results.size(); j++) {
+            if (j != i) {
+                if (pareto_results[j].final_error <= pareto_results[i].final_error &&
+                    pareto_results[j].compression_ratio <= pareto_results[i].compression_ratio &&
+                    (pareto_results[j].final_error < pareto_results[i].final_error ||
+                     pareto_results[j].compression_ratio < pareto_results[i].compression_ratio)) {
+                    dominated = true;
+                    break;
+                }
+            }
+        }
+        if (!dominated) {
+            pareto_front.push_back(pareto_results[i]);
+        }
+    }
+
+    std::cout << "Pareto Front Results:\n";
+    for (const auto& pr : pareto_front) {
+        std::cout << "Epsilon: " << pr.epsilon
+                << ", Final Intervals: " << pr.final_interval_count
+                << ", Error: " << pr.final_error
+                << ", Compression Ratio: " << pr.compression_ratio << std::endl;
+    }
+
+    std::string pareto_file = func_dir + "/pareto_front.csv";
+    std::ofstream pareto_out(pareto_file);
+    if (pareto_out.is_open()) {
+        pareto_out << "Epsilon,FinalIntervals,FinalError,CompressionRatio\n";
+        for (const auto& pr : pareto_results) {
+            pareto_out << pr.epsilon << ","
+                       << pr.final_interval_count << "," 
+                       << pr.final_error << ","
+                       << pr.compression_ratio << "\n";
+        }
+        pareto_out.close();
+        std::cout << "Pareto front results saved to: " << pareto_file << std::endl;
+    }
+
     // Save results
+    if (best_intervals.empty()) {
+        auto min_error_it = std::min_element(pareto_results.begin(), pareto_results.end(),
+            [](const ParetoResult& a, const ParetoResult& b) { return a.final_error < b.final_error; });
+    
+        // Use the precomputed values directly from the best ParetoResult
+        best_epsilon = min_error_it->epsilon;
+        best_compression_ratio = min_error_it->compression_ratio;
+        best_error = min_error_it->final_error;
+        
+        std::cout << "Using best solution with epsilon: " << best_epsilon 
+                  << " (error: " << best_error << ")" << std::endl;
+        
+        // Retrieve the best result by running just one iteration with the selected epsilon
+        std::vector<Interval> merged_intervals = initial_intervals;
+        mergeIntervals(merged_intervals, best_epsilon, config.acceptable_error, 
+                      parsed_expr, merge_params, config.min_unit_length, 1.0);
+        best_intervals = merged_intervals;
+        
+        // Only compute fit parameters once
+        fitAllSegments(parsed_expr, best_intervals, best_fit_params_list, config.acceptable_error);
+        
+        // Save parameters and log results
+        saveFitParametersToFile(best_fit_params_list, func_dir + "/fit_params.csv");
+        double FitError = evaluateError(parsed_expr, best_intervals, best_fit_params_list);
+        std::cout << "Best Fit Error: " << FitError << std::endl;
+    }
+
+    // Save results with compressed groups
     if (!best_intervals.empty()) {
         std::cout << "\nSaving results...\n";
         // Save compressed parameters
@@ -334,19 +468,22 @@ void processFunction(const std::string& expression_str,
         std::string groups_file = func_dir + "/compressed_groups.csv";
         std::string metrics_file = func_dir + "/optimization_metrics.txt";
 
-        saveCompressedFitParametersToFile(best_compressed_params_list, params_file);
-
+        std::cout << "Before entering groupAndCompressIntervals:\n";
+        for (size_t i = 0; i < best_intervals.size(); ++i) {
+            std::cout << "Interval [" << best_intervals[i].start << ", " << best_intervals[i].end
+                    << "], b=" << best_fit_params_list[i].b << ", c=" << best_fit_params_list[i].c << "\n";
+        }
         // Save intervals groups
         std::vector<IntervalGroup> compressed_groups;
-        groupAndCompressIntervals(best_intervals, best_fit_params_list, compressed_groups);
+        groupAndCompressIntervals(expression_str, best_intervals, best_fit_params_list, compressed_groups, config.acceptable_error);
         verifyIntervalCoverage("Final", best_intervals, compressed_groups, start, end);
         saveCompressedGroupsToFile(compressed_groups, groups_file);
 
-        double compressed_error_with_quant = 
-            evaluateCompressedErrorWithQuantization(expression_str, 
-                                                best_intervals, 
-                                                compressed_groups, 
-                                                best_compressed_params_list);
+        double compressed_error = evaluateCompressedErrorWithQuantization(
+                                expression_str,
+                                best_intervals,
+                                best_fit_params_list,
+                                compressed_groups);
 
         // Save metrics
         std::ofstream metrics(metrics_file);
@@ -363,16 +500,16 @@ void processFunction(const std::string& expression_str,
                 << "- Error/Threshold Ratio: " << (best_error/config.acceptable_error) << "\n"
                 << "- Status: " << (best_error <= config.acceptable_error ? "PASS" : "FAIL") << "\n"
                 << "ROM Generation:\n"
-                << "- Parameters Count: " << best_compressed_params_list.size() << "\n"
-                << "- Memory Footprint: " << (best_compressed_params_list.size() * sizeof(FitParameters)) << " bytes\n";
+                << "- Parameters Count: " << best_fit_params_list.size() << "\n"
+                << "- Memory Footprint: " << (best_fit_params_list.size() * sizeof(FitParameters)) << " bytes\n";
         metrics.close();
         
         // Print summary to console
         std::cout << "\nResults for " << expression_str << ":\n"
-                  << "Compression: " << best_compression_ratio << "x\n"
-                  << "Error: " << compressed_error_with_quant << "\n" 
-                  << (compressed_error_with_quant <= config.acceptable_error ? " (PASS)" : " (FAIL)") << "\n"
-                  << "Results saved to: " << func_dir << std::endl;
+                << "Compression: " << best_compression_ratio << "x\n"
+                << "Error: " << compressed_error << "\n" 
+                << (compressed_error <= config.acceptable_error ? " (PASS)" : " (FAIL)") << "\n"
+                << "Results saved to: " << func_dir << std::endl;
     }
 }
 
@@ -404,8 +541,8 @@ int main(int argc, char* argv[]) {
     config.min_unit_length = initial_unit_length / 16;
     config.epsilon_start = 1e-4;
     config.epsilon_end = 2e-3;
-    config.epsilon_steps = 20;
-    config.error_threshold = 1e-7;
+    config.epsilon_steps = 1;
+    // config.error_threshold = 1e-7;
     config.acceptable_error = 1e-4;
 
     // Prompt the user to enter the function expression

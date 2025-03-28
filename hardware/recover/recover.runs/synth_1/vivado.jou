@@ -1,0 +1,13 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Thu Feb 27 15:46:52 2025
+# Process ID: 2727186
+# Current directory: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/recover/recover.runs/synth_1
+# Command line: vivado -log function_recovery.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source function_recovery.tcl
+# Log file: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/recover/recover.runs/synth_1/function_recovery.vds
+# Journal file: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/recover/recover.runs/synth_1/vivado.jou
+# Running On: americano02, OS: Linux, CPU Frequency: 1200.000 MHz, CPU Physical cores: 20, Host memory: 270320 MB
+#-----------------------------------------------------------
+source function_recovery.tcl -notrace

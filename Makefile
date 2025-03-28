@@ -1,7 +1,6 @@
-# Makefile
-
 CXX = g++
-CXXFLAGS = -std=c++11 -Wall -O2
+CXXFLAGS_DEBUG = -std=c++14 -Wall -g -O0
+CXXFLAGS_RELEASE = -std=c++14 -Wall -O2
 LDFLAGS = -lm
 INCLUDES = -I./tb -I./include
 
@@ -19,23 +18,23 @@ all: $(EXEC) $(TEST_EXEC)
 
 # Build the main executable
 $(EXEC): $(OBJ)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(OBJ) -o $(EXEC) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS_RELEASE) $(INCLUDES) $(OBJ) -o $(EXEC) $(LDFLAGS)
 
 # Build the test executable
 $(TEST_EXEC): $(TEST_OBJ)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(TEST_OBJ) -o $(TEST_EXEC) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS_RELEASE) $(INCLUDES) $(TEST_OBJ) -o $(TEST_EXEC) $(LDFLAGS)
+
+debug: CXXFLAGS := $(CXXFLAGS_DEBUG)
+debug: clean $(EXEC)
+	@echo "Debug version built with -g and -O0."
 
 # Compile object files for sources
 %.o: %.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+	$(CXX) $(CXXFLAGS_RELEASE) $(INCLUDES) -c $< -o $@
 
 # Compile object files for test sources
 tb/%.o: tb/%.cpp $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
-
-# Compile object files for exprtk
-# exprtk.o: exprtk.hpp
-# 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c exprtk.hpp -o exprtk.o
+	$(CXX) $(CXXFLAGS_RELEASE) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJ) $(TEST_OBJ) $(EXEC) $(TEST_EXEC)
@@ -46,4 +45,4 @@ run: $(EXEC)
 run_test: $(TEST_EXEC)
 	./$(TEST_EXEC)
 
-.PHONY: all clean run run_test
+.PHONY: all clean run run_test debug

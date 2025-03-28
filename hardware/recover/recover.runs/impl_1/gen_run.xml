@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xczu9eg-ffvb1156-2-e" LaunchTime="1740643015">
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="BITSTR-SYSDEF" Name="function_recovery.sysdef"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="function_recovery.ltx"/>
+  <File Type="BG-BGN" Name="function_recovery.bgn"/>
+  <File Type="RNPI_FILE" Name="function_recovery.rnpi"/>
+  <File Type="BG-DRC" Name="function_recovery.drc"/>
+  <File Type="CFI_FILE" Name="function_recovery.cfi"/>
+  <File Type="RCFI_FILE" Name="function_recovery.rcfi"/>
+  <File Type="BITSTR-MMI" Name="function_recovery.mmi"/>
+  <File Type="BITSTR-BMM" Name="function_recovery_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="function_recovery.nky"/>
+  <File Type="BITSTR-RBT" Name="function_recovery.rbt"/>
+  <File Type="RBD_FILE" Name="function_recovery.rbd"/>
+  <File Type="BITSTR-MSK" Name="function_recovery.msk"/>
+  <File Type="NPI_FILE" Name="function_recovery.npi"/>
+  <File Type="BG-BIN" Name="function_recovery.bin"/>
+  <File Type="PDI-FILE" Name="function_recovery.pdi"/>
+  <File Type="BG-BIT" Name="function_recovery.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="function_recovery_bus_skew_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="function_recovery_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="function_recovery_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="function_recovery_timing_summary_postroute_physopted.rpx"/>
+  <File Type="RDI-RDI" Name="function_recovery.vdi"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="function_recovery_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="function_recovery_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="function_recovery_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="function_recovery_postroute_physopt.dcp"/>
+  <File Type="ROUTE-BUS-SKEW" Name="function_recovery_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="function_recovery_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="function_recovery_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="function_recovery_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMING-PB" Name="function_recovery_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="function_recovery_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="function_recovery_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="function_recovery_route_status.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="function_recovery_power_routed.rpx"/>
+  <File Type="PLACE-UTIL-PB" Name="function_recovery_utilization_placed.pb"/>
+  <File Type="PLACE-UTIL" Name="function_recovery_utilization_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="function_recovery_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-IO" Name="function_recovery_io_placed.rpt"/>
+  <File Type="PLACE-DCP" Name="function_recovery_placed.dcp"/>
+  <File Type="PWROPT-DCP" Name="function_recovery_pwropt.dcp"/>
+  <File Type="OPT-TIMING" Name="function_recovery_timing_summary_opted.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="function_recovery_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PWROPT-DRC" Name="function_recovery_drc_pwropted.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="function_recovery_bus_skew_routed.rpx"/>
+  <File Type="REPORTS-TCL" Name="function_recovery_reports.tcl"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="function_recovery_bus_skew_routed.pb"/>
+  <File Type="PA-TCL" Name="function_recovery.tcl"/>
+  <File Type="OPT-HWDEF" Name="function_recovery.hwdef"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="function_recovery_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="function_recovery_timing_summary_init.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="function_recovery_incremental_reuse_placed.rpt"/>
+  <File Type="PWROPT-TIMING" Name="function_recovery_timing_summary_pwropted.rpt"/>
+  <File Type="ROUTE-DRC" Name="function_recovery_drc_routed.rpt"/>
+  <File Type="OPT-DCP" Name="function_recovery_opt.dcp"/>
+  <File Type="OPT-DRC" Name="function_recovery_drc_opted.rpt"/>
+  <File Type="PLACE-CTRL" Name="function_recovery_control_sets_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="function_recovery_timing_summary_placed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="function_recovery_drc_routed.pb"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="function_recovery_postplace_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="function_recovery_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="ROUTE-PWR" Name="function_recovery_power_routed.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="function_recovery_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="function_recovery_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="function_recovery_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="function_recovery_power_summary_routed.pb"/>
+  <File Type="ROUTE-ERROR-DCP" Name="function_recovery_routed_error.dcp"/>
+  <File Type="ROUTE-DRC-RPX" Name="function_recovery_drc_routed.rpx"/>
+  <File Type="ROUTE-DCP" Name="function_recovery_routed.dcp"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="function_recovery_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="function_recovery_routed_bb.dcp"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="function_recovery_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="function_recovery_methodology_drc_routed.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../function_recover.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="function_recovery"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2021">
+      <Desc>Default settings for Implementation.</Desc>
+    </StratHandle>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>
