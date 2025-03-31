@@ -1,0 +1,86 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
+| Date         : Sun Mar 30 18:28:24 2025
+| Host         : americano02 running 64-bit Ubuntu 22.04.4 LTS
+| Command      : report_control_sets -verbose -file pwl_top_control_sets_placed.rpt
+| Design       : pwl_top
+| Device       : xczu9eg
+------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |     8 |
+|    Minimum number of control sets                        |     8 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |     6 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |     8 |
+| >= 0 to < 4        |     1 |
+| >= 4 to < 6        |     3 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     0 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     4 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               0 |            0 |
+| No           | No                    | Yes                    |              26 |            9 |
+| No           | Yes                   | No                     |               0 |            0 |
+| Yes          | No                    | No                     |               0 |            0 |
+| Yes          | No                    | Yes                    |              64 |           11 |
+| Yes          | Yes                   | No                     |               0 |            0 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------+--------------------------------------------------------+-------------------+------------------+----------------+--------------+
+|  Clock Signal  |                      Enable Signal                     |  Set/Reset Signal | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+--------------------------------------------------------+-------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG | u_pwl_core/u_addr_decoder/FSM_onehot_state_reg_n_0_[1] | rst_n_IBUF_inst/O |                2 |              3 |         1.50 |
+|  clk_IBUF_BUFG | u_pwl_core/u_addr_decoder/FSM_onehot_state[3]_i_1_n_0  | rst_n_IBUF_inst/O |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG | u_pwl_core/u_addr_decoder/mid[3]_i_1_n_0               | rst_n_IBUF_inst/O |                2 |              4 |         2.00 |
+|  clk_IBUF_BUFG | u_pwl_core/u_addr_decoder/left_0                       | rst_n_IBUF_inst/O |                3 |              5 |         1.67 |
+|  clk_IBUF_BUFG | x_in_buffer[15]_i_1_n_0                                | rst_n_IBUF_inst/O |                3 |             16 |         5.33 |
+|  clk_IBUF_BUFG | u_pwl_core/memory_read_en_r                            | rst_n_IBUF_inst/O |                2 |             16 |         8.00 |
+|  clk_IBUF_BUFG | u_pwl_core/u_interpolator/valid_stage2                 | rst_n_IBUF_inst/O |                2 |             16 |         8.00 |
+|  clk_IBUF_BUFG |                                                        | rst_n_IBUF_inst/O |                9 |             26 |         2.89 |
++----------------+--------------------------------------------------------+-------------------+------------------+----------------+--------------+
+
+

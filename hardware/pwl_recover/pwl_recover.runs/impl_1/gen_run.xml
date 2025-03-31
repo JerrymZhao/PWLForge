@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="impl_1" LaunchPart="xczu9eg-ffvb1156-2-e" LaunchTime="1743330409">
+  <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
+  <File Type="BITSTR-SYSDEF" Name="pwl_top.sysdef"/>
+  <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
+  <File Type="BITSTR-LTX" Name="pwl_top.ltx"/>
+  <File Type="BG-BGN" Name="pwl_top.bgn"/>
+  <File Type="RNPI_FILE" Name="pwl_top.rnpi"/>
+  <File Type="BG-DRC" Name="pwl_top.drc"/>
+  <File Type="CFI_FILE" Name="pwl_top.cfi"/>
+  <File Type="RCFI_FILE" Name="pwl_top.rcfi"/>
+  <File Type="BITSTR-MMI" Name="pwl_top.mmi"/>
+  <File Type="BITSTR-BMM" Name="pwl_top_bd.bmm"/>
+  <File Type="BITSTR-NKY" Name="pwl_top.nky"/>
+  <File Type="BITSTR-RBT" Name="pwl_top.rbt"/>
+  <File Type="RBD_FILE" Name="pwl_top.rbd"/>
+  <File Type="BITSTR-MSK" Name="pwl_top.msk"/>
+  <File Type="NPI_FILE" Name="pwl_top.npi"/>
+  <File Type="BG-BIN" Name="pwl_top.bin"/>
+  <File Type="PDI-FILE" Name="pwl_top.pdi"/>
+  <File Type="BG-BIT" Name="pwl_top.bit"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="pwl_top_bus_skew_postroute_physopted.rpx"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="pwl_top_bus_skew_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="pwl_top_bus_skew_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="pwl_top_timing_summary_postroute_physopted.rpx"/>
+  <File Type="RDI-RDI" Name="pwl_top.vdi"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="pwl_top_timing_summary_postroute_physopted.pb"/>
+  <File Type="POSTROUTE-PHYSOPT-TIMING" Name="pwl_top_timing_summary_postroute_physopted.rpt"/>
+  <File Type="POSTROUTE-PHYSOPT-BLACKBOX-DCP" Name="pwl_top_postroute_physopt_bb.dcp"/>
+  <File Type="POSTROUTE-PHYSOPT-DCP" Name="pwl_top_postroute_physopt.dcp"/>
+  <File Type="ROUTE-BUS-SKEW" Name="pwl_top_bus_skew_routed.rpt"/>
+  <File Type="ROUTE-CLK" Name="pwl_top_clock_utilization_routed.rpt"/>
+  <File Type="ROUTE-SIMILARITY" Name="pwl_top_incremental_reuse_routed.rpt"/>
+  <File Type="ROUTE-TIMING-RPX" Name="pwl_top_timing_summary_routed.rpx"/>
+  <File Type="ROUTE-TIMING-PB" Name="pwl_top_timing_summary_routed.pb"/>
+  <File Type="ROUTE-TIMINGSUMMARY" Name="pwl_top_timing_summary_routed.rpt"/>
+  <File Type="ROUTE-STATUS-PB" Name="pwl_top_route_status.pb"/>
+  <File Type="ROUTE-STATUS" Name="pwl_top_route_status.rpt"/>
+  <File Type="ROUTE-PWR-RPX" Name="pwl_top_power_routed.rpx"/>
+  <File Type="PLACE-UTIL-PB" Name="pwl_top_utilization_placed.pb"/>
+  <File Type="PLACE-UTIL" Name="pwl_top_utilization_placed.rpt"/>
+  <File Type="PLACE-CLK" Name="pwl_top_clock_utilization_placed.rpt"/>
+  <File Type="PLACE-IO" Name="pwl_top_io_placed.rpt"/>
+  <File Type="PLACE-DCP" Name="pwl_top_placed.dcp"/>
+  <File Type="PWROPT-DCP" Name="pwl_top_pwropt.dcp"/>
+  <File Type="OPT-TIMING" Name="pwl_top_timing_summary_opted.rpt"/>
+  <File Type="PLACE-PRE-SIMILARITY" Name="pwl_top_incremental_reuse_pre_placed.rpt"/>
+  <File Type="PWROPT-DRC" Name="pwl_top_drc_pwropted.rpt"/>
+  <File Type="ROUTE-BUS-SKEW-RPX" Name="pwl_top_bus_skew_routed.rpx"/>
+  <File Type="REPORTS-TCL" Name="pwl_top_reports.tcl"/>
+  <File Type="ROUTE-BUS-SKEW-PB" Name="pwl_top_bus_skew_routed.pb"/>
+  <File Type="PA-TCL" Name="pwl_top.tcl"/>
+  <File Type="OPT-HWDEF" Name="pwl_top.hwdef"/>
+  <File Type="OPT-METHODOLOGY-DRC" Name="pwl_top_methodology_drc_opted.rpt"/>
+  <File Type="INIT-TIMING" Name="pwl_top_timing_summary_init.rpt"/>
+  <File Type="PLACE-SIMILARITY" Name="pwl_top_incremental_reuse_placed.rpt"/>
+  <File Type="PWROPT-TIMING" Name="pwl_top_timing_summary_pwropted.rpt"/>
+  <File Type="ROUTE-DRC" Name="pwl_top_drc_routed.rpt"/>
+  <File Type="OPT-DCP" Name="pwl_top_opt.dcp"/>
+  <File Type="OPT-DRC" Name="pwl_top_drc_opted.rpt"/>
+  <File Type="PLACE-CTRL" Name="pwl_top_control_sets_placed.rpt"/>
+  <File Type="PLACE-TIMING" Name="pwl_top_timing_summary_placed.rpt"/>
+  <File Type="ROUTE-DRC-PB" Name="pwl_top_drc_routed.pb"/>
+  <File Type="POSTPLACE-PWROPT-DCP" Name="pwl_top_postplace_pwropt.dcp"/>
+  <File Type="POSTPLACE-PWROPT-TIMING" Name="pwl_top_timing_summary_postplace_pwropted.rpt"/>
+  <File Type="ROUTE-PWR" Name="pwl_top_power_routed.rpt"/>
+  <File Type="PHYSOPT-DCP" Name="pwl_top_physopt.dcp"/>
+  <File Type="PHYSOPT-DRC" Name="pwl_top_drc_physopted.rpt"/>
+  <File Type="PHYSOPT-TIMING" Name="pwl_top_timing_summary_physopted.rpt"/>
+  <File Type="ROUTE-PWR-SUM" Name="pwl_top_power_summary_routed.pb"/>
+  <File Type="ROUTE-ERROR-DCP" Name="pwl_top_routed_error.dcp"/>
+  <File Type="ROUTE-DRC-RPX" Name="pwl_top_drc_routed.rpx"/>
+  <File Type="ROUTE-DCP" Name="pwl_top_routed.dcp"/>
+  <File Type="ROUTE-METHODOLOGY-DRC" Name="pwl_top_methodology_drc_routed.rpt"/>
+  <File Type="ROUTE-BLACKBOX-DCP" Name="pwl_top_routed_bb.dcp"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-RPX" Name="pwl_top_methodology_drc_routed.rpx"/>
+  <File Type="ROUTE-METHODOLOGY-DRC-PB" Name="pwl_top_methodology_drc_routed.pb"/>
+  <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1" RelGenDir="$PGENDIR/sources_1">
+    <Filter Type="Srcs"/>
+    <File Path="$PPRDIR/../../results/tanh/tanh_config.vh">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+        <Attr Name="IsVisible" Val="1"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/breakpoints_rom.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/intercepts_rom.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/pwl_address_decoder.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/pwl_core.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/pwl_interpolator.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/slopes_rom.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <File Path="$PPRDIR/../rtl/pwl_top.v">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="DesignMode" Val="RTL"/>
+      <Option Name="TopModule" Val="pwl_top"/>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="Constrs" RelSrcDir="$PSRCDIR/constrs_1">
+    <Filter Type="Constrs"/>
+    <Config>
+      <Option Name="ConstrsType" Val="XDC"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="utils" Type="Utils" RelSrcDir="$PSRCDIR/utils_1">
+    <Filter Type="Utils"/>
+    <File Path="$PSRCDIR/utils_1/imports/synth_1/pwl_recovery.dcp">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedInSteps" Val="synth_1"/>
+        <Attr Name="AutoDcp" Val="1"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopAutoSet" Val="TRUE"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2021">
+      <Desc>Default settings for Implementation.</Desc>
+    </StratHandle>
+    <Step Id="init_design"/>
+    <Step Id="opt_design"/>
+    <Step Id="power_opt_design"/>
+    <Step Id="place_design"/>
+    <Step Id="post_place_power_opt_design"/>
+    <Step Id="phys_opt_design"/>
+    <Step Id="route_design"/>
+    <Step Id="post_route_phys_opt_design"/>
+    <Step Id="write_bitstream"/>
+  </Strategy>
+</GenRun>

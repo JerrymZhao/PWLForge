@@ -1,0 +1,16 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module breakpoints_rom
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module intercepts_rom
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pwl_address_decoder
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pwl_core
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module pwl_interpolator
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module slopes_rom
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/tb_pwl_core.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_pwl_core
+INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

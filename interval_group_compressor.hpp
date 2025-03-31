@@ -1028,11 +1028,28 @@ inline std::string serializeFitParameters(const FitParameters& params) {
     return ss.str();
 }
 
-// Save the compressed groups to a file
+// Save the compressed groups to a file and generate FPGA implementation files
 inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups, const std::string& filename) {
     if (groups.empty()) {
         std::cout << "No groups to save.\n";
         return;
+    }
+
+    // Extract the directory path from filename
+    std::string directory = "";
+    size_t last_slash = filename.find_last_of("/\\");
+    if (last_slash != std::string::npos) {
+        directory = filename.substr(0, last_slash + 1);  // Include the trailing slash
+    }
+
+    // Extract the function name from the directory path
+    std::string cleanName = "pwl";  // Default if we can't determine function name
+    if (last_slash != std::string::npos) {
+        size_t prev_slash = filename.find_last_of("/\\", last_slash - 1);
+        if (prev_slash != std::string::npos) {
+            // Extract the directory name between slashes (e.g., "tanh" from "results/tanh/file.csv")
+            cleanName = filename.substr(prev_slash + 1, last_slash - prev_slash - 1);
+        }
     }
 
     // Initialize data structures for statistics
@@ -1173,7 +1190,6 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
                     << group.length << ","
                     << group.base_interval.start << ","
                     << group.base_interval.end << ","
-                    // << (group.base_params.method == FittingMethod::Linear ? "0" : "1") << ","
                     << inferFitOrder(group.base_params.method) << ","
                     << group.base_params.a << ","
                     << group.base_params.b << ","
@@ -1190,7 +1206,7 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
                     int quant_delta_start = static_cast<int>(std::round(delta.delta_start / group.start_scale_factor));
                     int quant_delta_slope = static_cast<int>(std::round(delta.delta_slope / group.slope_scale_factor));
                     int quant_delta_intercept = static_cast<int>(std::round(delta.delta_intercept / group.intercept_scale_factor));
-                    // Serialize each delta as: delta_start:is_reflected:delta_intercept:interval_idx
+                    // Serialize each delta as: delta_start:delta_slope:delta_intercept:is_y_reflected:is_x_reflected
                     file << quant_delta_start << ":"
                         << quant_delta_slope << ":"
                         << quant_delta_intercept << ":"
@@ -1290,6 +1306,10 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
     int frac_bits = std::min({slope_frac_bits, intercept_frac_bits, breakpoint_frac_bits});
     const int scale_factor = 1 << frac_bits;
 
+    // Calculate index bits required for addressing the segments
+    // This is defined here to ensure it's in scope for all files generated later
+    int index_bits = (num_segments <= 1) ? 1 : static_cast<int>(std::ceil(std::log2(num_segments)));
+
     std::cout << "\nFixed-point representation analysis:\n"
           << "  Max slope: " << max_slope << " (requires " << slope_int_bits << " integer bits)\n"
           << "  Max intercept: " << max_intercept << " (requires " << intercept_int_bits << " integer bits)\n"
@@ -1301,6 +1321,7 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
           << "  Quantization precision: " << (1.0/scale_factor) << "\n"
           << "  Maximum quantization error: " << (1.0/(2*scale_factor)) << "\n";
 
+    // Quantize values for fixed-point representation
     std::vector<int> q_breakpoints;
     for (double b : breakpoints) {
         q_breakpoints.push_back(static_cast<int>(std::round(b * scale_factor)));
@@ -1314,8 +1335,8 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         q_intercepts.push_back(static_cast<int>(std::round(c * scale_factor)));
     }
 
-    // Write to file
-    std::string verilog_filename = filename + "_lut.v";
+    // Generate main Verilog module file
+    std::string verilog_filename = directory + cleanName + "_lut.v";
     std::ofstream verilog_file(verilog_filename);
     if (verilog_file.is_open()) {
         verilog_file << "module pwl_recovery (\n"
@@ -1333,20 +1354,17 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         }
         
         verilog_file << "    reg [15:0] slopes [0:" << (num_segments - 1) << "];\n"
-                    << "    reg [15:0] intercepts [0:" << (num_segments - 1) << "];\n";
-        
-        // 计算索引所需的最小位数
-        int index_bits = (num_segments <= 1) ? 1 : static_cast<int>(std::ceil(std::log2(num_segments)));
-        verilog_file << "    reg [" << (index_bits - 1) << ":0] idx;\n"
+                    << "    reg [15:0] intercepts [0:" << (num_segments - 1) << "];\n"
+                    << "    reg [" << (index_bits - 1) << ":0] idx;\n"
                     << "    integer i;\n\n"
                     << "    initial begin\n";
         
-        // 初始化断点
+        // Initialize breakpoints
         for (size_t i = 0; i < num_breakpoints; ++i) {
             verilog_file << "        breakpoints[" << i << "] = 16'd" << q_breakpoints[i] << ";\n";
         }
         
-        // 初始化斜率和截距
+        // Initialize slopes and intercepts
         for (size_t i = 0; i < num_segments; ++i) {
             verilog_file << "        slopes[" << i << "] = 16'd" << q_slopes[i] << ";\n";
         }
@@ -1365,7 +1383,7 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
                         << "        end\n";
         }
         
-        // 使用计算得到的小数位数进行右移
+        // Use the fractional bits for correct fixed-point calculation
         verilog_file << "        y = (slopes[idx] * x + intercepts[idx]) >> FRAC_BITS;\n"
                     << "    end\n"
                     << "endmodule\n";
@@ -1378,7 +1396,7 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         }
         std::cout << ".\n";
         
-        // 额外的分析：估计 LUT 资源使用
+        // FPGA resource usage estimation
         size_t total_16bit_registers = num_breakpoints + num_segments * 2; // breakpoints + slopes + intercepts
         size_t total_bits = total_16bit_registers * 16 + index_bits;
         std::cout << "Estimated FPGA resource usage:\n"
@@ -1386,7 +1404,7 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
                 << "  Index register bits: " << index_bits << "\n"
                 << "  Total storage bits: " << total_bits << "\n";
                 
-        // 验证量化过程中的误差
+        // Quantization validation
         std::cout << "\nQuantization validation:\n";
         for (size_t i = 0; i < std::min(size_t(5), num_segments); ++i) {
             double reconstructed_slope = static_cast<double>(q_slopes[i]) / scale_factor;
@@ -1407,10 +1425,187 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         if (num_segments > 5) {
             std::cout << "  ... (showing only first 5 segments)\n";
         }
-        
     } else {
         std::cout << "Failed to open Verilog file for writing.\n";
         throw std::runtime_error("Verilog file opening failed");
+    }
+
+    // Generate Verilog configuration header file
+    std::string vh_filename = directory + cleanName + "_config.vh";
+    std::ofstream vh_file(vh_filename);
+    if (vh_file.is_open()) {
+        vh_file << "// Auto-generated PWL configuration parameters\n"
+                << "`ifndef PWL_CONFIG_VH\n"
+                << "`define PWL_CONFIG_VH\n\n"
+                << "`define PWL_DATA_WIDTH 16\n"
+                << "`define PWL_NUM_BREAKPOINTS " << num_breakpoints << "\n"
+                << "`define PWL_NUM_SEGMENTS " << num_segments << "\n"
+                << "`define PWL_FRAC_BITS " << frac_bits << "\n"
+                << "`define PWL_ADDR_WIDTH " << index_bits << "\n\n"
+                << "`endif // PWL_CONFIG_VH\n";
+        vh_file.close();
+        std::cout << "Configuration header saved to: " << vh_filename << "\n";
+    }
+
+    // Generate breakpoints COE file for Xilinx IP core
+    std::string bp_coe_filename = directory + cleanName + "_breakpoints.coe";
+    std::ofstream bp_coe_file(bp_coe_filename);
+    if (bp_coe_file.is_open()) {
+        bp_coe_file << "memory_initialization_radix=10;\n"
+                    << "memory_initialization_vector=\n";
+        for (size_t i = 0; i < q_breakpoints.size(); ++i) {
+            bp_coe_file << q_breakpoints[i];
+            if (i < q_breakpoints.size() - 1) bp_coe_file << ",\n";
+        }
+        bp_coe_file << ";\n";
+        bp_coe_file.close();
+        std::cout << "Breakpoints COE file saved to: " << bp_coe_filename << "\n";
+    }
+
+    // Generate slopes COE file for Xilinx IP core
+    std::string slopes_coe_filename = directory + cleanName + "_slopes.coe";
+    std::ofstream slopes_coe_file(slopes_coe_filename);
+    if (slopes_coe_file.is_open()) {
+        slopes_coe_file << "memory_initialization_radix=10;\n"
+                    << "memory_initialization_vector=\n";
+        for (size_t i = 0; i < q_slopes.size(); ++i) {
+            slopes_coe_file << q_slopes[i];
+            if (i < q_slopes.size() - 1) slopes_coe_file << ",\n";
+        }
+        slopes_coe_file << ";\n";
+        slopes_coe_file.close();
+        std::cout << "Slopes COE file saved to: " << slopes_coe_filename << "\n";
+    }
+
+    // Generate intercepts COE file for Xilinx IP core
+    std::string intercepts_coe_filename = directory + cleanName + "_intercepts.coe";
+    std::ofstream intercepts_coe_file(intercepts_coe_filename);
+    if (intercepts_coe_file.is_open()) {
+        intercepts_coe_file << "memory_initialization_radix=10;\n"
+                        << "memory_initialization_vector=\n";
+        for (size_t i = 0; i < q_intercepts.size(); ++i) {
+            intercepts_coe_file << q_intercepts[i];
+            if (i < q_intercepts.size() - 1) intercepts_coe_file << ",\n";
+        }
+        intercepts_coe_file << ";\n";
+        intercepts_coe_file.close();
+        std::cout << "Intercepts COE file saved to: " << intercepts_coe_filename << "\n";
+    }
+
+    // Generate Verilog memory initialization file
+    std::string mem_v_filename = directory + cleanName + "_mem_init.v";
+    std::ofstream mem_v_file(mem_v_filename);
+    if (mem_v_file.is_open()) {
+        mem_v_file << "// Auto-generated PWL memory initialization\n"
+                << "`ifndef PWL_MEM_INIT_V\n"
+                << "`define PWL_MEM_INIT_V\n\n"
+                << "// Initialize memories with hardcoded values\n"
+                << "task initialize_pwl_memories;\n"
+                << "    input [`PWL_ADDR_WIDTH-1:0] num_breakpoints;\n"
+                << "    input [`PWL_ADDR_WIDTH-1:0] num_segments;\n"
+                << "    reg [`PWL_DATA_WIDTH-1:0] bp_mem [0:`PWL_NUM_BREAKPOINTS-1];\n"
+                << "    reg [`PWL_DATA_WIDTH-1:0] slope_mem [0:`PWL_NUM_SEGMENTS-1];\n"
+                << "    reg [`PWL_DATA_WIDTH-1:0] intercept_mem [0:`PWL_NUM_SEGMENTS-1];\n"
+                << "    integer i;\n"
+                << "begin\n";
+                
+        // Initialize breakpoints
+        for (size_t i = 0; i < q_breakpoints.size(); ++i) {
+            mem_v_file << "    bp_mem[" << i << "] = " << q_breakpoints[i] << ";\n";
+        }
+        
+        // Initialize slopes
+        for (size_t i = 0; i < q_slopes.size(); ++i) {
+            mem_v_file << "    slope_mem[" << i << "] = " << q_slopes[i] << ";\n";
+        }
+        
+        // Initialize intercepts
+        for (size_t i = 0; i < q_intercepts.size(); ++i) {
+            mem_v_file << "    intercept_mem[" << i << "] = " << q_intercepts[i] << ";\n";
+        }
+        
+        mem_v_file << "end\n"
+                << "endtask\n\n"
+                << "`endif // PWL_MEM_INIT_V\n";
+        mem_v_file.close();
+        std::cout << "Memory initialization file saved to: " << mem_v_filename << "\n";
+    }
+
+    // Generate Vivado TCL build script
+    std::string tcl_filename = directory + cleanName + "_build.tcl";
+    std::ofstream tcl_file(tcl_filename);
+    if (tcl_file.is_open()) {
+        tcl_file << "# Auto-generated Vivado build script for PWL\n"
+                << "set project_name \"pwl_recovery\"\n"
+                << "set project_dir \"./[set project_name]_proj\"\n"
+                << "set device \"xc7a35tcpg236-1\"\n\n"
+                << "# Create project\n"
+                << "create_project $project_name $project_dir -part $device -force\n\n"
+                << "# Create block memory IP cores for parameters\n"
+                << "create_ip -name blk_mem_gen -vendor xilinx.com -library ip -module_name breakpoints_rom\n"
+                << "set_property -dict [list \\\n"
+                << "    CONFIG.Memory_Type {Single_Port_ROM} \\\n"
+                << "    CONFIG.Write_Width_A {16} \\\n"
+                << "    CONFIG.Read_Width_A {16} \\\n"
+                << "    CONFIG.Write_Depth_A {" << num_breakpoints << "} \\\n"
+                << "    CONFIG.Read_Depth_A {" << num_breakpoints << "} \\\n"
+                << "    CONFIG.Enable_A {Always_Enabled} \\\n"
+                << "    CONFIG.Load_Init_File {true} \\\n"
+                << "    CONFIG.Coe_File {" << bp_coe_filename << "} \\\n"
+                << "    CONFIG.Fill_Remaining_Memory_Locations {true} \\\n"
+                << "    CONFIG.Remaining_Memory_Locations {0} \\\n"
+                << "    CONFIG.Use_RSTA_Pin {false} \\\n"
+                << "    CONFIG.EN_SAFETY_CKT {false} \\\n"
+                << "] [get_ips breakpoints_rom]\n\n";
+        
+        tcl_file << "create_ip -name blk_mem_gen -vendor xilinx.com -library ip -module_name slopes_rom\n"
+                << "set_property -dict [list \\\n"
+                << "    CONFIG.Memory_Type {Single_Port_ROM} \\\n"
+                << "    CONFIG.Write_Width_A {16} \\\n"
+                << "    CONFIG.Read_Width_A {16} \\\n"
+                << "    CONFIG.Write_Depth_A {" << num_segments << "} \\\n"
+                << "    CONFIG.Read_Depth_A {" << num_segments << "} \\\n"
+                << "    CONFIG.Enable_A {Always_Enabled} \\\n"
+                << "    CONFIG.Load_Init_File {true} \\\n"
+                << "    CONFIG.Coe_File {" << slopes_coe_filename << "} \\\n"
+                << "    CONFIG.Fill_Remaining_Memory_Locations {true} \\\n"
+                << "    CONFIG.Remaining_Memory_Locations {0} \\\n"
+                << "    CONFIG.Use_RSTA_Pin {false} \\\n"
+                << "    CONFIG.EN_SAFETY_CKT {false} \\\n"
+                << "] [get_ips slopes_rom]\n\n";
+                
+        tcl_file << "create_ip -name blk_mem_gen -vendor xilinx.com -library ip -module_name intercepts_rom\n"
+                << "set_property -dict [list \\\n"
+                << "    CONFIG.Memory_Type {Single_Port_ROM} \\\n"
+                << "    CONFIG.Write_Width_A {16} \\\n"
+                << "    CONFIG.Read_Width_A {16} \\\n"
+                << "    CONFIG.Write_Depth_A {" << num_segments << "} \\\n"
+                << "    CONFIG.Read_Depth_A {" << num_segments << "} \\\n"
+                << "    CONFIG.Enable_A {Always_Enabled} \\\n"
+                << "    CONFIG.Load_Init_File {true} \\\n"
+                << "    CONFIG.Coe_File {" << intercepts_coe_filename << "} \\\n"
+                << "    CONFIG.Fill_Remaining_Memory_Locations {true} \\\n"
+                << "    CONFIG.Remaining_Memory_Locations {0} \\\n"
+                << "    CONFIG.Use_RSTA_Pin {false} \\\n"
+                << "    CONFIG.EN_SAFETY_CKT {false} \\\n"
+                << "] [get_ips intercepts_rom]\n\n";
+                
+        tcl_file << "# Generate IP cores\n"
+                << "generate_target all [get_ips breakpoints_rom]\n"
+                << "generate_target all [get_ips slopes_rom]\n"
+                << "generate_target all [get_ips intercepts_rom]\n\n"
+                << "# Add Verilog design sources\n"
+                << "add_files -norecurse " << vh_filename << "\n"
+                << "add_files -norecurse " << verilog_filename << "\n"
+                << "add_files -norecurse " << mem_v_filename << "\n\n"
+                << "# Run synthesis and implementation\n"
+                << "launch_runs synth_1\n"
+                << "wait_on_run synth_1\n"
+                << "launch_runs impl_1 -to_step write_bitstream\n"
+                << "wait_on_run impl_1\n\n";
+        
+        tcl_file.close();
+        std::cout << "Vivado build script saved to: " << tcl_filename << "\n";
     }
 }
 

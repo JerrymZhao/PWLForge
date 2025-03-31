@@ -1,0 +1,15 @@
+Function Analysis for: sqrt(x)
+================================
+Type: Built-in
+Best Epsilon: 0.0001
+Initial Intervals: 2049
+Final Intervals: 48
+Compression Ratio: 0.0234261
+Final Error: 0.00012472
+Error Analysis:
+- Acceptable Error Threshold: 0.0001
+- Error/Threshold Ratio: 1.2472
+- Status: FAIL
+ROM Generation:
+- Parameters Count: 48
+- Memory Footprint: 2688 bytes

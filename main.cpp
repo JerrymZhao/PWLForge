@@ -235,6 +235,17 @@ struct ParetoResult {
     double compression_ratio;
 };
 
+std::string getFunctionName(const std::string& expression_str) {
+    // Find the first occurrence of '('
+    size_t pos = expression_str.find('(');
+    if (pos != std::string::npos) {
+        // Return everything before the first '('
+        return expression_str.substr(0, pos);
+    }
+    // If there are no parentheses, return the original string
+    return expression_str;
+}
+
 void processFunction(const std::string& expression_str,
                     const std::string& results_dir,
                     double start, double end,
@@ -243,7 +254,9 @@ void processFunction(const std::string& expression_str,
                     const std::vector<std::string>& custom_functions) {
 
     std::cout << "\nStarting process for: " << expression_str << std::endl;
-    std::string func_dir = results_dir + "/" + expression_str;
+    // Use the getFunctionName function to create a clean directory name
+    std::string clean_name = getFunctionName(expression_str);
+    std::string func_dir = results_dir + "/" + clean_name;
     createDirectory(func_dir);
     std::cout << "Created directory: " << func_dir << std::endl;
 
