@@ -1,6 +1,7 @@
 //========================================================================
 // slopes_rom.v - ROM for Segment Slopes
 //========================================================================
+`timescale 1ns/1ps
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
 
 module slopes_rom (
@@ -15,7 +16,7 @@ module slopes_rom (
     // Memory initialization
     initial begin
         // In simulation, read from hex file
-        $readmemh("../../../results/tanh/tanh_slopes.hex", mem);
+        $readmemh("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_slopes.hex", mem);
         // In synthesis, COE file will be used by IP core
     end
     

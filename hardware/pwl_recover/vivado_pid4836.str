@@ -1,0 +1,185 @@
+/*
+
+Xilinx Vivado v2021.2 (64-bit) [Major: 2021, Minor: 2]
+SW Build: 3367213 on Tue Oct 19 02:47:39 MDT 2021
+IP Build: 3369179 on Thu Oct 21 08:25:16 MDT 2021
+
+Process ID (PID): 4836
+License: Customer
+Mode: GUI Mode
+
+Current time: 	Mon Apr 07 15:17:56 HKT 2025
+Time zone: 	Hong Kong Standard Time (Asia/Hong_Kong)
+
+OS: Ubuntu
+OS Version: 5.15.0-134-generic
+OS Architecture: amd64
+Available processors (cores): 40
+
+Display: 10
+Screen size: 1920x1080
+Screen resolution (DPI): 100
+Available screens: 1
+Default font: family=Dialog,name=Dialog,style=plain,size=12
+Scale size: 12
+
+Java version: 	11.0.11 64-bit
+Java home: 	/tools/Xilinx/Vivado/2021.2/tps/lnx64/jre11.0.11_9
+Java executable: 	/tools/Xilinx/Vivado/2021.2/tps/lnx64/jre11.0.11_9/bin/java
+Java arguments: 	[-Dsun.java2d.pmoffscreen=false, -Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2, -Dsun.java2d.xrender=false, -Djdk.gtk.version=2, -Dsun.java2d.uiScale.enabled=false, -Xverify:none, -Dswing.aatext=true, -XX:-UsePerfData, -Djdk.map.althashing.threshold=512, -XX:StringTableSize=4072, --add-opens=java.base/java.nio=ALL-UNNAMED, --add-opens=java.desktop/sun.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.tree=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.basic=ALL-UNNAMED, --add-opens=java.desktop/javax.swing.plaf.synth=ALL-UNNAMED, --add-opens=java.desktop/com.sun.awt=ALL-UNNAMED, --add-opens=java.desktop/sun.awt.X11=ALL-UNNAMED, -XX:NewSize=60m, -XX:MaxNewSize=60m, -Xms256m, -Xmx3072m, -Xss5m, -Xrs]
+Java initial memory (-Xms): 	256 MB
+Java maximum memory (-Xmx):	 3 GB
+
+
+User name: 	jmzhao
+User home directory: /ldaphome/jmzhao
+User working directory: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover
+User country: 	US
+User language: 	en
+User locale: 	en_US
+
+RDI_BASEROOT: /tools/Xilinx/Vivado
+HDI_APPROOT: /tools/Xilinx/Vivado/2021.2
+RDI_DATADIR: /tools/Xilinx/Vivado/2021.2/data
+RDI_BINDIR: /tools/Xilinx/Vivado/2021.2/bin
+
+Vivado preferences file: /ldaphome/jmzhao/.Xilinx/Vivado/2021.2/vivado.xml
+Vivado preferences directory: /ldaphome/jmzhao/.Xilinx/Vivado/2021.2/
+Vivado layouts directory: /ldaphome/jmzhao/.Xilinx/Vivado/2021.2/data/layouts
+PlanAhead jar file: 	/tools/Xilinx/Vivado/2021.2/lib/classes/planAhead.jar
+Vivado log file: 	/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/vivado.log
+Vivado journal file: 	/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/vivado.jou
+Engine tmp dir: 	./.Xil/Vivado-4836-americano02
+
+Xilinx Environment Variables
+----------------------------
+XILINX: /tools/Xilinx/Vivado/2021.2/ids_lite/ISE
+XILINXD_LICENSE_FILE: 2200@bluemountain.eee.hku.hk
+XILINX_DSP: /tools/Xilinx/Vivado/2021.2/ids_lite/ISE
+XILINX_HLS: /tools/Xilinx/Vitis_HLS/2021.2
+XILINX_PLANAHEAD: /tools/Xilinx/Vivado/2021.2
+XILINX_VITIS: 
+XILINX_VIVADO: /tools/Xilinx/Vivado/2021.2
+XILINX_VIVADO_HLS: /tools/Xilinx/Vivado/2021.2
+
+
+GUI allocated memory:	308 MB
+GUI max memory:		3,072 MB
+Engine allocated memory: 1,933 MB
+
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+
+*/
+
+// TclEventType: START_GUI
+// Tcl Message: start_gui 
+// WARNING: HEventQueue.dispatchEvent() is taking  1001 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 1,879 MB. GUI used memory: 55 MB. Current time: 4/7/25, 3:17:57 PM HKT
+// WARNING: HEventQueue.dispatchEvent() is taking  1001 ms.
+selectList(PAResourceQtoS.SyntheticaGettingStartedView_RECENT_PROJECTS, "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.xpr", 0); // r
+// [GUI Memory]: 76 MB (+77144kb) [00:00:20]
+// [Engine Memory]: 1,885 MB (+1825126kb) [00:00:20]
+// Opening Vivado Project: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.xpr. Version: Vivado v2021.2 
+// TclEventType: DEBUG_PROBE_SET_CHANGE
+// TclEventType: FLOW_ADDED
+// TclEventType: MSGMGR_MOVEMSG
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_NEW
+// Tcl Message: open_project /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.xpr 
+// Tcl Message: INFO: [filemgmt 56-3] Default IP Output Path : Could not find the directory '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.gen/sources_1'. 
+// Tcl Message: Scanning sources... Finished scanning sources 
+// TclEventType: PROJECT_NEW
+// [GUI Memory]: 86 MB (+6345kb) [00:00:25]
+// [Engine Memory]: 1,982 MB (+2634kb) [00:00:26]
+// WARNING: HEventQueue.dispatchEvent() is taking  2368 ms.
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2021.2/data/ip'. 
+// HMemoryUtils.trashcanNow. Engine heap size: 1,989 MB. GUI used memory: 61 MB. Current time: 4/7/25, 3:18:13 PM HKT
+// Tcl Message: open_project: Time (s): cpu = 00:00:24 ; elapsed = 00:00:06 . Memory (MB): peak = 7774.055 ; gain = 95.504 ; free physical = 251401 ; free virtual = 262376 
+// [GUI Memory]: 91 MB (+1267kb) [00:00:27]
+// Project name: pwl_recover; location: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover; part: xczu9eg-ffvb1156-2-e
+dismissDialog("Open Project"); // bA
+selectMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+selectMenu(PAResourceItoN.MainMenuMgr_DESIGN_HUBS, "Design Hubs"); // al
+selectMenuItem(PAResourceCommand.PACommandNames_LICENSE_MANAGE, "Manage License..."); // ao
+dismissMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+// Run Command: PAResourceCommand.PACommandNames_LICENSE_MANAGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// [GUI Memory]: 116 MB (+20730kb) [00:00:44]
+// Elapsed time: 15 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Simulation, Run Simulation]", 10, false, false, false, false, true, false); // n - Popup Trigger
+selectMenuItem(PAResourceCommand.PACommandNames_SIMULATION_SETTINGS, "Simulation Settings..."); // ao
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_SETTINGS
+// Tcl Command: 'rdi::info_commands {device::*}'
+// Tcl Command: 'rdi::info_commands {debug::*}'
+// Tcl Command: 'rdi::info_commands {*}'
+// WARNING: HEventQueue.dispatchEvent() is taking  2028 ms.
+// [GUI Memory]: 129 MB (+8026kb) [00:00:50]
+selectButton(RDIResource.BaseDialog_CANCEL, "Cancel"); // a
+dismissDialog("Settings"); // d
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Simulation, Run Simulation]", 10, false); // n
+selectMenuItem(PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL, "Run Behavioral Simulation"); // ao
+// Run Command: PAResourceCommand.PACommandNames_SIMULATION_RUN_BEHAVIORAL
+// TclEventType: LAUNCH_SIM
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Tcl Message: launch_simulation 
+// Tcl Message: Command: launch_simulation  
+// Tcl Message: INFO: [Vivado 12-12493] Simulation top is 'tb_pwl_core' 
+// Tcl Message: INFO: [Vivado 12-5682] Launching behavioral simulation in '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.sim/sim_1/behav/xsim' INFO: [SIM-utils-51] Simulation object is 'sim_1' INFO: [SIM-utils-72] Using boost library from '/tools/Xilinx/Vivado/2021.2/tps/boost_1_72_0' INFO: [SIM-utils-54] Inspecting design source files for 'tb_pwl_core' in fileset 'sim_1'... INFO: [USF-XSim-97] Finding global include files... INFO: [USF-XSim-98] Fetching design files from 'sim_1'... INFO: [USF-XSim-2] XSim::Compile design INFO: [USF-XSim-61] Executing 'COMPILE and ANALYZE' step in '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.sim/sim_1/behav/xsim' 
+// Tcl Message: xvlog --incr --relax -prj tb_pwl_core_vlog.prj 
+// Tcl Message: INFO: [USF-XSim-69] 'compile' step finished in '2' seconds INFO: [USF-XSim-99] Step results log file:'/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.sim/sim_1/behav/xsim/xvlog.log' 
+// Tcl Message: ERROR: [USF-XSim-62] 'compile' step failed with error(s). Please check the Tcl console output or '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.sim/sim_1/behav/xsim/xvlog.log' file for more information. ERROR: [Vivado 12-4473] Detected error while running simulation. Please correct the issue and retry this operation. 
+// Tcl Message: ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors. 
+// CommandFailedException: ERROR: [Common 17-69] Command failed: ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.  
+// HOptionPane Error: 'ERROR: [Common 17-39] 'launch_simulation' failed due to earlier errors.  (Run Simulation)'
+// 'd' command handler elapsed time: 4 seconds
+selectButton("OptionPane.button", "OK"); // JButton
+// [GUI Memory]: 144 MB (+8916kb) [00:00:58]
+selectButton(PAResourceAtoD.CmdMsgDialog_OK, "OK"); // f
+dismissDialog("Critical Messages"); // a
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectCheckBox(PAResourceItoN.MsgView_INFORMATION_MESSAGES, (String) null, false); // g: FALSE
+selectCheckBox(PAResourceItoN.MsgView_WARNING_MESSAGES, (String) null, false); // g: FALSE
+// Elapsed time: 498 seconds
+selectMenu(PAResourceItoN.MainMenuMgr_VIEW, "View"); // ag
+dismissMenu(PAResourceItoN.MainMenuMgr_VIEW, "View"); // ag
+selectMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+selectMenuItem(PAResourceCommand.PACommandNames_LICENSE_MANAGE, "Manage License..."); // ao
+dismissMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+// Run Command: PAResourceCommand.PACommandNames_LICENSE_MANAGE
+// HMemoryUtils.trashcanNow. Engine heap size: 2,056 MB. GUI used memory: 84 MB. Current time: 4/7/25, 3:27:17 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,057 MB. GUI used memory: 84 MB. Current time: 4/7/25, 3:57:17 PM HKT
+// Elapsed time: 2211 seconds
+selectMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+selectMenu(PAResourceItoN.MainMenuMgr_DESIGN_HUBS, "Design Hubs"); // al
+selectMenuItem(PAResourceCommand.PACommandNames_LICENSE_MANAGE, "Manage License..."); // ao
+dismissMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+// Run Command: PAResourceCommand.PACommandNames_LICENSE_MANAGE
+// Elapsed time: 605 seconds
+selectMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+selectMenu(PAResourceItoN.MainMenuMgr_DESIGN_HUBS, "Design Hubs"); // al
+selectMenuItem(PAResourceCommand.PACommandNames_LICENSE_MANAGE, "Manage License..."); // ao
+dismissMenu(PAResourceItoN.MainMenuMgr_HELP, "Help"); // ag
+// Run Command: PAResourceCommand.PACommandNames_LICENSE_MANAGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 2,075 MB. GUI used memory: 73 MB. Current time: 4/7/25, 4:27:17 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 2,075 MB. GUI used memory: 73 MB. Current time: 4/7/25, 4:57:17 PM HKT
+// WARNING: HSwingWorker (Refresh Filesets Swing Worker) is taking 1040 ms. Increasing delay to 3120 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 2,075 MB. GUI used memory: 72 MB. Current time: 4/7/25, 5:27:17 PM HKT

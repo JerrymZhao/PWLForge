@@ -1,11 +1,12 @@
 //========================================================================
 // intercepts_rom.v - ROM for Segment Intercepts
 //========================================================================
+`timescale 1ns/1ps
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
 
 module intercepts_rom (
     input  wire                        clk,
-    input  wire [`PWL_ADDR_WIDTH-1:0] addr,
+    input  wire [`PWL_ADDR_WIDTH-1:0]  addr,
     output reg  [15:0]                 data_out
 );
 

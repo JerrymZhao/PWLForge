@@ -1,0 +1,56 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Mon Apr  7 18:44:01 2025
+# Process ID: 10729
+# Current directory: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover
+# Command line: vivado
+# Log file: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/vivado.log
+# Journal file: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/vivado.jou
+# Running On: americano02, OS: Linux, CPU Frequency: 1200.000 MHz, CPU Physical cores: 20, Host memory: 270320 MB
+#-----------------------------------------------------------
+start_gui
+open_project /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+wait_on_run synth_1
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+wait_on_run synth_1
+launch_runs impl_1 -jobs 20
+wait_on_run impl_1
+open_run impl_1
+reset_simulation -simset sim_1 -mode behavioral
+launch_simulation
+source tb_pwl_core.tcl
+run all
+close_sim
+launch_simulation
+source tb_pwl_core.tcl
+run all
+close_sim
+launch_simulation
+source tb_pwl_core.tcl
+close_sim
+launch_simulation
+source tb_pwl_core.tcl
+run all
+close_sim
+launch_simulation
+source tb_pwl_core.tcl
+run all

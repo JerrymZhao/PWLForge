@@ -104,6 +104,9 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
+read_xdc /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc
+set_property used_in_implementation false [get_files /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc]
+
 set_param ips.enableIPCacheLiteLoad 1
 
 read_checkpoint -auto_incremental -incremental /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.srcs/utils_1/imports/synth_1/pwl_recovery.dcp

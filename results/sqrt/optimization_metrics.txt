@@ -5,10 +5,10 @@ Best Epsilon: 0.0001
 Initial Intervals: 2049
 Final Intervals: 48
 Compression Ratio: 0.0234261
-Final Error: 0.00012472
+Final Error: 0.000124774
 Error Analysis:
 - Acceptable Error Threshold: 0.0001
-- Error/Threshold Ratio: 1.2472
+- Error/Threshold Ratio: 1.24774
 - Status: FAIL
 ROM Generation:
 - Parameters Count: 48

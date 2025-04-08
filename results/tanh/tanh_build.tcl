@@ -16,7 +16,7 @@ set_property -dict [list \
     CONFIG.Read_Depth_A {23} \
     CONFIG.Enable_A {Always_Enabled} \
     CONFIG.Load_Init_File {true} \
-    CONFIG.Coe_File {results/tanh(x)/compressed_groups.csv_breakpoints.coe} \
+    CONFIG.Coe_File {results/tanh/tanh_breakpoints.coe} \
     CONFIG.Fill_Remaining_Memory_Locations {true} \
     CONFIG.Remaining_Memory_Locations {0} \
     CONFIG.Use_RSTA_Pin {false} \
@@ -32,7 +32,7 @@ set_property -dict [list \
     CONFIG.Read_Depth_A {24} \
     CONFIG.Enable_A {Always_Enabled} \
     CONFIG.Load_Init_File {true} \
-    CONFIG.Coe_File {results/tanh(x)/compressed_groups.csv_slopes.coe} \
+    CONFIG.Coe_File {results/tanh/tanh_slopes.coe} \
     CONFIG.Fill_Remaining_Memory_Locations {true} \
     CONFIG.Remaining_Memory_Locations {0} \
     CONFIG.Use_RSTA_Pin {false} \
@@ -48,7 +48,7 @@ set_property -dict [list \
     CONFIG.Read_Depth_A {24} \
     CONFIG.Enable_A {Always_Enabled} \
     CONFIG.Load_Init_File {true} \
-    CONFIG.Coe_File {results/tanh(x)/compressed_groups.csv_intercepts.coe} \
+    CONFIG.Coe_File {results/tanh/tanh_intercepts.coe} \
     CONFIG.Fill_Remaining_Memory_Locations {true} \
     CONFIG.Remaining_Memory_Locations {0} \
     CONFIG.Use_RSTA_Pin {false} \
@@ -61,9 +61,9 @@ generate_target all [get_ips slopes_rom]
 generate_target all [get_ips intercepts_rom]
 
 # Add Verilog design sources
-add_files -norecurse results/tanh/compressed_groups.csv_config.vh
-add_files -norecurse results/tanh/compressed_groups.csv_lut.v
-add_files -norecurse results/tanh/compressed_groups.csv_mem_init.v
+add_files -norecurse results/tanh/tanh_config.vh
+add_files -norecurse results/tanh/tanh_lut.v
+add_files -norecurse results/tanh/tanh_mem_init.v
 
 # Run synthesis and implementation
 launch_runs synth_1

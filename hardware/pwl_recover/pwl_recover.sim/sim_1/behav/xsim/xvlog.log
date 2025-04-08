@@ -12,5 +12,3 @@ INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT
 INFO: [VRFC 10-311] analyzing module slopes_rom
 INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/tb_pwl_core.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module tb_pwl_core
-INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl

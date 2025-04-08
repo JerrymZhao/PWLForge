@@ -492,6 +492,30 @@ void processFunction(const std::string& expression_str,
         verifyIntervalCoverage("Final", best_intervals, compressed_groups, start, end);
         saveCompressedGroupsToFile(compressed_groups, groups_file);
 
+        // Generate test vectors for hardware verification
+        std::cout << "Generating test vectors for hardware verification...\n";
+        // The scale_factor and frac_bits should be retrieved from the compressed groups
+        int frac_bits = 0;
+        int scale_factor = 0;
+        if (!compressed_groups.empty()) {
+            // Extract the first valid group's parameters
+            for (const auto& group : compressed_groups) {
+                if (group.storage_type != ORPHAN_GROUP) {
+                    // You might need to adjust this based on your actual data structure
+                    scale_factor = 1 << frac_bits;
+                    break;
+                }
+            }
+        }
+        if (scale_factor == 0) {
+            // Default if not found in any group
+            frac_bits = 10;
+            scale_factor = 1 << frac_bits;
+        }
+        
+        // Call the function to generate test vectors
+        generateSimulationVectors(expression_str, func_dir, clean_name, start, end, scale_factor, frac_bits);    
+
         double compressed_error = evaluateCompressedErrorWithQuantization(
                                 expression_str,
                                 best_intervals,

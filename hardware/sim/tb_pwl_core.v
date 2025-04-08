@@ -41,7 +41,7 @@ module tb_pwl_core();
     // Test procedure
     initial begin
         // Load test vectors
-        $readmemh("../sim/test_vectors/tanh_vectors.txt", test_vectors);
+        $readmemh("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/sim/test_vectors/tanh_vectors.txt", test_vectors);
         num_vectors = 1000; // Update based on actual file size
         
         // Initialize signals

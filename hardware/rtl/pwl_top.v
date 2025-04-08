@@ -1,6 +1,7 @@
 //========================================================================
 // pwl_top.v - Top-level PWL Implementation Module
 //========================================================================
+`timescale 1ns/1ps
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
 
 module pwl_top (

@@ -1,6 +1,7 @@
 //========================================================================
 // pwl_interpolator.v - Linear Interpolation Unit
 //========================================================================
+`timescale 1ns/1ps
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
 
 module pwl_interpolator (
@@ -33,6 +34,7 @@ module pwl_interpolator (
                 slope_r <= slope;
                 intercept_r <= intercept;
                 valid_stage1 <= 1'b1;
+                $display("Stage 1: x_in=%h, breakpoint=%h, delta_x=%h", x_in, breakpoint, delta_x);
             end else begin
                 valid_stage1 <= 1'b0;
             end
@@ -52,9 +54,10 @@ module pwl_interpolator (
         end else begin
             if (valid_stage1) begin
                 // Compute slope * delta_x (fixed-point multiplication)
-                slope_term <= delta_x * slope_r;
+                slope_term <= $signed(delta_x) * $signed(slope_r);
                 intercept_r2 <= intercept_r;
                 valid_stage2 <= 1'b1;
+                $display("Stage 2: delta_x=%h, slope=%h, slope_term=%h", delta_x, slope_r, slope_term);
             end else begin
                 valid_stage2 <= 1'b0;
             end
@@ -70,12 +73,13 @@ module pwl_interpolator (
             if (valid_stage2) begin
                 // y = slope * (x - breakpoint) + intercept
                 // Adjust for fixed-point representation
-                y_out <= (slope_term >> `PWL_FRAC_BITS) + intercept_r2;
+                y_out <= ($signed(slope_term) >>> `PWL_FRAC_BITS) + intercept_r2;
                 valid_out <= 1'b1;
+                $display("Stage 3: y_out=%h, intercept=%h", y_out, intercept_r2);
             end else begin
                 valid_out <= 1'b0;
             end
         end
     end
 
-endmodule
+endmodule 

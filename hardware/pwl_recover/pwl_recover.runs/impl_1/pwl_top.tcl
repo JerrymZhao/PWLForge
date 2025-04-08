@@ -138,6 +138,7 @@ OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
   add_files -quiet /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.runs/synth_1/pwl_top.dcp
 OPTRACE "read constraints: implementation" START { }
+  read_xdc /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }

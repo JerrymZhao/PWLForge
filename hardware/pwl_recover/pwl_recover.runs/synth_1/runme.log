@@ -16,190 +16,111 @@ Command: synth_design -top pwl_top -part xczu9eg-ffvb1156-2-e
 Starting synth_design
 Attempting to get a license for feature 'Synthesis' and/or device 'xczu9eg'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu9eg'
-INFO: [Common 17-1540] The version limit for your license is '2023.02' and has expired for new software. A version limit expiration means that, although you may be able to continue to use the current version of tools or IP with this license, you will not be eligible for new releases.
-WARNING: [Vivado_Tcl 4-1101] Global synthesis options have changed for the design, incremental synthesis will not be run
+INFO: [Device 21-403] Loading part xczu9eg-ffvb1156-2-e
+WARNING: [Designutils 20-4072] Reference run did not run incremental synthesis because the design is too small; reverting to default synthesis
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 1441735
+INFO: [Synth 8-7075] Helper process launched with PID 27652
 ---------------------------------------------------------------------------------
-Starting Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2732.359 ; gain = 0.000 ; free physical = 221124 ; free virtual = 242183
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2959.121 ; gain = 148.766 ; free physical = 248192 ; free virtual = 259375
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-6157] synthesizing module 'pwl_top' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v:6]
-INFO: [Synth 8-6157] synthesizing module 'pwl_core' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:6]
-INFO: [Synth 8-6157] synthesizing module 'pwl_address_decoder' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:6]
-CRITICAL WARNING: [Synth 8-4445] could not open $readmem data file '../../results/tanh(x)/tanh_breakpoints.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:21]
-WARNING: [Synth 8-4767] Trying to implement RAM ' ' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
-	1: Unable to determine number of words or word size in RAM. 
-	2: No valid read/write found for RAM. 
-RAM dissolved into registers
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-WARNING: [Synth 8-3848] Net breakpoints in module/entity pwl_address_decoder does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:17]
-INFO: [Synth 8-6155] done synthesizing module 'pwl_address_decoder' (1#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:6]
-INFO: [Synth 8-6157] synthesizing module 'breakpoints_rom' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:6]
-CRITICAL WARNING: [Synth 8-4445] could not open $readmem data file '../../../results/tanh(x)/tanh_breakpoints.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:18]
-WARNING: [Synth 8-4767] Trying to implement RAM ' ' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
-	1: Unable to determine number of words or word size in RAM. 
-	2: No valid read/write found for RAM. 
-RAM dissolved into registers
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity breakpoints_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:13]
-INFO: [Synth 8-6155] done synthesizing module 'breakpoints_rom' (2#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:6]
-INFO: [Synth 8-6157] synthesizing module 'slopes_rom' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:6]
-CRITICAL WARNING: [Synth 8-4445] could not open $readmem data file '../../../results/tanh(x)/tanh_slopes.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:18]
-WARNING: [Synth 8-4767] Trying to implement RAM ' ' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
-	1: Unable to determine number of words or word size in RAM. 
-	2: No valid read/write found for RAM. 
-RAM dissolved into registers
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity slopes_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:13]
-INFO: [Synth 8-6155] done synthesizing module 'slopes_rom' (3#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:6]
-INFO: [Synth 8-6157] synthesizing module 'intercepts_rom' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:6]
-CRITICAL WARNING: [Synth 8-4445] could not open $readmem data file '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_intercepts.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:18]
-WARNING: [Synth 8-4767] Trying to implement RAM ' ' in registers. Block RAM or DRAM implementation is not possible; see log for reasons.
-	1: Unable to determine number of words or word size in RAM. 
-	2: No valid read/write found for RAM. 
-RAM dissolved into registers
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-WARNING: [Synth 8-3848] Net mem in module/entity intercepts_rom does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:13]
-INFO: [Synth 8-6155] done synthesizing module 'intercepts_rom' (4#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:6]
-INFO: [Synth 8-6157] synthesizing module 'pwl_interpolator' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'pwl_interpolator' (5#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'pwl_core' (6#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:6]
-INFO: [Synth 8-6155] done synthesizing module 'pwl_top' (7#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v:6]
+INFO: [Synth 8-6157] synthesizing module 'pwl_top' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v:7]
+INFO: [Synth 8-6157] synthesizing module 'pwl_core' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:8]
+INFO: [Synth 8-6157] synthesizing module 'pwl_address_decoder' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:7]
+INFO: [Synth 8-3876] $readmem data file '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_breakpoints.hex' is read successfully [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:22]
+INFO: [Synth 8-251] Breakpoints loaded from hex file: [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:23]
+INFO: [Synth 8-251] breakpoints[0] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[1] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[2] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[3] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[4] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[5] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[6] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[7] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[8] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[9] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[10] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[11] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[12] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[13] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[14] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[15] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[16] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[17] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[18] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[19] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[20] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[21] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] breakpoints[22] = xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:26]
+INFO: [Synth 8-251] Debug: Input=xxxx, Found segment_idx=x, Breakpoint=xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:83]
+INFO: [Synth 8-6155] done synthesizing module 'pwl_address_decoder' (1#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_address_decoder.v:7]
+INFO: [Synth 8-6157] synthesizing module 'breakpoints_rom' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:7]
+INFO: [Synth 8-3876] $readmem data file '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_breakpoints.hex' is read successfully [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:19]
+INFO: [Synth 8-251] ROM Init: breakpoints[4]=xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:21]
+INFO: [Synth 8-251] ROM Debug: breakpoints[x] read xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:28]
+INFO: [Synth 8-251] ROM Error: Address x out of range (max 22) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:31]
+INFO: [Synth 8-6155] done synthesizing module 'breakpoints_rom' (2#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/breakpoints_rom.v:7]
+INFO: [Synth 8-6157] synthesizing module 'slopes_rom' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:7]
+INFO: [Synth 8-3876] $readmem data file '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_slopes.hex' is read successfully [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:19]
+INFO: [Synth 8-6155] done synthesizing module 'slopes_rom' (3#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/slopes_rom.v:7]
+INFO: [Synth 8-6157] synthesizing module 'intercepts_rom' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:7]
+INFO: [Synth 8-3876] $readmem data file '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_intercepts.hex' is read successfully [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:19]
+INFO: [Synth 8-6155] done synthesizing module 'intercepts_rom' (4#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/intercepts_rom.v:7]
+INFO: [Synth 8-6157] synthesizing module 'pwl_interpolator' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v:7]
+INFO: [Synth 8-251] Debug: x_in=xxxx, delta_x=xxxx, slope=xxxx, intercept=xxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v:56]
+INFO: [Synth 8-251] Debug: slope_term=xxxxxxxx, shifted=xxxxxxxx [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v:58]
+INFO: [Synth 8-6155] done synthesizing module 'pwl_interpolator' (5#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_interpolator.v:7]
+INFO: [Synth 8-6155] done synthesizing module 'pwl_core' (6#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:8]
+INFO: [Synth 8-6155] done synthesizing module 'pwl_top' (7#1) [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v:7]
 ---------------------------------------------------------------------------------
-Finished Synthesize : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 2732.359 ; gain = 0.000 ; free physical = 220684 ; free virtual = 241744
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 3006.059 ; gain = 195.703 ; free physical = 247765 ; free virtual = 258950
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2732.359 ; gain = 0.000 ; free physical = 220683 ; free virtual = 241742
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 3023.871 ; gain = 213.516 ; free physical = 247762 ; free virtual = 258946
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:05 ; elapsed = 00:00:06 . Memory (MB): peak = 3023.871 ; gain = 213.516 ; free physical = 247762 ; free virtual = 258946
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3023.871 ; gain = 0.000 ; free physical = 247756 ; free virtual = 258940
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc]
+Finished Parsing XDC File [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3204.496 ; gain = 0.000 ; free physical = 248582 ; free virtual = 259779
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3204.496 ; gain = 0.000 ; free physical = 248582 ; free virtual = 259780
+WARNING: [Designutils 20-4072] Reference run did not run incremental synthesis because the design is too small; reverting to default synthesis
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 3204.496 ; gain = 394.141 ; free physical = 248653 ; free virtual = 259850
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Loading Part and Timing Information
 ---------------------------------------------------------------------------------
 Loading part: xczu9eg-ffvb1156-2-e
 INFO: [Synth 8-6742] Reading net delay rules and data
-INFO: [Device 21-403] Loading part xczu9eg-ffvb1156-2-e
 ---------------------------------------------------------------------------------
-Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2740.363 ; gain = 8.004 ; free physical = 220682 ; free virtual = 241741
----------------------------------------------------------------------------------
----------------------------------------------------------------------------------
-Start Preparing Guide Design
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 3204.496 ; gain = 394.141 ; free physical = 248653 ; free virtual = 259850
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Doing Graph Differ : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2740.363 ; gain = 8.004 ; free physical = 220671 ; free virtual = 241732
+Start Applying 'set_property' XDC Constraints
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Preparing Guide Design : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2740.363 ; gain = 8.004 ; free physical = 220671 ; free virtual = 241731
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:15 ; elapsed = 00:00:16 . Memory (MB): peak = 3204.496 ; gain = 394.141 ; free physical = 248656 ; free virtual = 259854
 ---------------------------------------------------------------------------------
-INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'pwl_address_decoder'
----------------------------------------------------------------------------------------------------
-                   State |                     New Encoding |                Previous Encoding 
----------------------------------------------------------------------------------------------------
-                    IDLE |                             0001 |                              000
-                    INIT |                             0010 |                              001
-                  SEARCH |                             0100 |                              010
-                    DONE |                             1000 |                              011
----------------------------------------------------------------------------------------------------
-INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'pwl_address_decoder'
 ---------------------------------------------------------------------------------
-Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2740.363 ; gain = 8.004 ; free physical = 220627 ; free virtual = 241688
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:15 ; elapsed = 00:00:17 . Memory (MB): peak = 3204.496 ; gain = 394.141 ; free physical = 248645 ; free virtual = 259846
 ---------------------------------------------------------------------------------
-
-
-Incremental Synthesis Report Summary:
-
-1. Incremental synthesis run: no
-
-   Reason for not running incremental synthesis : Global synthesis options have changed
-
-
-INFO: [Synth 8-7130] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
-No constraint files found.
 ---------------------------------------------------------------------------------
 Start RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -210,13 +131,18 @@ Detailed RTL Component Info :
 	   2 Input    5 Bit       Adders := 3     
 +---Registers : 
 	               32 Bit    Registers := 1     
-	               16 Bit    Registers := 10    
+	               16 Bit    Registers := 12    
 	                5 Bit    Registers := 5     
+	                3 Bit    Registers := 1     
 	                1 Bit    Registers := 8     
 +---Muxes : 
+	  25 Input   16 Bit        Muxes := 1     
+	   2 Input    5 Bit        Muxes := 2     
 	   4 Input    5 Bit        Muxes := 2     
+	   2 Input    2 Bit        Muxes := 1     
+	   4 Input    2 Bit        Muxes := 1     
+	   2 Input    1 Bit        Muxes := 7     
 	   4 Input    1 Bit        Muxes := 6     
-	   2 Input    1 Bit        Muxes := 1     
 ---------------------------------------------------------------------------------
 Finished RTL Component Statistics 
 ---------------------------------------------------------------------------------
@@ -229,7 +155,6 @@ BRAMs: 1824 (col length: RAMB18 168 RAMB36 84)
 ---------------------------------------------------------------------------------
 Finished Part Resource Summary
 ---------------------------------------------------------------------------------
-No constraint files found.
 ---------------------------------------------------------------------------------
 Start Cross Boundary and Area Optimization
 ---------------------------------------------------------------------------------
@@ -237,11 +162,24 @@ WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
 DSP Report: Generating DSP u_pwl_core/u_interpolator/slope_term0, operation Mode is: A*B.
 DSP Report: operator u_pwl_core/u_interpolator/slope_term0 is absorbed into DSP u_pwl_core/u_interpolator/slope_term0.
 ---------------------------------------------------------------------------------
-Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220838 ; free virtual = 241903
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:17 ; elapsed = 00:00:18 . Memory (MB): peak = 3204.496 ; gain = 394.141 ; free physical = 248626 ; free virtual = 259835
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
+
+ROM: Preliminary Mapping Report
++--------------------+-------------+---------------+----------------+
+|Module Name         | RTL Object  | Depth x Width | Implemented As | 
++--------------------+-------------+---------------+----------------+
+|pwl_address_decoder | breakpoints | 32x15         | LUT            | 
+|breakpoints_rom     | mem         | 32x16         | LUT            | 
+|slopes_rom          | mem         | 32x16         | LUT            | 
+|pwl_top             | p_0_out     | 32x15         | LUT            | 
+|pwl_top             | p_0_out     | 32x16         | LUT            | 
+|pwl_top             | p_0_out     | 32x16         | LUT            | 
++--------------------+-------------+---------------+----------------+
+
 
 DSP: Preliminary Mapping Report (see note below. The ' indicates corresponding REG is set)
 +-----------------+-------------+--------+--------+--------+--------+--------+------+------+------+------+-------+------+------+
@@ -254,18 +192,124 @@ Note: The table above is a preliminary report that shows the DSPs inferred at th
 ---------------------------------------------------------------------------------
 Finished ROM, RAM, DSP, Shift Register and Retiming Reporting
 ---------------------------------------------------------------------------------
-No constraint files found.
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:27 ; elapsed = 00:00:31 . Memory (MB): peak = 3586.004 ; gain = 775.648 ; free physical = 248038 ; free virtual = 259271
+---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Timing Optimization
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
 ---------------------------------------------------------------------------------
-Finished Timing Optimization : Time (s): cpu = 00:00:13 ; elapsed = 00:00:14 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220838 ; free virtual = 241903
+Finished Timing Optimization : Time (s): cpu = 00:00:28 ; elapsed = 00:00:31 . Memory (MB): peak = 3594.012 ; gain = 783.656 ; free physical = 248036 ; free virtual = 259269
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Technology Mapping
 ---------------------------------------------------------------------------------
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+WARNING: [Synth 8-6779] Delay data for wire-load model not found, using default value
+INFO: [Common 17-14] Message 'Synth 8-6779' appears 100 times and further instances of the messages will be disabled. Use the Tcl command set_msg_config to change the current settings.
 ---------------------------------------------------------------------------------
-Finished Technology Mapping : Time (s): cpu = 00:00:13 ; elapsed = 00:00:15 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220838 ; free virtual = 241903
+Finished Technology Mapping : Time (s): cpu = 00:00:28 ; elapsed = 00:00:31 . Memory (MB): peak = 3594.012 ; gain = 783.656 ; free physical = 248027 ; free virtual = 259260
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start IO Insertion
@@ -283,37 +327,37 @@ Start Final Netlist Cleanup
 Finished Final Netlist Cleanup
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished IO Insertion : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished IO Insertion : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Instances
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Instances : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Rebuilding User Hierarchy
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Ports
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Ports : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Handling Custom Attributes
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Handling Custom Attributes : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Renaming Generated Nets
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
-Finished Renaming Generated Nets : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------
 Start Writing Synthesis Report
@@ -330,7 +374,7 @@ Report Cell Usage:
 |      |Cell            |Count |
 +------+----------------+------+
 |1     |BUFG            |     1|
-|2     |CARRY8          |     2|
+|2     |CARRY8          |     5|
 |3     |DSP_ALU         |     1|
 |4     |DSP_A_B_DATA    |     1|
 |5     |DSP_C_DATA      |     1|
@@ -339,53 +383,41 @@ Report Cell Usage:
 |8     |DSP_OUTPUT      |     1|
 |9     |DSP_PREADD      |     1|
 |10    |DSP_PREADD_DATA |     1|
-|11    |LUT1            |    18|
-|12    |LUT2            |    21|
-|13    |LUT3            |     3|
-|14    |LUT4            |     5|
-|15    |LUT5            |     4|
-|16    |LUT6            |     6|
-|17    |FDCE            |    88|
-|18    |FDPE            |     1|
+|11    |LUT1            |     5|
+|12    |LUT2            |    37|
+|13    |LUT3            |    20|
+|14    |LUT4            |    34|
+|15    |LUT5            |    47|
+|16    |LUT6            |     3|
+|17    |FDCE            |   171|
+|18    |FDRE            |    41|
 |19    |IBUF            |    20|
 |20    |OBUF            |    18|
 +------+----------------+------+
-
-Report Instance Areas: 
-+------+-------------------+-----------------------------------------------+------+
-|      |Instance           |Module                                         |Cells |
-+------+-------------------+-----------------------------------------------+------+
-|1     |top                |                                               |   195|
-|2     |  u_pwl_core       |pwl_core                                       |   136|
-|3     |    u_addr_decoder |pwl_address_decoder                            |    37|
-|4     |    u_interpolator |pwl_interpolator                               |    80|
-|5     |      slope_term0  |\u_pwl_core/u_interpolator/slope_term0_funnel  |     8|
-+------+-------------------+-----------------------------------------------+------+
 ---------------------------------------------------------------------------------
-Finished Writing Synthesis Report : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220834 ; free virtual = 241899
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.980 ; gain = 787.625 ; free physical = 248025 ; free virtual = 259259
 ---------------------------------------------------------------------------------
-Synthesis finished with 0 errors, 4 critical warnings and 99 warnings.
-Synthesis Optimization Runtime : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.598 ; gain = 341.238 ; free physical = 220844 ; free virtual = 241909
-Synthesis Optimization Complete : Time (s): cpu = 00:00:17 ; elapsed = 00:00:19 . Memory (MB): peak = 3073.605 ; gain = 341.238 ; free physical = 220844 ; free virtual = 241909
+Synthesis finished with 0 errors, 0 critical warnings and 212 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:26 ; elapsed = 00:00:29 . Memory (MB): peak = 3597.980 ; gain = 607.000 ; free physical = 248068 ; free virtual = 259301
+Synthesis Optimization Complete : Time (s): cpu = 00:00:32 ; elapsed = 00:00:35 . Memory (MB): peak = 3597.988 ; gain = 787.625 ; free physical = 248068 ; free virtual = 259301
 INFO: [Project 1-571] Translating synthesized netlist
-Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3073.605 ; gain = 0.000 ; free physical = 220919 ; free virtual = 241984
-INFO: [Netlist 29-17] Analyzing 24 Unisim elements for replacement
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3611.918 ; gain = 0.000 ; free physical = 248152 ; free virtual = 259385
+INFO: [Netlist 29-17] Analyzing 27 Unisim elements for replacement
 INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
 INFO: [Project 1-570] Preparing netlist for logic optimization
 INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
-Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3129.625 ; gain = 0.000 ; free physical = 220837 ; free virtual = 241901
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3670.715 ; gain = 0.000 ; free physical = 248084 ; free virtual = 259318
 INFO: [Project 1-111] Unisim Transformation Summary:
   A total of 22 instances were transformed.
   BUFG => BUFGCE: 1 instance 
   DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 1 instance 
   IBUF => IBUF (IBUFCTRL, INBUF): 20 instances
 
-Synth Design complete, checksum: 9db7e903
+Synth Design complete, checksum: fc6246a8
 INFO: [Common 17-83] Releasing license: Synthesis
-33 Infos, 100 Warnings, 4 Critical Warnings and 0 Errors encountered.
+68 Infos, 103 Warnings, 0 Critical Warnings and 0 Errors encountered.
 synth_design completed successfully
-synth_design: Time (s): cpu = 00:00:26 ; elapsed = 00:00:21 . Memory (MB): peak = 3129.625 ; gain = 405.477 ; free physical = 221036 ; free virtual = 242101
-INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+synth_design: Time (s): cpu = 00:00:44 ; elapsed = 00:00:43 . Memory (MB): peak = 3670.715 ; gain = 945.570 ; free physical = 248282 ; free virtual = 259516
 INFO: [Common 17-1381] The checkpoint '/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/pwl_recover.runs/synth_1/pwl_top.dcp' has been generated.
 INFO: [runtcl-4] Executing : report_utilization -file pwl_top_utilization_synth.rpt -pb pwl_top_utilization_synth.pb
-INFO: [Common 17-206] Exiting Vivado at Sun Mar 30 18:25:05 2025...
+INFO: [Common 17-206] Exiting Vivado at Mon Apr  7 20:05:10 2025...

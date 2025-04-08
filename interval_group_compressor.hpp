@@ -12,8 +12,11 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_map>
+#include <iomanip>
 #include "interval_optimizer.hpp"
 #include "function_fitter.hpp"
+
+extern void createDirectory(const std::string& dirPath);
 
 struct DeltaEncoding {
     double delta_start;
@@ -1028,6 +1031,259 @@ inline std::string serializeFitParameters(const FitParameters& params) {
     return ss.str();
 }
 
+// Generate HEX files for FPGA implementation
+void generateFPGAHexFiles(const std::string& directory, const std::string& cleanName,
+                        const std::vector<int>& q_breakpoints,
+                        const std::vector<int>& q_slopes,
+                        const std::vector<int>& q_intercepts) {
+    
+    // Generate breakpoints HEX file for Verilog simulation
+    std::string bp_hex_filename = directory + "/" + cleanName + "_breakpoints.hex";
+    std::ofstream bp_hex_file(bp_hex_filename);
+    if (bp_hex_file.is_open()) {
+        for (const auto& value : q_breakpoints) {
+            // Convert to hex format with 4 digits (16-bit)
+            bp_hex_file << std::hex << std::setfill('0') << std::setw(4) << (value & 0xFFFF) << "\n";
+        }
+        bp_hex_file.close();
+        std::cout << "Breakpoints HEX file saved to: " << bp_hex_filename << "\n";
+    } else {
+        std::cerr << "Failed to open file: " << bp_hex_filename << "\n";
+    }
+
+    // Generate slopes HEX file for Verilog simulation
+    std::string slopes_hex_filename = directory + "/" + cleanName + "_slopes.hex";
+    std::ofstream slopes_hex_file(slopes_hex_filename);
+    if (slopes_hex_file.is_open()) {
+        for (const auto& value : q_slopes) {
+            // Convert to hex format with 4 digits (16-bit)
+            slopes_hex_file << std::hex << std::setfill('0') << std::setw(4) << (value & 0xFFFF) << "\n";
+        }
+        slopes_hex_file.close();
+        std::cout << "Slopes HEX file saved to: " << slopes_hex_filename << "\n";
+    } else {
+        std::cerr << "Failed to open file: " << slopes_hex_filename << "\n";
+    }
+
+    // Generate intercepts HEX file for Verilog simulation
+    std::string intercepts_hex_filename = directory + "/" + cleanName + "_intercepts.hex";
+    std::ofstream intercepts_hex_file(intercepts_hex_filename);
+    if (intercepts_hex_file.is_open()) {
+        for (const auto& value : q_intercepts) {
+            // Convert to hex format with 4 digits (16-bit)
+            intercepts_hex_file << std::hex << std::setfill('0') << std::setw(4) << (value & 0xFFFF) << "\n";
+        }
+        intercepts_hex_file.close();
+        std::cout << "Intercepts HEX file saved to: " << intercepts_hex_filename << "\n";
+    } else {
+        std::cerr << "Failed to open file: " << intercepts_hex_filename << "\n";
+    }
+}
+
+// Generate simulation test vectors for hardware verification
+void generateSimulationVectors(const std::string& expression_str,
+                              const std::string& directory,
+                              const std::string& cleanName,
+                              double start, double end,
+                              int scale_factor, int frac_bits,
+                              size_t num_vectors = 100) {
+    
+    // Create 'sim/test_vectors' subdirectory if it doesn't exist
+    std::string test_dir = directory + "/sim/test_vectors";
+    createDirectory(directory + "/sim");
+    createDirectory(test_dir);
+    
+    // Create test vector file
+    std::string vectors_filename = test_dir + "/" + cleanName + "_vectors.txt";
+    std::ofstream vectors_file(vectors_filename);
+    
+    if (!vectors_file.is_open()) {
+        std::cerr << "Failed to open test vectors file: " << vectors_filename << std::endl;
+        return;
+    }
+
+    if (scale_factor <= 16) {
+        // Use a more reasonable scale factor based on fractional bits
+        frac_bits = std::max(10, frac_bits); // At least 10 fractional bits for good precision
+        scale_factor = 1 << frac_bits;      // 2^frac_bits
+        std::cout << "Warning: Scale factor too small (" << scale_factor << 
+                  "). Using " << scale_factor << " (2^" << frac_bits << ") instead.\n";
+    } 
+    
+    // Setup for expression evaluation
+    double x = 0.0;
+    exprtk::symbol_table<double> symbol_table;
+    symbol_table.add_constants();
+    symbol_table.add_variable("x", x);
+    
+    // Add custom functions if needed
+    /*
+    relu_fn<double> relu_f;
+    gelu_fn<double> gelu_f;
+    swishglu_fn<double> swish_f;
+    symbol_table.add_function("relu", relu_f);
+    symbol_table.add_function("gelu", gelu_f);
+    symbol_table.add_function("swishglu", swish_f);
+    */
+    
+    // Parse the expression
+    exprtk::expression<double> expression;
+    expression.register_symbol_table(symbol_table);
+    exprtk::parser<double> parser;
+    
+    if (!parser.compile(expression_str, expression)) {
+        std::cerr << "Error parsing the expression for test vector generation: " << parser.error() << std::endl;
+        return;
+    }
+    
+    // Generate evenly spaced test points
+    double step = (end - start) / (num_vectors - 1);
+    
+    std::cout << "Generating " << num_vectors << " test vectors for simulation...\n";
+    std::cout << "Using scale factor: " << scale_factor << " (2^" << frac_bits << ")\n";
+    std::cout << "Range: [" << start << ", " << end << "]\n";
+    
+    // Print header for debug info
+    std::cout << "\nFirst 10 test vectors (for verification):\n";
+    std::cout << "------------------------------------------\n";
+    std::cout << "| Index |     x     |     y     |  q_x (hex)  |  q_y (hex)  |\n";
+    std::cout << "------------------------------------------\n";
+    
+    for (size_t i = 0; i < num_vectors; ++i) {
+        // Calculate input value
+        x = start + i * step;
+        
+        // Evaluate the function
+        double y = expression.value();
+        
+        // Quantize to fixed-point representation
+        int16_t q_x = static_cast<int>(std::round(x * scale_factor)) & 0xFFFF;
+        int16_t q_y = static_cast<int>(std::round(y * scale_factor)) & 0xFFFF;
+        
+        // Print debug info for first few samples
+        if (i < 10 || i == num_vectors-1) {
+            std::cout << "| " << std::setw(5) << i << " | " 
+                      << std::fixed << std::setprecision(6) << std::setw(10) << x << " | " 
+                      << std::setw(10) << y << " | "
+                      << "0x" << std::hex << std::setfill('0') << std::setw(4) << (q_x & 0xFFFF) << " | "
+                      << "0x" << std::hex << std::setfill('0') << std::setw(4) << (q_y & 0xFFFF) << " |\n";
+            if (i == 9 && num_vectors > 11) {
+                std::cout << "| ...    | ...        | ...        | ...         | ...         |\n";
+            }
+        }
+
+        // Write as 32-bit value (16-bit input, 16-bit expected output)
+        // Write as 8-character hex string (4 for input, 4 for output)
+        vectors_file << std::hex << std::setfill('0') 
+                    << std::setw(4) << (q_x & 0xFFFF) 
+                    << std::setw(4) << (q_y & 0xFFFF)
+                    << "\n";
+    }
+    std::cout << "------------------------------------------\n";
+    
+    vectors_file.close();
+    std::cout << "Test vectors saved to: " << vectors_filename << "\n";
+    
+    // Also generate a CSV file for easier verification
+    std::string csv_filename = test_dir + "/" + cleanName + "_vectors.csv";
+    std::ofstream csv_file(csv_filename);
+    
+    if (csv_file.is_open()) {
+        csv_file << "Input,Expected,Input(Hex),Expected(Hex),Vector\n";
+        
+        // Reset and regenerate for CSV
+        for (size_t i = 0; i < num_vectors; ++i) {
+            x = start + i * step;
+            double y = expression.value();
+            
+            int16_t q_x = static_cast<int16_t>(std::round(x * scale_factor));
+            int16_t q_y = static_cast<int16_t>(std::round(y * scale_factor));
+            
+            // Improved CSV generation - use decimal for values and proper hex formatting
+            csv_file << std::fixed << std::setprecision(6) << std::dec 
+                    << x << "," << y << ","
+                    << "0x" << std::hex << std::setfill('0') << std::setw(4) << (q_x & 0xFFFF) << ","
+                    << "0x" << std::hex << std::setfill('0') << std::setw(4) << (q_y & 0xFFFF) << ","
+                    << "0x" << std::hex << std::setfill('0') << std::setw(4) << (q_x & 0xFFFF) 
+                    << std::setw(4) << (q_y & 0xFFFF) << "\n";
+        }
+        
+        csv_file.close();
+        std::cout << "CSV test vectors saved to: " << csv_filename << "\n";
+    }
+
+    // Verify precision distribution
+    std::cout << "\nVerifying precision distribution...\n";
+    std::set<int16_t> unique_x_values, unique_y_values;
+    
+    // Reset and count unique values
+    for (size_t i = 0; i < num_vectors; ++i) {
+        x = start + i * step;
+        double y = expression.value();
+        
+        int16_t q_x = static_cast<int16_t>(std::round(x * scale_factor));
+        int16_t q_y = static_cast<int16_t>(std::round(y * scale_factor));
+        
+        unique_x_values.insert(q_x);
+        unique_y_values.insert(q_y);
+    }
+    
+    std::cout << "Number of unique quantized input values: " << unique_x_values.size() 
+              << " of " << num_vectors << " (" 
+              << (static_cast<double>(unique_x_values.size()) / num_vectors * 100.0) 
+              << "%)\n";
+    std::cout << "Number of unique quantized output values: " << unique_y_values.size() 
+              << " (" << (static_cast<double>(unique_y_values.size()) / num_vectors * 100.0) 
+              << "%)\n";
+    
+    if (unique_y_values.size() < 10) {
+        std::cout << "WARNING: Very few unique output values detected. Consider increasing scale_factor.\n";
+    }
+    
+    std::cout << "Test vector generation complete.\n";
+}
+
+// Function to output implementation metrics for the FPGA design
+void outputFPGAMetrics(const std::string& directory, const std::string& cleanName,
+                      int num_breakpoints, int num_segments, int frac_bits,
+                      int slope_bits, int intercept_bits) {
+    
+    std::string metrics_filename = directory + "/" + cleanName + "_fpga_metrics.txt";
+    std::ofstream metrics_file(metrics_filename);
+    
+    if (!metrics_file.is_open()) {
+        std::cerr << "Failed to open FPGA metrics file: " << metrics_filename << std::endl;
+        return;
+    }
+    
+    int index_bits = (num_segments <= 1) ? 1 : static_cast<int>(std::ceil(std::log2(num_segments)));
+    int total_memory_bits = num_breakpoints * 16 + num_segments * 16 * 2; // breakpoints + slopes + intercepts
+    
+    metrics_file << "FPGA Implementation Metrics for " << cleanName << "\n"
+                << "=============================================\n\n"
+                << "ROM Parameters:\n"
+                << "- Number of breakpoints: " << num_breakpoints << "\n"
+                << "- Number of segments: " << num_segments << "\n"
+                << "- Index bits required: " << index_bits << "\n"
+                << "- Fractional bits: " << frac_bits << "\n\n"
+                
+                << "Fixed-point Format:\n"
+                << "- Slope format: " << (16 - slope_bits) << "." << slope_bits << " (signed fixed-point)\n"
+                << "- Intercept format: " << (16 - intercept_bits) << "." << intercept_bits << " (signed fixed-point)\n\n"
+                
+                << "Resource Estimation:\n"
+                << "- Total memory bits: " << total_memory_bits << " bits\n"
+                << "- Memory organization: " << num_breakpoints << " breakpoints + " 
+                << num_segments << " slopes + " << num_segments << " intercepts\n"
+                << "- Memory width: 16 bits per entry\n"
+                << "- Estimated BRAMs: " << (total_memory_bits / 18432 + 1) << " (assuming 18Kb BRAMs)\n"
+                << "- Pipeline stages: 3 (address decoding, memory access, interpolation)\n"
+                << "- Estimated latency: ~5-7 clock cycles per evaluation\n";
+    
+    metrics_file.close();
+    std::cout << "FPGA metrics saved to: " << metrics_filename << "\n";
+}
+
 // Save the compressed groups to a file and generate FPGA implementation files
 inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups, const std::string& filename) {
     if (groups.empty()) {
@@ -1607,6 +1863,18 @@ inline void saveCompressedGroupsToFile(const std::vector<IntervalGroup>& groups,
         tcl_file.close();
         std::cout << "Vivado build script saved to: " << tcl_filename << "\n";
     }
+
+    generateFPGAHexFiles(directory, cleanName, q_breakpoints, q_slopes, q_intercepts);
+
+    // Generate simulation test vectors
+    // generateSimulationVectors(expression_str, directory, cleanName, x_min, x_max, scale_factor, frac_bits);
+
+    // Output FPGA implementation metrics
+    outputFPGAMetrics(directory, cleanName, q_breakpoints.size(), q_slopes.size(), 
+                    frac_bits, slope_int_bits, intercept_int_bits);
+
+    std::cout << "FPGA implementation files generated successfully." << std::endl;
+
 }
 
 #endif // INTERVAL_GROUP_COMPRESSOR_HPP

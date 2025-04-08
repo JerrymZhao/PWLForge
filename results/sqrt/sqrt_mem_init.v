@@ -69,11 +69,11 @@ begin
     slope_mem[8] = 0;
     slope_mem[9] = 0;
     slope_mem[10] = 0;
-    slope_mem[11] = 0;
-    slope_mem[12] = 0;
-    slope_mem[13] = 12592;
-    slope_mem[14] = 4801;
-    slope_mem[15] = 3436;
+    slope_mem[11] = 12592;
+    slope_mem[12] = 4801;
+    slope_mem[13] = 3436;
+    slope_mem[14] = 776;
+    slope_mem[15] = 651;
     slope_mem[16] = 483;
     slope_mem[17] = 402;
     slope_mem[18] = 363;
@@ -120,8 +120,8 @@ begin
     intercept_mem[11] = 0;
     intercept_mem[12] = 0;
     intercept_mem[13] = 0;
-    intercept_mem[14] = 0;
-    intercept_mem[15] = 0;
+    intercept_mem[14] = 1;
+    intercept_mem[15] = 2;
     intercept_mem[16] = 2;
     intercept_mem[17] = 3;
     intercept_mem[18] = 3;

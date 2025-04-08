@@ -1,6 +1,7 @@
 //========================================================================
 // pwl_address_decoder.v - Segment Index Lookup Module
 //========================================================================
+`timescale 1ns/1ps
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
 
 module pwl_address_decoder (
@@ -15,10 +16,14 @@ module pwl_address_decoder (
     // Breakpoints memory for comparison
     // In actual implementation, this can be replaced with ROM IP
     reg [15:0] breakpoints [`PWL_NUM_BREAKPOINTS-1:0];
-    
+    integer i;
     // Initialize from included file
     initial begin
-        $readmemh("../../results/tanh(x)/tanh_breakpoints.hex", breakpoints);
+        $readmemh("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_breakpoints.hex", breakpoints);
+        $display("Breakpoints loaded from hex file:");
+        
+        for (i = 0; i < `PWL_NUM_BREAKPOINTS; i = i + 1)
+            $display("breakpoints[%d] = %h", i, breakpoints[i]);
     end
     
     // Binary search parameters
@@ -38,13 +43,14 @@ module pwl_address_decoder (
             addr_valid <= 1'b0;
             state <= IDLE;
             left <= {`PWL_ADDR_WIDTH{1'b0}};
-            right <= {`PWL_ADDR_WIDTH{1'b0}};
+            right <= {`PWL_NUM_BREAKPOINTS - 1};
             mid <= {`PWL_ADDR_WIDTH{1'b0}};
         end else begin
             case (state)
                 IDLE: begin
                     addr_valid <= 1'b0;
                     if (x_valid) begin
+                        $display("State: IDLE, x_valid received: %h", x_in);
                         state <= INIT;
                     end
                 end
@@ -53,12 +59,14 @@ module pwl_address_decoder (
                     // Initialize binary search boundaries
                     left <= {`PWL_ADDR_WIDTH{1'b0}};
                     right <= `PWL_NUM_BREAKPOINTS - 1;
+                    $display("State: INIT, left=%d, right=%d", left, right);
                     state <= SEARCH;
                 end
                 
                 SEARCH: begin
                     if (left <= right) begin
                         mid <= (left + right) >> 1;
+                        $display("State: SEARCH, left=%d, right=%d, mid=%d", left, right, mid);
                         
                         // Check if x is in the current segment
                         if (x_in < breakpoints[mid]) begin
@@ -69,12 +77,15 @@ module pwl_address_decoder (
                     end else begin
                         // Final segment index determination
                         segment_idx <= left;
+                        $display("State: DONE, segment_idx=%d", segment_idx);
                         state <= DONE;
                     end
                 end
                 
                 DONE: begin
                     addr_valid <= 1'b1;
+                    $display("Debug: Input=%h, Found segment_idx=%d, Breakpoint=%h", 
+                            x_in, left, breakpoints[left > 0 ? left-1 : 0]);
                     state <= IDLE;
                 end
                 
@@ -83,4 +94,4 @@ module pwl_address_decoder (
         end
     end
 
-endmodule
+endmodule 

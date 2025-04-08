@@ -70,11 +70,11 @@ module pwl_recovery (
         slopes[8] = 16'd0;
         slopes[9] = 16'd0;
         slopes[10] = 16'd0;
-        slopes[11] = 16'd0;
-        slopes[12] = 16'd0;
-        slopes[13] = 16'd12592;
-        slopes[14] = 16'd4801;
-        slopes[15] = 16'd3436;
+        slopes[11] = 16'd12592;
+        slopes[12] = 16'd4801;
+        slopes[13] = 16'd3436;
+        slopes[14] = 16'd776;
+        slopes[15] = 16'd651;
         slopes[16] = 16'd483;
         slopes[17] = 16'd402;
         slopes[18] = 16'd363;
@@ -121,8 +121,8 @@ module pwl_recovery (
         intercepts[11] = 16'd0;
         intercepts[12] = 16'd0;
         intercepts[13] = 16'd0;
-        intercepts[14] = 16'd0;
-        intercepts[15] = 16'd0;
+        intercepts[14] = 16'd1;
+        intercepts[15] = 16'd2;
         intercepts[16] = 16'd2;
         intercepts[17] = 16'd3;
         intercepts[18] = 16'd3;
