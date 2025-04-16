@@ -30701,3 +30701,447 @@ State: SEARCH, left=13, right=22, mid=12
 ROM Debug: breakpoints[ 4] read 07d0
 Simulation timeout
 $finish called at time : 50 us : File "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/tb_pwl_core.v" Line 97
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_es:part0:1.3 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/es/1.3/board.xml as part xcvc1902-vsva2197-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_es:part0:1.3 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/es/1.3/board.xml as part xcvm1802-vsva2197-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/es/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.0/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.1 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.1/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.2/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/es/1.0/board.xml as part xczu58dr-fsvg1517-2-i-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.0/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.1 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.1/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.2/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/es/1.0/board.xml as part xczu59dr-ffvf1760-2-i-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/1.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_es:part0:1.3 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/es/1.3/board.xml as part xcvc1902-vsva2197-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_es:part0:1.3 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/es/1.3/board.xml as part xcvm1802-vsva2197-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/es/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.0/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.1 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.1/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.2/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/es/1.0/board.xml as part xczu58dr-fsvg1517-2-i-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.0/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.1 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.1/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.2/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/es/1.0/board.xml as part xczu59dr-ffvf1760-2-i-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/1.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vck190_es:part0:1.3 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vck190/es/1.3/board.xml as part xcvc1902-vsva2197-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vmk180_es:part0:1.3 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vmk180/es/1.3/board.xml as part xcvm1802-vsva2197-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:vpk120_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/vpk120/es/1.2/board.xml as part xcvp1202-vsva2785-2mp-e-s-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208/es/1.2/board.xml as part xczu48dr-fsvg1517-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld:part0:2.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/production/2.0/board.xml as part xczu58dr-fsvg1517-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu208ld_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu208ld/es/1.0/board.xml as part xczu58dr-fsvg1517-2-i-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216_es:part0:1.2 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216/es/1.2/board.xml as part xczu49dr-ffvf1760-2-e-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld:part0:2.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/production/2.0/board.xml as part xczu59dr-ffvf1760-2-i specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu216ld_es:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu216ld/es/1.0/board.xml as part xczu59dr-ffvf1760-2-i-es1 specified in board_part file is either invalid or not available
+WARNING: [Board 49-26] cannot add Board Part xilinx.com:zcu670:part0:1.0 available at /tools/Xilinx/Vivado/2021.2/data/xhub/boards/XilinxBoardStore/boards/Xilinx/zcu670/1.0/board.xml as part xczu67dr-fsve1156-2-i specified in board_part file is either invalid or not available
+close_sim
+INFO: [Simtcl 6-16] Simulation closed
+close_project
+create_project project_1 /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1 -part xczu9eg-ffvb1156-2-e
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2021.2/data/ip'.
+set_property board_part xilinx.com:zcu102:part0:3.4 [current_project]
+add_files -norecurse {/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v}
+add_files -fileset constrs_1 -norecurse /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc
+update_compile_order -fileset sources_1
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-806] Syntax error near "[". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:79]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "[". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:143]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "[". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:148]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "[". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:149]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "[". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:165]
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Tue Apr  8 22:26:56 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Tue Apr  8 22:33:31 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Tue Apr  8 22:51:09 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Tue Apr  8 22:58:13 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Tue Apr  8 22:59:54 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+launch_runs impl_1 -jobs 20
+[Wed Apr  9 08:34:10 2025] Launched impl_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/impl_1/runme.log
+open_run impl_1
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243367 ; free virtual = 257982
+INFO: [Netlist 29-17] Analyzing 24 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2021.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+Reading XDEF placement.
+Reading placer database...
+Reading XDEF routing.
+Read XDEF File: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243247 ; free virtual = 257863
+Restored from archive | CPU: 0.090000 secs | Memory: 0.466576 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243247 ; free virtual = 257863
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243247 ; free virtual = 257863
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 22 instances were transformed.
+  DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 3 instances
+  IBUF => IBUF (IBUFCTRL, INBUF): 19 instances
+
+open_run: Time (s): cpu = 00:00:16 ; elapsed = 00:00:08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243103 ; free virtual = 257719
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+reset_run synth_1
+INFO: [Project 1-1160] Copying file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/pwl_top.dcp to /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.srcs/utils_1/imports/synth_1 and adding it to utils fileset
+reset_runs: Time (s): cpu = 00:00:08 ; elapsed = 00:00:13 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 241815 ; free virtual = 256177
+launch_runs synth_1 -jobs 20
+[Wed Apr  9 15:37:29 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+launch_runs impl_1 -jobs 20
+[Wed Apr  9 16:10:17 2025] Launched impl_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/impl_1/runme.log
+refresh_design
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239890 ; free virtual = 255008
+INFO: [Netlist 29-17] Analyzing 24 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2021.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+Reading XDEF placement.
+Reading placer database...
+Reading XDEF routing.
+Read XDEF File: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239793 ; free virtual = 254911
+Restored from archive | CPU: 0.090000 secs | Memory: 0.451164 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239793 ; free virtual = 254911
+refresh_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:10 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239733 ; free virtual = 254851
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+reset_run synth_1
+INFO: [Project 1-1161] Replacing file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.srcs/utils_1/imports/synth_1/pwl_top.dcp with file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/pwl_top.dcp
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-3952] use of undefined macro 'GROUP_ADDR_WIDTH' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:25]
+CRITICAL WARNING: [HDL 9-3952] use of undefined macro 'INTERVAL_ADDR_WIDTH' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:33]
+CRITICAL WARNING: [HDL 9-3952] use of undefined macro 'OPT_NUM_GROUPS' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "*". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+CRITICAL WARNING: [HDL 9-3952] use of undefined macro 'OPT_TOTAL_INTERVALS' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:58]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "*". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:58]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "*". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:63]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:63]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "*". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:66]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:66]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:107]
+CRITICAL WARNING: [HDL 9-3952] use of undefined macro 'OPT_FRAC_BITS' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:177]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:177]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:184]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:217]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:226]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:255]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:256]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:263]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ")". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:265]
+[Fri Apr 11 20:15:09 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+[Fri Apr 11 20:30:17 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-806] Syntax error near "initial". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+[Fri Apr 11 21:20:09 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-806] Syntax error near "initial". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+[Fri Apr 11 22:14:51 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-806] Syntax error near "initial". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+[Fri Apr 11 22:58:27 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-806] Syntax error near "initial". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+[Fri Apr 11 22:58:45 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+reset_run synth_1
+launch_runs synth_1 -jobs 20
+CRITICAL WARNING: [HDL 9-806] Syntax error near "initial". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:69]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:70]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:71]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:72]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:73]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:74]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:85]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:86]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:87]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:88]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:89]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:90]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:103]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:104]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:105]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:106]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:107]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:108]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "a". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:119]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "b". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:120]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "c". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:121]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "d". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:122]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "e". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:123]
+CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
+[Fri Apr 11 23:01:50 2025] Launched synth_1...
+Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log

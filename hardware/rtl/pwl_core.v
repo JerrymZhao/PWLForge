@@ -1,116 +1,100 @@
-//========================================================================
-// pwl_core.v - Piecewise Linear Approximation Core
-//========================================================================
-`timescale 1ns/1ps
-// Make sure the path to tanh_config.vh is correct for your environment
-`include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
+//================================================================================
+// pwl_core.v - Core processing module for piecewise linear approximation
+//================================================================================
 
-module pwl_core (
-    input  wire                        clk,
-    input  wire                        rst_n,
-    input  wire [15:0]                 x_in,
-    input  wire                        x_valid,
-    output wire [15:0]                 y_out,
-    output wire                        y_valid
+module pwl_core #(
+    parameter INPUT_REG_STAGES = 1, // Number of input register stages
+    parameter OUTPUT_REG_STAGES = 1 // Number of output register stages
+) (
+    input wire clk, // Clock
+    input wire rst_n, // Active low reset
+    input wire [15:0] x_in, // Input value
+    input wire in_valid, // Input valid signal
+    output wire in_ready, // Input ready signal
+    output wire [15:0] y_out, // Output value
+    output wire out_valid, // Output valid signal
+    input wire out_ready // Output ready signal
 );
 
-    // Internal signals for connecting modules
-    wire [`PWL_ADDR_WIDTH-1:0] segment_idx;
-    wire addr_valid;
-    wire [15:0] breakpoint_data, slope_data, intercept_data;
-    wire memory_data_valid;
+    // Input buffer stage
+    reg [15:0] x_buffered;
+    reg in_valid_buffered;
 
-    // Pipelined control signals and input data
-    reg  x_valid_r;
-    reg  [15:0] x_in_r;
-    reg  [15:0] x_in_r2; // Added register stage 2 for pipeline matching
-    reg  [15:0] x_in_r3; // Added register stage 3 for pipeline matching
+    // Use register arrays for pipelines - fixed size, must be >= to parameters
+    reg in_valid_pipe [0:15];  // Pipeline for input valid
+    reg [15:0] y_buffered [0:15];  // Pipeline for output data
+    reg out_valid_pipe [0:15];  // Pipeline for output valid
 
-    // Register input for timing and pipeline alignment
+    // Flow control signals
+    wire hlut_in_valid;
+    wire hlut_out_valid;
+    wire [15:0] hlut_y_out;
+
+    // Loop variables
+    integer i;
+
+    // Ready signal generation
+    assign in_ready = 1'b1; // Always ready to accept input for this design
+
+    // Input buffer implementation
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            x_valid_r <= 1'b0;
-            x_in_r <= 16'd0;
-            x_in_r2 <= 16'd0; // Reset added register stage 2
-            x_in_r3 <= 16'd0; // Reset added register stage 3
+            x_buffered <= 16'h0000;
+            in_valid_buffered <= 1'b0;
+            
+            // Initialize all pipeline registers
+            for (i = 0; i < 16; i = i + 1) begin
+                in_valid_pipe[i] <= 1'b0;
+                y_buffered[i] <= 16'h0000;
+                out_valid_pipe[i] <= 1'b0;
+            end
         end else begin
-            x_valid_r <= x_valid;    // Stage 1 valid register
-            x_in_r <= x_in;          // Stage 1 data register
-            x_in_r2 <= x_in_r;       // Stage 2 data register
-            x_in_r3 <= x_in_r2;      // Stage 3 data register (aligns with ROM output)
+            // Buffer input
+            if (in_ready) begin
+                x_buffered <= x_in;
+                in_valid_buffered <= in_valid;
+            end
+            
+            // Input valid pipeline
+            in_valid_pipe[0] <= in_valid_buffered;
+            for (i = 1; i < 16; i = i + 1) begin
+                if (i < INPUT_REG_STAGES) begin
+                    in_valid_pipe[i] <= in_valid_pipe[i-1];
+                end
+            end
+            
+            // Output data pipeline
+            y_buffered[0] <= hlut_y_out;
+            for (i = 1; i < 16; i = i + 1) begin
+                if (i < OUTPUT_REG_STAGES) begin
+                    y_buffered[i] <= y_buffered[i-1];
+                end
+            end
+            
+            // Output valid pipeline
+            out_valid_pipe[0] <= hlut_out_valid;
+            for (i = 1; i < 16; i = i + 1) begin
+                if (i < OUTPUT_REG_STAGES) begin
+                    out_valid_pipe[i] <= out_valid_pipe[i-1];
+                end
+            end
         end
     end
 
-    // Address decoder module - determines which segment the input falls into
-    // Uses the first stage registered input (x_in_r)
-    pwl_address_decoder u_addr_decoder (
-        .clk        (clk),
-        .rst_n      (rst_n),
-        .x_in       (x_in_r),
-        .x_valid    (x_valid_r),
-        .segment_idx(segment_idx),
-        .addr_valid (addr_valid)
+    // HLUT instantiation
+    pwl_hlut hlut_inst (
+        .clk(clk),
+        .rst_n(rst_n),
+        .x_in(x_buffered),
+        .in_valid(hlut_in_valid),
+        .y_out(hlut_y_out),
+        .out_valid(hlut_out_valid)
     );
 
-    // Memory access control - registers the segment index from the decoder
-    reg memory_read_en;
-    reg [`PWL_ADDR_WIDTH-1:0] segment_idx_r;
+    // Connect input to HLUT
+    assign hlut_in_valid = (INPUT_REG_STAGES > 0) ? in_valid_pipe[INPUT_REG_STAGES-1] : in_valid_buffered;
 
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            memory_read_en <= 1'b0;
-            segment_idx_r <= {`PWL_ADDR_WIDTH{1'b0}};
-        end else begin
-            memory_read_en <= addr_valid; // Capture valid signal from decoder
-            segment_idx_r <= segment_idx; // Register segment index for ROM access
-        end
-    end
-
-    // Memory modules for PWL parameters (Implicit 1-cycle read latency)
-    // Use the registered segment index (segment_idx_r)
-    breakpoints_rom u_breakpoints_rom (
-        .clk        (clk),
-        .addr       (segment_idx_r),
-        .data_out   (breakpoint_data)
-    );
-
-    slopes_rom u_slopes_rom (
-        .clk        (clk),
-        .addr       (segment_idx_r),
-        .data_out   (slope_data)
-    );
-
-    intercepts_rom u_intercepts_rom (
-        .clk        (clk),
-        .addr       (segment_idx_r),
-        .data_out   (intercept_data)
-    );
-
-    // Pipeline valid signal for memory read result
-    reg memory_read_en_r;
-    always @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            memory_read_en_r <= 1'b0;
-        end else begin
-            memory_read_en_r <= memory_read_en; // Register the memory enable signal
-        end
-    end
-
-    // The data from ROMs is valid one cycle after memory_read_en is high
-    assign memory_data_valid = memory_read_en_r;
-
-    // Linear interpolator - performs the PWL calculation
-    // Uses the 3-cycle delayed input (x_in_r3) to match ROM data latency
-    pwl_interpolator u_interpolator (
-        .clk         (clk),
-        .rst_n       (rst_n),
-        .x_in        (x_in_r3),          // Use the correctly delayed input
-        .breakpoint  (breakpoint_data), // Data from ROMs (valid concurrently with x_in_r3)
-        .slope       (slope_data),       // Data from ROMs
-        .intercept   (intercept_data),   // Data from ROMs
-        .valid_in    (memory_data_valid),// Valid signal indicating ROM data is ready
-        .y_out       (y_out),
-        .valid_out   (y_valid)
-    );
-
+    // Connect output from HLUT
+    assign y_out = (OUTPUT_REG_STAGES > 0) ? y_buffered[OUTPUT_REG_STAGES-1] : hlut_y_out;
+    assign out_valid = (OUTPUT_REG_STAGES > 0) ? out_valid_pipe[OUTPUT_REG_STAGES-1] : hlut_out_valid;
 endmodule

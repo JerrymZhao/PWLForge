@@ -1,0 +1,84 @@
+#-----------------------------------------------------------
+# Vivado v2021.2 (64-bit)
+# SW Build 3367213 on Tue Oct 19 02:47:39 MDT 2021
+# IP Build 3369179 on Thu Oct 21 08:25:16 MDT 2021
+# Start of session at: Fri Apr 11 23:01:53 2025
+# Process ID: 1873768
+# Current directory: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1
+# Command line: vivado -log pwl_top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source pwl_top.tcl
+# Log file: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/pwl_top.vds
+# Journal file: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/vivado.jou
+# Running On: americano02, OS: Linux, CPU Frequency: 3000.000 MHz, CPU Physical cores: 20, Host memory: 270320 MB
+#-----------------------------------------------------------
+source pwl_top.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.srcs/utils_1/imports/synth_1/pwl_top.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.srcs/utils_1/imports/synth_1/pwl_top.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top pwl_top -part xczu9eg-ffvb1156-2-e
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xczu9eg'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xczu9eg'
+INFO: [Device 21-403] Loading part xczu9eg-ffvb1156-2-e
+WARNING: [Designutils 20-4072] Reference run did not run incremental synthesis because ; reverting to default synthesis
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 4 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 1873940
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2959.121 ; gain = 148.766 ; free physical = 238934 ; free virtual = 254283
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'pwl_top' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v:5]
+INFO: [Synth 8-6157] synthesizing module 'pwl_core' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:5]
+	Parameter INPUT_REG_STAGES bound to: 1 - type: integer 
+	Parameter OUTPUT_REG_STAGES bound to: 1 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'pwl_hlut' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:11]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[0]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[1]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[2]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[3]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[4]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[5]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[6]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[7]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[8]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[9]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[10]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[11]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[12]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[13]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[14]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[15]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[16]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[17]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[18]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[19]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[20]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[21]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[22]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[23]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[24]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[25]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-7186] Applying attribute ram_style = "distributed" is ignored, object 'group_info[26]' is not inferred as ram due to incorrect usage [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]
+WARNING: [Synth 8-324] index 27 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:95]
+WARNING: [Synth 8-324] index 28 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:95]
+WARNING: [Synth 8-324] index 36 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:97]
+WARNING: [Synth 8-324] index 37 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:97]
+WARNING: [Synth 8-324] index 45 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:99]
+WARNING: [Synth 8-324] index 46 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:99]
+WARNING: [Synth 8-324] index 54 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:101]
+WARNING: [Synth 8-324] index 55 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:101]
+WARNING: [Synth 8-324] index 63 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:103]
+WARNING: [Synth 8-324] index 64 out of range [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:103]
+ERROR: [Synth 8-280] expression must be constant: argument to $clog2 [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:159]
+ERROR: [Synth 8-6156] failed synthesizing module 'pwl_hlut' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:11]
+ERROR: [Synth 8-6156] failed synthesizing module 'pwl_core' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:5]
+ERROR: [Synth 8-6156] failed synthesizing module 'pwl_top' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v:5]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 3006.059 ; gain = 195.703 ; free physical = 238575 ; free virtual = 253924
+---------------------------------------------------------------------------------
+RTL Elaboration failed
+INFO: [Common 17-83] Releasing license: Synthesis
+12 Infos, 38 Warnings, 0 Critical Warnings and 5 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Synthesis failed - please see the console or run log file for details
+INFO: [Common 17-206] Exiting Vivado at Fri Apr 11 23:02:20 2025...

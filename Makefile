@@ -1,11 +1,11 @@
 CXX = g++
-CXXFLAGS_DEBUG = -std=c++14 -Wall -g -O0
-CXXFLAGS_RELEASE = -std=c++14 -Wall -O2
+CXXFLAGS_DEBUG = -std=c++17 -Wall -g -O0
+CXXFLAGS_RELEASE = -std=c++17 -Wall -O2
 LDFLAGS = -lm
 INCLUDES = -I./tb -I./include
 
 SRC = main.cpp
-HEADERS = interval_optimizer.hpp function_fitter.hpp interval_group_compressor.hpp exprtk.hpp
+HEADERS = interval_optimizer.hpp function_fitter.hpp interval_group_compressor.hpp exprtk.hpp hw_mapping.hpp
 OBJ = $(SRC:.cpp=.o)
 EXEC = optimize_intervals
 

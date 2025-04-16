@@ -6,7 +6,7 @@
 #include "interval_optimizer.hpp"
 #include "function_fitter.hpp"
 #include "interval_group_compressor.hpp"
-// #include "./tb/hls_lut_mapper.hpp"
+#include "hw_mapping.hpp"
 
 // double relu(double x) { return x > 0 ? x : 0; }
 // double gelu(double x) { return 0.5 * x * (1.0 + std::erf(x / std::sqrt(2.0))); }
@@ -90,47 +90,6 @@ void replaceAll(std::string& str, const std::string& from, const std::string& to
         else {
             start_pos = end_pos;
         }
-    }
-}
-
-void saveCompressedFitParametersToFile(const std::vector<CompressedFitParameters>& compressed_params_list,
-                                       const std::string& filename) {
-    std::ofstream file(filename);
-    if (file.is_open()) {
-        // File format:
-        // ParamsID,Order,a,b,c,IntervalIndices,Offsets
-        file << "ParamsID,Order,a,b,c,IntervalIndices,Offsets\n";
-        size_t params_id = 0;
-        for (const auto& comp_param : compressed_params_list) {
-            file << params_id << "," << comp_param.params.order << ","
-                 << comp_param.params.a << "," << comp_param.params.b << "," << comp_param.params.c << ",";
-    
-            // Save the corresponding interval indices
-            file << "\"";
-            for (size_t idx = 0; idx < comp_param.interval_indices.size(); ++idx) {
-                file << comp_param.interval_indices[idx];
-                if (idx != comp_param.interval_indices.size() - 1) {
-                    file << ";";
-                }
-            }
-            file << "\",";
-    
-            // Save the offsets
-            file << "\"";
-            for (size_t idx = 0; idx < comp_param.offsets.size(); ++idx) {
-                file << comp_param.offsets[idx];
-                if (idx != comp_param.offsets.size() - 1) {
-                    file << ";";
-                }
-            }
-            file << "\"\n";
-    
-            params_id++;
-        }
-        file.close();
-        std::cout << "Compressed fitting parameters saved to file: " << filename << std::endl;
-    } else {
-        std::cout << "Failed to open file to save compressed fitting parameters" << std::endl;
     }
 }
 
@@ -246,12 +205,20 @@ std::string getFunctionName(const std::string& expression_str) {
     return expression_str;
 }
 
-void processFunction(const std::string& expression_str,
+struct FunctionProcessingResult {
+    std::vector<IntervalGroup> compressed_groups;
+    std::vector<Interval> intervals;
+    std::vector<FitParameters> fit_params;
+};
+FunctionProcessingResult processFunction(const std::string& expression_str,
                     const std::string& results_dir,
                     double start, double end,
                     size_t num_points,
                     const FittingParametersConfig& config,
                     const std::vector<std::string>& custom_functions) {
+
+    // Initialize result structure
+    FunctionProcessingResult result;
 
     std::cout << "\nStarting process for: " << expression_str << std::endl;
     // Use the getFunctionName function to create a clean directory name
@@ -304,7 +271,7 @@ void processFunction(const std::string& expression_str,
             exprtk::parser_error::type error = parser.get_error(i);
             std::cerr << "Error: " << std::string(error.diagnostic) << std::endl;
         }
-        return;
+        return result; // Return empty result on error
     }
     std::cout << "Successfully parsed expression\n";
 
@@ -490,38 +457,99 @@ void processFunction(const std::string& expression_str,
         std::vector<IntervalGroup> compressed_groups;
         groupAndCompressIntervals(expression_str, best_intervals, best_fit_params_list, compressed_groups, config.acceptable_error);
         verifyIntervalCoverage("Final", best_intervals, compressed_groups, start, end);
-        saveCompressedGroupsToFile(compressed_groups, groups_file);
 
-        // Generate test vectors for hardware verification
-        std::cout << "Generating test vectors for hardware verification...\n";
-        // The scale_factor and frac_bits should be retrieved from the compressed groups
-        int frac_bits = 0;
-        int scale_factor = 0;
-        if (!compressed_groups.empty()) {
-            // Extract the first valid group's parameters
-            for (const auto& group : compressed_groups) {
-                if (group.storage_type != ORPHAN_GROUP) {
-                    // You might need to adjust this based on your actual data structure
-                    scale_factor = 1 << frac_bits;
-                    break;
-                }
+        int frac_bits;
+        bool is_transcendental = (expression_str.find("tanh") != std::string::npos || 
+                                expression_str.find("sin") != std::string::npos || 
+                                expression_str.find("cos") != std::string::npos ||
+                                expression_str.find("exp") != std::string::npos ||
+                                expression_str.find("log") != std::string::npos);
+        
+        if (is_transcendental) {
+            if (config.acceptable_error <= 1e-7) {
+                frac_bits = 24;       // 16,777,216
+            } else if (config.acceptable_error <= 1e-6) {
+                frac_bits = 20;       // 1,048,576
+            } else if (config.acceptable_error <= 1e-5) {
+                frac_bits = 18;       // 262,144
+            } else if (config.acceptable_error <= 1e-4) {
+                frac_bits = 16;       // 65,536
+            } else if (config.acceptable_error <= 1e-3) {
+                frac_bits = 14;       // 16,384
+            } else {
+                frac_bits = 12;       // 4,096
+            }
+        } else {
+            if (config.acceptable_error <= 1e-7) {
+                frac_bits = 20;       // 1,048,576
+            } else if (config.acceptable_error <= 1e-6) {
+                frac_bits = 18;       // 262,144
+            } else if (config.acceptable_error <= 1e-5) {
+                frac_bits = 16;       // 65,536
+            } else if (config.acceptable_error <= 1e-4) {
+                frac_bits = 14;       // 16,384
+            } else if (config.acceptable_error <= 1e-3) {
+                frac_bits = 12;       // 4,096
+            } else {
+                frac_bits = 10;       // 1,024
             }
         }
-        if (scale_factor == 0) {
-            // Default if not found in any group
-            frac_bits = 10;
-            scale_factor = 1 << frac_bits;
+
+        // Calculate scale factor by determining the range of the function
+        double range_size = end - start;
+        double function_range = 0.0;
+        
+        if (expression_str.find("tanh") != std::string::npos) {
+            function_range = 2.0;
+        } else if (expression_str.find("sin") != std::string::npos || 
+                expression_str.find("cos") != std::string::npos) {
+            function_range = 2.0;
+        } else if (expression_str.find("exp") != std::string::npos) {
+            function_range = std::exp(end) - std::exp(start);
+            if (function_range > 1000) frac_bits += 4;
+            else if (function_range > 100) frac_bits += 2;
+        } else if (expression_str.find("log") != std::string::npos) {
+            if (start <= 0.01) frac_bits += 2;
         }
+        
+        if (range_size > 10.0) {
+            frac_bits += 2;
+        } else if (range_size < 0.1) {
+            frac_bits += 2;
+        }
+
+        if (is_transcendental && frac_bits < 12) {
+            frac_bits = 12;
+        }
+        
+        double scale_factor = 1 << frac_bits;
+        
+        std::cout << "Using precision: " << frac_bits << " fractional bits (scale_factor = " 
+                << scale_factor << ") to meet target error " << config.acceptable_error << std::endl;
+
+        saveCompressedGroupsToFile(compressed_groups, groups_file, best_intervals,
+                                best_fit_params_list, expression_str, start, end);
+        // Generate test vectors for hardware verification
+        std::cout << "Generating test vectors for hardware verification...\n";
         
         // Call the function to generate test vectors
         generateSimulationVectors(expression_str, func_dir, clean_name, start, end, scale_factor, frac_bits);    
 
+        double max_error_value = 0.0;
         double compressed_error = evaluateCompressedErrorWithQuantization(
                                 expression_str,
                                 best_intervals,
                                 best_fit_params_list,
-                                compressed_groups);
-
+                                compressed_groups,
+                                frac_bits,
+                                &max_error_value,    // Optional max_error_value
+                                config.acceptable_error);
+        
+        // Store results in the return structure
+        result.compressed_groups = compressed_groups;
+        result.intervals = best_intervals;
+        result.fit_params = best_fit_params_list;
+        
         // Save metrics
         std::ofstream metrics(metrics_file);
         metrics << "Function Analysis for: " << expression_str << "\n"
@@ -548,6 +576,8 @@ void processFunction(const std::string& expression_str,
                 << (compressed_error <= config.acceptable_error ? " (PASS)" : " (FAIL)") << "\n"
                 << "Results saved to: " << func_dir << std::endl;
     }
+    
+    return result;
 }
 
 int main(int argc, char* argv[]) {
@@ -563,7 +593,7 @@ int main(int argc, char* argv[]) {
 
     std::vector<std::string> custom_functions = {"relu", "gelu", "swishglu"};
     
-    // defalut start and end points
+    // default start and end points
     double start = 0.0;  // Start Point
     double end = 1.0;     // End Point
     if (argc >= 3) {
@@ -579,12 +609,16 @@ int main(int argc, char* argv[]) {
     config.epsilon_start = 1e-4;
     config.epsilon_end = 2e-3;
     config.epsilon_steps = 1;
-    // config.error_threshold = 1e-7;
     config.acceptable_error = 1e-4;
+
+    // 硬件配置参数
+    double hw_scale_factor = 1024.0;  // 10-bit fixed point precision
+    double hw_target_error = 1e-4;    // Target error for hardware implementation
+    bool generate_hw = false;         // Flag to generate hardware files
 
     // Prompt the user to enter the function expression
     std::string expression_str;
-    std::cout << "Please enter the function expression and range (e.g., tanh(x) -3 4 1e-7): ";
+    std::cout << "Please enter the function expression and range (e.g., tanh(x) -3 4 1e-7 hw): ";
     
     std::string input_line;
     std::getline(std::cin, input_line);
@@ -603,26 +637,49 @@ int main(int argc, char* argv[]) {
                     }
                 }
                 if(is_custom) {
-                    std::cout << "Custom function detected: " << expression_str << std::endl;
+                    std::cout << "Custom function detected: " << expr << std::endl;
                 } else {
-                    std::cout << "No Custom Function Detected: " << expression_str << std::endl;
+                    std::cout << "No Custom Function Detected: " << expr << std::endl;
                 }
 
                 std::cout << "\nProcessing function: " << (is_custom ? "Custom" : "built-in")
                         << " function: " << expr << std::endl;
-                processFunction(parsed_expr, results_dir, start, end, num_points, config, custom_functions);
+                
+                // 处理函数并获取结果
+                FunctionProcessingResult result = processFunction(parsed_expr, results_dir, start, end, num_points, config, custom_functions);
+                
+                // 提取函数名用于文件命名
+                std::string func_name = expr.substr(0, expr.find('('));
+                
+                // 如果需要，生成硬件参数
+                if (generate_hw) {
+                    generateHardwareImplementation(
+                        results_dir, func_name, result.compressed_groups, 
+                        result.intervals, result.fit_params, expr,
+                        start, end, hw_scale_factor, hw_target_error);
+                }
             }
             std::cout << "Batch test mode completed.\n";
         } else {
             double input_start, input_end, error_acceptable;
+            std::string hw_option;
+            
             if (iss >> input_start >> input_end >> error_acceptable) {
                 if (input_start < input_end && error_acceptable > 0) {
                     start = input_start;
                     end = input_end;
                     config.acceptable_error = error_acceptable;
                     config.min_unit_length = (end - start) / (num_points * 16);
+                    
+                    // 检查是否请求硬件生成
+                    if (iss >> hw_option) {
+                        if (hw_option == "hw" || hw_option == "HW") {
+                            generate_hw = true;
+                            hw_target_error = error_acceptable;
+                        }
+                    }
                 } else {
-                    std::cout << "Invalid range. Using defalut:\n [" 
+                    std::cout << "Invalid range. Using default:\n"
                             << "Range: [" << start << ", " << end << "]\n"
                             << "Acceptable error: " << config.acceptable_error << "\n";
                 }
@@ -633,6 +690,7 @@ int main(int argc, char* argv[]) {
                 expression_str = "tanh(x)";
                 std::cout << "Use the default example function 'tanh(x)' " << std::endl;
             }
+            
             // Check if input is custom function
             bool is_custom = false;
             for (const auto& func : custom_functions) {
@@ -644,12 +702,22 @@ int main(int argc, char* argv[]) {
 
             std::cout << "Processing " << (is_custom ? "custom" : "built-in") 
                     << " function: " << expression_str << std::endl;
-            processFunction(expression_str, results_dir, start, end, num_points, config, custom_functions);
+            
+            // 处理函数并获取结果
+            FunctionProcessingResult result = processFunction(expression_str, results_dir, start, end, num_points, config, custom_functions);
+            
+            // 提取函数名用于文件命名
+            std::string func_name = expression_str.substr(0, expression_str.find('('));
+            
+            // 如果需要，生成硬件参数文件
+            if (generate_hw) {
+                generateHardwareImplementation(
+                    results_dir, func_name, result.compressed_groups, 
+                    result.intervals, result.fit_params, expression_str,
+                    start, end, hw_scale_factor, hw_target_error);
+            }
         }
     }
-
-    // **Generate Verilog ROM Module**
-    // std::string verilog_filename = "FitParametersROM.v";
 
     return 0;
 }

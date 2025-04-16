@@ -1,124 +1,129 @@
-//========================================================================
-// tb_pwl_top.v - Testbench for PWL Top Module
-//========================================================================
-`include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_config.vh"
-`timescale 1ns / 1ps
+//================================================================================
+// tb_pwl_top.v - System-level testbench with AXI Stream interfaces
+//================================================================================
 
-module tb_pwl_top();
+`timescale 1ns/1ps
 
-    // Clock and reset
-    reg clk;
-    reg rst_n;
+module tb_pwl_top;
+    // System parameters
+    parameter CLK_PERIOD = 10; // 100MHz clock
+
+    // Testbench signals
+    reg clk = 0;
+    reg rst_n = 0;
     
-    // AXI-Stream interfaces
+    // AXI Stream interfaces
     reg [15:0] s_axis_tdata;
     reg s_axis_tvalid;
     wire s_axis_tready;
-    
     wire [15:0] m_axis_tdata;
     wire m_axis_tvalid;
     reg m_axis_tready;
     
-    // Test vector file
-    reg [31:0] test_vectors [0:999]; // Input and expected output pairs
-    integer num_vectors;
-    integer errors;
-    integer i;
+    // Test vectors and results
+    reg [31:0] test_vectors [0:99];
+    integer vec_count = 0;
+    integer pass_count = 0;
+    integer fail_count = 0;
+    integer timeout_count = 0;
     
-    // DUT instantiation
+    // DUT instance
     pwl_top dut (
-        .clk           (clk),
-        .rst_n         (rst_n),
-        .s_axis_tdata  (s_axis_tdata),
-        .s_axis_tvalid (s_axis_tvalid),
-        .s_axis_tready (s_axis_tready),
-        .m_axis_tdata  (m_axis_tdata),
-        .m_axis_tvalid (m_axis_tvalid),
-        .m_axis_tready (m_axis_tready)
+        .clk(clk),
+        .rst_n(rst_n),
+        .s_axis_tdata(s_axis_tdata),
+        .s_axis_tvalid(s_axis_tvalid),
+        .s_axis_tready(s_axis_tready),
+        .m_axis_tdata(m_axis_tdata),
+        .m_axis_tvalid(m_axis_tvalid),
+        .m_axis_tready(m_axis_tready)
     );
     
     // Clock generation
-    initial begin
-        clk = 0;
-        forever #5 clk = ~clk; // 100MHz clock
-    end
+    always #(CLK_PERIOD/2) clk = ~clk;
     
-    // Test procedure
+    // Timeout task
+    task wait_for_valid_with_timeout;
+        input integer timeout_cycles;
+        output reg timeout_occurred;
+        begin
+            timeout_occurred = 0;
+            repeat (timeout_cycles) begin
+                @(posedge clk);
+                if (m_axis_tvalid) break;
+                if (timeout_cycles == 1) timeout_occurred = 1;
+            end
+        end
+    endtask
+    
+    // Stimulus
     initial begin
-        // Load test vectors
-        $readmemh("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/sim/test_vectors/tanh_vectors.txt", test_vectors);
-        num_vectors = 1000; // Update based on actual file size
-        
-        // Initialize signals
+        // Initialize
         rst_n = 0;
         s_axis_tdata = 0;
         s_axis_tvalid = 0;
         m_axis_tready = 1; // Always ready to receive output
-        errors = 0;
+        
+        // Load test vectors - path should be adjusted based on the function being tested
+        $readmemh("../../results/function_name/sim/test_vectors/function_name_vectors.txt", test_vectors);
         
         // Reset sequence
-        #100 rst_n = 1;
-        #20;
+        repeat (5) @(posedge clk);
+        rst_n = 1;
+        repeat (5) @(posedge clk);
         
-        // Process test vectors
-        for (i = 0; i < num_vectors; i = i + 1) begin
-            // Wait for AXI handshake
-            wait(s_axis_tready);
-            
+        // Apply test vectors
+        for (vec_count = 0; vec_count < 100; vec_count = vec_count + 1) begin
             // Apply input
             @(posedge clk);
-            s_axis_tdata = test_vectors[i][31:16]; // Input value
-            s_axis_tvalid = 1;
+            s_axis_tdata = test_vectors[vec_count][31:16];
+            s_axis_tvalid = 1'b1;
             
-            // Wait for acceptance
-            wait(s_axis_tvalid && s_axis_tready);
+            // Wait for ready
+            while (!s_axis_tready) @(posedge clk);
+            
+            // Transaction accepted, deassert valid
             @(posedge clk);
-            s_axis_tvalid = 0;
+            s_axis_tvalid = 1'b0;
             
-            // Wait for result
-            wait(m_axis_tvalid);
-            @(posedge clk);
+            // Wait for output valid with timeout
+            reg timeout;
+            wait_for_valid_with_timeout(100, timeout);
             
-            // Check result
-            if (m_axis_tdata !== test_vectors[i][15:0]) begin
-                $display("Error at vector %d: Expected %h, Got %h", 
-                         i, test_vectors[i][15:0], m_axis_tdata);
-                errors = errors + 1;
+            if (timeout) begin
+                $display("Vector %0d: TIMEOUT - No response within 100 cycles", vec_count);
+                timeout_count = timeout_count + 1;
+            end else begin
+                // Check result
+                if (m_axis_tdata == test_vectors[vec_count][15:0]) begin
+                    $display("Vector %0d: PASS - x=%h, y=%h", 
+                             vec_count, test_vectors[vec_count][31:16], m_axis_tdata);
+                    pass_count = pass_count + 1;
+                end else begin
+                    $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h", 
+                             vec_count, test_vectors[vec_count][31:16], 
+                             m_axis_tdata, test_vectors[vec_count][15:0]);
+                    fail_count = fail_count + 1;
+                end
             end
             
-            // Introduce backpressure occasionally
-            if (i % 10 == 0) begin
-                m_axis_tready = 0;
-                #20;
-                m_axis_tready = 1;
-            end
-            
-            // Add delay between vectors
-            #10;
+            // Signal consumed
+            @(posedge clk);
         end
         
-        // Report results
-        if (errors == 0) begin
-            $display("TEST PASSED: All %d vectors passed", num_vectors);
-        end else begin
-            $display("TEST FAILED: %d out of %d vectors failed", 
-                     errors, num_vectors);
-        end
+        // Test summary
+        $display("\nSystem Test Summary:");
+        $display("Total vectors: %0d", vec_count);
+        $display("Passed: %0d", pass_count);
+        $display("Failed: %0d", fail_count);
+        $display("Timeouts: %0d\n", timeout_count);
         
         $finish;
     end
     
-    // Timeout
+    // VCD generation
     initial begin
-        #100000;
-        $display("Simulation timeout");
-        $finish;
-    end
-    
-    // Waveform dump for debugging
-    initial begin
-        $dumpfile("pwl_top.vcd");
+        $dumpfile("pwl_top_sim.vcd");
         $dumpvars(0, tb_pwl_top);
     end
-
 endmodule

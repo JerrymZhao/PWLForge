@@ -444,12 +444,6 @@ inline void splitInterval(const Interval& interval,
     result.insert(result.end(), right_result.begin(), right_result.end());
 }
 
-inline bool findNearestPowerOfTwo(double len, double tol = 1e-8) {
-    if (len <= 0) return false;
-    const double power = std::log2(len);
-    return std::abs(power - std::round(len)) < tol;
-}
-
 inline void printDistribution(const std::vector<Interval>& intervals, int precision) {
     std::map<std::string, size_t> dist_map;
     const double round_factor = std::pow(10.0, precision);
@@ -585,20 +579,18 @@ inline void adaptiveSplitHighErrorInterval(const Interval& interval,
             for (auto& future : futures) {
                 future.wait();
             }
-            
-            // 计算误差统计
+
             double avg_error = 0.0;
             for (double err : sample_errors) {
                 avg_error += err;
             }
             avg_error /= sample_errors.size();
-            
-            // 更智能的特征点检测，降低检测阈值
+
             std::vector<size_t> peak_indices;
             double peak_threshold = std::max(target_error * 0.5, avg_error * 0.8);
             
             for (size_t i = 1; i < sample_errors.size() - 1; ++i) {
-                // 检测局部峰值
+                // Check for local maxima
                 if (sample_errors[i] > peak_threshold &&
                     sample_errors[i] > sample_errors[i-1] &&
                     sample_errors[i] > sample_errors[i+1]) {
@@ -613,7 +605,7 @@ inline void adaptiveSplitHighErrorInterval(const Interval& interval,
                     error_idx_pairs.push_back({sample_errors[i], i});
                 }
                 
-                // 按误差排序
+                // Sort by error in descending order
                 std::sort(error_idx_pairs.begin(), error_idx_pairs.end(),
                          [](const auto& a, const auto& b) { return a.first > b.first; });
                 
@@ -623,7 +615,7 @@ inline void adaptiveSplitHighErrorInterval(const Interval& interval,
                     peak_indices.push_back(error_idx_pairs[i].second);
                 }
                 
-                // 确保分割点是有序的
+                // Make sure indices are unique
                 std::sort(peak_indices.begin(), peak_indices.end());
             }
             
@@ -664,15 +656,15 @@ inline void adaptiveSplitHighErrorInterval(const Interval& interval,
                 
                 // 如果分割后结果仍然只有1个区间，强制多路拆分
                 if (result.size() <= 1) {
-                    result.clear(); // 清空之前的结果，准备强制拆分
+                    result.clear(); // Clear result to force split
                     std::cout << "Feature-based split ineffective, forcing multi-way split" << std::endl;
-                    goto force_split; // 跳转到强制拆分代码
+                    goto force_split; // Jump to forced split
                 }
                 
                 return;
             }
         } catch (const std::exception& e) {
-            // 拟合失败，通过标签跳转到强制拆分代码
+            // Force split if error occurs
             std::cout << "Error calculation failed, forcing split: " << e.what() << std::endl;
             goto force_split;
         }
@@ -694,8 +686,8 @@ inline void adaptiveSplitHighErrorInterval(const Interval& interval,
     }
     
     // 强制拆分标签点
-force_split:
-    result.clear(); // 确保结果为空
+    force_split:
+        result.clear(); // 确保结果为空
     
     // 均匀拆分为多个子区间
     for (int i = 0; i < min_split_count; ++i) {
@@ -844,12 +836,9 @@ inline void identifyAndRefineHighErrorIntervals(std::vector<Interval>& intervals
     std::cout << "Refinement complete. New interval count: " << intervals.size() << std::endl;
 }
 
-
-// 辅助函数：创建成对合并区间（新增）
 inline Interval createMergedPair(const Interval& iv1, const Interval& iv2,
-                               const std::string& expression_str, double tol = 1e-9) 
-{
-    // 连续性检查
+                               const std::string& expression_str, double tol = 1e-9) {
+    // Continuity check
     if (std::abs(iv1.end - iv2.start) > tol) {
         std::ostringstream oss;
         oss << "Non-contiguous intervals: [" 
@@ -859,13 +848,11 @@ inline Interval createMergedPair(const Interval& iv1, const Interval& iv2,
         throw std::runtime_error(oss.str());
     }
 
-    // 计算合并区间属性
     Interval merged;
     merged.start = iv1.start;
     merged.end = iv2.end;
     merged.level = std::max(iv1.level, iv2.level);
-    
-    // 计算合并后的Hessian值 - 使用缓存
+
     const double mid_point = (merged.start + merged.end) / 2.0;
     merged.hessian = computeHessian(expression_str, mid_point);
 
@@ -944,7 +931,7 @@ inline bool canMerge(const Interval& a, const Interval& b,
     }
 }
 
-// 窗口合并检查函数 - 检查连续的多个区间是否可合并
+// Window merging function, checking if a range of intervals can be merged
 inline bool canMergeWindow(const std::vector<Interval>& intervals, 
                           size_t start_idx,
                           size_t window_size,
@@ -1053,8 +1040,7 @@ inline void mergeIntervals(std::vector<Interval>& intervals,
                         const std::string& expression_str,
                         const MergeParams& params,
                         double min_unit_length,
-                        double merge_relax_factor = 1.0) 
-{
+                        double merge_relax_factor = 1.0) {
     if (intervals.empty()) return;
     const double domain_start = intervals.front().start;
     const double domain_end = intervals.back().end;
@@ -1267,7 +1253,7 @@ inline void mergeIntervals(std::vector<Interval>& intervals,
                 }
             }
             
-            // 收集结果
+            // Collecting results
             for (auto& future : merge_results) {
                 auto result = future.get();
                 bool can_merge = result.first;
@@ -1696,14 +1682,6 @@ inline void mergeIntervals(std::vector<Interval>& intervals,
     
     // 输出函数缓存统计
     function_cache.printStats();
-}
-
-// 辅助函数：创建合并后的区间（带异常处理）
-Interval createMergedInterval(double start, double end) {
-    if (start >= end) {
-        throw std::invalid_argument("Invalid merged interval range");
-    }
-    return Interval{start, end, /* hessian */0.0, /* level */0};
 }
 
 // Save the intervals

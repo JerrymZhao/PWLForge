@@ -1,0 +1,28 @@
+// Group ROM initialization for tanh
+// Format: 32-bit words, hex format
+// Order: base_start, base_end, base_slope, base_intercept, control_word, start_scale, slope_scale, intercept_scale
+
+000001f4
+00000213
+00000328
+00000045
+00000800
+00000400
+01000000
+01000000
+0000007d
+000000bc
+000003ed
+00000002
+08000400
+00000400
+01000000
+01000000
+00000000
+00000000
+00000000
+00000000
+0c000401
+00000400
+01000000
+01000000

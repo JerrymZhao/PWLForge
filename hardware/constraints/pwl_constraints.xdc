@@ -25,8 +25,19 @@ set_property IOSTANDARD LVCMOS33 [get_ports m_axis_tvalid]
 set_property IOSTANDARD LVCMOS33 [get_ports m_axis_tready]
 
 # Configuration options
-# set_property CFGBVS VCCO [current_design]
-# set_property CONFIG_VOLTAGE 3.3 [current_design]
+set_property CFGBVS VCCO [current_design]
+set_property CONFIG_VOLTAGE 3.3 [current_design]
 
-# Timing performance
-#set_operating_conditions -grade commercial
+# ADDED: Memory and DSP optimization constraints
+# Force LUT-based distributed RAM implementation
+set_property RAM_STYLE DISTRIBUTED [get_cells -hierarchical *group_info_reg*]
+set_property RAM_STYLE DISTRIBUTED [get_cells -hierarchical *delta_data_reg*]
+
+# Force DSP usage for multiplication operations
+set_property USE_DSP48 YES [get_cells -hierarchical *a_x*]
+set_property USE_DSP48 YES [get_cells -hierarchical *b_x*]
+set_property USE_DSP48 YES [get_cells -hierarchical *scaled_delta*]
+set_property USE_DSP48 YES [get_cells -hierarchical *a_x2*]
+
+# Pipeline optimization
+set_property SHREG_EXTRACT NO [get_cells -hierarchical *valid_pipe*]

@@ -1528,3 +1528,1390 @@ selectButton(RDIResource.TclConsoleView_COPY, "Tcl Console_copy"); // D
 // Elapsed time: 196 seconds
 selectButton(RDIResource.TclConsoleView_COPY, "Tcl Console_copy"); // D
 selectButton(RDIResource.TclConsoleView_COPY, "Tcl Console_copy"); // D
+// HMemoryUtils.trashcanNow. Engine heap size: 4,421 MB. GUI used memory: 169 MB. Current time: 4/8/25, 6:18:56 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,421 MB. GUI used memory: 166 MB. Current time: 4/8/25, 6:48:56 PM HKT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// Elapsed time: 5030 seconds
+selectMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // ag
+selectMenu(PAResourceItoN.MainMenuMgr_PROJECT, "Project"); // al
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent"); // al
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent"); // al
+selectMenu(PAResourceItoN.MainMenuMgr_OPEN_RECENT_PROJECT, "Open Recent"); // al
+selectMenuItem(PAResourceCommand.PACommandNames_NEW_PROJECT, "New..."); // ao
+dismissMenu(PAResourceItoN.MainMenuMgr_FILE, "File"); // ag
+// Run Command: PAResourceCommand.PACommandNames_NEW_PROJECT
+selectButton("NEXT", "Next >"); // JButton
+selectButton("NEXT", "Next >"); // JButton
+selectButton("NEXT", "Next >"); // JButton
+// HMemoryUtils.trashcanNow. Engine heap size: 4,422 MB. GUI used memory: 167 MB. Current time: 4/8/25, 7:18:56 PM HKT
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,438 MB. GUI used memory: 167 MB. Current time: 4/8/25, 7:30:21 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// [Engine Memory]: 4,454 MB (+18931kb) [24:46:11]
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,470 MB. GUI used memory: 167 MB. Current time: 4/8/25, 7:31:06 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,512 MB. GUI used memory: 167 MB. Current time: 4/8/25, 8:01:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,512 MB. GUI used memory: 166 MB. Current time: 4/8/25, 8:31:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,512 MB. GUI used memory: 166 MB. Current time: 4/8/25, 9:01:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,512 MB. GUI used memory: 166 MB. Current time: 4/8/25, 9:31:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,512 MB. GUI used memory: 166 MB. Current time: 4/8/25, 10:01:06 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,528 MB. GUI used memory: 167 MB. Current time: 4/8/25, 10:13:06 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,560 MB. GUI used memory: 167 MB. Current time: 4/8/25, 10:13:51 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,608 MB. GUI used memory: 167 MB. Current time: 4/8/25, 10:15:41 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: WAVEFORM_UPDATE_WAVEFORM
+// Elapsed time: 10645 seconds
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files"); // a
+// Elapsed time: 15 seconds
+setFileChooser("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v");
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files"); // a
+setFileChooser("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v");
+selectButton(PAResourceQtoS.SrcChooserPanel_ADD_HDL_AND_NETLIST_FILES_TO_YOUR_PROJECT, "Add Files"); // a
+setFileChooser("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v");
+// Elapsed time: 15 seconds
+selectButton("NEXT", "Next >"); // JButton
+selectButton(PAResourceAtoD.ConstraintsChooserPanel_ADD_FILES, "Add Files"); // a
+setFileChooser("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc");
+selectButton("NEXT", "Next >"); // JButton
+selectTab(PAResourceOtoP.PartChooser_TABBED_PANE, (HResource) null, "Boards", 1); // i
+// [GUI Memory]: 315 MB (+79424kb) [27:32:34]
+// HMemoryUtils.trashcanNow. Engine heap size: 4,646 MB. GUI used memory: 171 MB. Current time: 4/8/25, 10:16:51 PM HKT
+setText("PAResourceAtoD.BoardChooser_BOARD_TABLE_SEARCH_FIELD", "102"); // OverlayTextField
+selectTreeTable(PAResourceAtoD.BoardChooser_BOARD_TABLE, "Zynq UltraScale+ ZCU102 Evaluation Board ; Zynq UltraScale+ ZCU102 Evaluation Board ; Zynq UltraScale+ ZCU102 Evaluation Board ; xilinx.com ; 3.4 ; xczu9eg-ffvb1156-2-e ; 1156 ; 1.1 ; 328 ; 274080 ; 548160 ; 912 ; 0 ; 2520 ; 24 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 24 ; 0 ; 0 ; 0 ; 0 ; 0 ; 0 ; 4 ;  ; 0 ;  ;  ; 0 ;  ;  ; 0 ; 100 ; 100 ; E ; 0.825 ; 0.850 ; 0.876", 0, "Zynq UltraScale+ ZCU102 Evaluation Board", 0, false); // ah
+openHTML ("www.xilinx.com/zcu102"); // ah
+selectButton("NEXT", "Next >"); // JButton
+selectButton("OptionPane.button", "Yes"); // JButton
+// TclEventType: WAVEFORM_CLOSE_WCFG
+// TclEventType: SIMULATION_CLOSE_SIMULATION
+// Tcl Message: close_sim 
+// Tcl Message: INFO: [Simtcl 6-16] Simulation closed 
+// TclEventType: PROJECT_CLOSE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,595 MB. GUI used memory: 146 MB. Current time: 4/8/25, 10:17:03 PM HKT
+// TclEventType: TIMING_RESULTS_UNLOAD
+// Engine heap size: 4,582 MB. GUI used memory: 151 MB. Current time: 4/8/25, 10:17:03 PM HKT
+// TclEventType: DESIGN_CLOSE
+// WARNING: HEventQueue.dispatchEvent() is taking  1136 ms.
+// Tcl Message: close_project 
+dismissDialog("Close"); // bA
+// TclEventType: FILE_SET_NEW
+// TclEventType: RUN_ADD
+// TclEventType: RUN_CURRENT
+// TclEventType: PROJECT_DASHBOARD_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_DASHBOARD_GADGET_NEW
+// TclEventType: PROJECT_DASHBOARD_GADGET_CHANGE
+// TclEventType: PROJECT_NEW
+// Tcl Message: create_project project_1 /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1 -part xczu9eg-ffvb1156-2-e 
+// TclEventType: PROJECT_NEW
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// Tcl Message: INFO: [IP_Flow 19-234] Refreshing IP repositories INFO: [IP_Flow 19-1704] No user IP repositories specified INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2021.2/data/ip'. 
+// TclEventType: FILE_SET_OPTIONS_CHANGE
+// TclEventType: BOARD_MODIFIED
+// Tcl Message: set_property board_part xilinx.com:zcu102:part0:3.4 [current_project] 
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: add_files -norecurse {/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_top.v} 
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: add_files -fileset constrs_1 -norecurse /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc 
+// Elapsed time: 10 seconds
+selectButton("FINISH", "Finish"); // JButton
+// 'g' command handler elapsed time: 10733 seconds
+dismissDialog("Create Project"); // bA
+dismissDialog("New Project"); // f
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Tcl Message: update_compile_order -fileset sources_1 
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 1); // D
+selectButton(PAResourceEtoH.ExploreAheadView_RESET_SELECTED_RUNS, "Design Runs_reset"); // D
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-3952] use of undefined macro 'GROUP_ADDR_WIDTH' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:22]. ]", 7, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 79 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 2, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 2, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 2, false, false, false, false, false, true); // D - Double Click
+// WARNING: HEventQueue.dispatchEvent() is taking  2200 ms.
+dismissDialog("Opening Editor"); // bA
+selectCodeEditor("pwl_hlut.v", 69, 75); // be
+// Elapsed time: 59 seconds
+selectCodeEditor("pwl_hlut.v", 221, 85); // be
+selectCodeEditor("pwl_hlut.v", 229, 84); // be
+selectCodeEditor("pwl_hlut.v", 225, 85); // be
+// Elapsed time: 29 seconds
+selectCodeEditor("pwl_hlut.v", 312, 79); // be
+// Elapsed time: 307 seconds
+selectCodeEditor("pwl_hlut.v", 437, 86); // be
+// Elapsed time: 36 seconds
+selectButton(RDIResourceCommand.RDICommands_SAVE_FILE, (String) null); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near [. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:79]. ]", 7, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;79;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near [. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:79]. ]", 9, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;79;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near [. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:79]. ]", 7, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 27 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Tue Apr  8 22:26:56 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 149 seconds
+dismissDialog("Synthesis Failed"); // ag
+// Elapsed time: 15 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-2301] loop variable declaration is not allowed in this mode of verilog [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:68]. ]", 11, true, false, false, false, true, false); // ah - Popup Trigger - Node
+selectMenu(PAResourceItoN.MsgTreePanel_MESSAGE_SEVERITY, "Message Severity"); // al
+selectMenu(PAResourceItoN.MsgTreePanel_MESSAGE_SEVERITY, "Message Severity"); // al
+collapseTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 2); // D
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v)]", 3); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 4, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 4, true, false, false, false, false, true); // D - Double Click - Node
+// WARNING: HEventQueue.dispatchEvent() is taking  2205 ms.
+dismissDialog("Opening Editor"); // bA
+// Elapsed time: 12 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-2301] loop variable declaration is not allowed in this mode of verilog [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:68]. ]", 11, true, false, false, false, true, false); // ah - Popup Trigger - Node
+selectCodeEditor("pwl_core.v", 332, 86); // be
+selectButton(RDIResourceCommand.RDICommands_COPY, (String) null); // D
+// Elapsed time: 23 seconds
+selectCodeEditor("pwl_core.v", 168, 157); // be
+// Elapsed time: 12 seconds
+selectCodeEditor("pwl_core.v", 141, 247); // be
+// Elapsed time: 22 seconds
+selectCodeEditor("pwl_core.v", 199, 271); // be
+// Elapsed time: 11 seconds
+selectButton(RDIResourceCommand.RDICommands_SAVE_FILE, (String) null); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 13 seconds
+selectCheckBox(PAResourceItoN.MsgView_CRITICAL_WARNINGS, (String) null, true); // g: TRUE
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near [. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:79]. ]", 7, true, false, false, false, true, false); // ah - Popup Trigger - Node
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "pwl_hlut.v", 1); // m
+selectCodeEditor("pwl_hlut.v", 236, 138); // be
+selectButton(RDIResourceCommand.RDICommands_COPY, (String) null); // D
+// Elapsed time: 33 seconds
+selectCodeEditor("pwl_hlut.v", 290, 197); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 409, 169); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+selectCodeEditor("pwl_hlut.v", 305, 274); // be
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 43 seconds
+selectCheckBox(PAResourceItoN.MsgView_ERROR_MESSAGES, (String) null, false); // g: FALSE
+selectButton(PAResourceItoN.MsgView_CLEAR_MESSAGES_RESULTING_FROM_USER_EXECUTED, "Messages_cleanUpMessages"); // D
+selectCheckBox(PAResourceItoN.MsgView_INFORMATION_MESSAGES, (String) null, false); // g: FALSE
+selectCheckBox(PAResourceItoN.MsgView_ERROR_MESSAGES, (String) null, true); // g: TRUE
+selectCheckBox(PAResourceItoN.MsgView_INFORMATION_MESSAGES, (String) null, true); // g: TRUE
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Tue Apr  8 22:33:31 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+selectCheckBox(PAResourceItoN.MsgView_WARNING_MESSAGES, (String) null, true); // g: TRUE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// HMemoryUtils.trashcanNow. Engine heap size: 4,362 MB. GUI used memory: 98 MB. Current time: 4/8/25, 10:47:06 PM HKT
+// Elapsed time: 1019 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-993] int is an unknown type [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:76]. ]", 2, false); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-993] int is an unknown type [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:76]. ]", 2, false); // ah
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v;-;;-;16;-;line;-;76;-;;-;16;-;"); // ah
+// WARNING: HEventQueue.dispatchEvent() is taking  2164 ms.
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-993] int is an unknown type [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:76]. ]", 2, false, false, false, false, false, true); // ah - Double Click
+// Elapsed time: 10 seconds
+selectCodeEditor("pwl_core.v", 145, 174); // be
+selectButton(RDIResourceCommand.RDICommands_SAVE_FILE, (String) null); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Tue Apr  8 22:51:09 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+selectCheckBox(PAResourceItoN.MsgView_WARNING_MESSAGES, (String) null, true); // g: TRUE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 88 seconds
+selectCheckBox(PAResourceCommand.PACommandNames_MESSAGE_WINDOW, "View Messages", false); // g: FALSE
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Synthesis Failed"); // ag
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-524] part-select [-1:0] out of range of prefix 'in_reg_pipe' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:50]. ]", 4, false); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-524] part-select [-1:0] out of range of prefix 'in_reg_pipe' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:50]. ]", 4, false, false, false, false, true, false); // ah - Popup Trigger
+selectCodeEditor("pwl_core.v", 473, 204); // be
+// Elapsed time: 12 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-524] part-select [-1:0] out of range of prefix 'in_reg_pipe' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:50]. ]", 4, false); // ah
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v;-;;-;16;-;line;-;50;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-524] part-select [-1:0] out of range of prefix 'in_reg_pipe' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:50]. ]", 4, false, false, false, false, false, true); // ah - Double Click
+// Elapsed time: 76 seconds
+selectCodeEditor("pwl_core.v", 214, 385); // be
+// Elapsed time: 35 seconds
+selectCodeEditor("pwl_core.v", 119, 348); // be
+selectCodeEditor("pwl_core.v", 84, 366); // be
+selectButton(RDIResourceCommand.RDICommands_PASTE, (String) null); // D
+selectButton(RDIResourceCommand.RDICommands_SAVE_FILE, (String) null); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 26 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-524] part-select [-1:0] out of range of prefix 'in_reg_pipe' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:50]. ]", 4, false, false, false, false, true, false); // ah - Popup Trigger
+// Elapsed time: 106 seconds
+selectCodeEditor("pwl_core.v", 83, 369); // be
+selectCodeEditor("pwl_core.v", 80, 363); // be
+selectButton(RDIResourceCommand.RDICommands_PASTE, (String) null); // D
+selectCodeEditor("pwl_core.v", 88, 395); // be
+selectCodeEditor("pwl_core.v", 86, 397, false, false, false, false, true); // be - Double Click
+selectCodeEditor("pwl_core.v", 84, 402); // be
+selectCodeEditor("pwl_core.v", 78, 369); // be
+selectCodeEditor("pwl_core.v", 113, 384); // be
+selectCodeEditor("pwl_core.v", 77, 400); // be
+selectCodeEditor("pwl_core.v", 78, 412); // be
+selectCodeEditor("pwl_core.v", 373, 416); // be
+selectButton(RDIResourceCommand.RDICommands_SAVE_FILE, (String) null); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 13 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Tue Apr  8 22:58:13 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 43 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-1031] in_reg_pipe_q is not declared [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:51]. ]", 1, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 51 seconds
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Tue Apr  8 22:59:54 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 50 seconds
+selectCheckBox(PAResourceItoN.MsgView_WARNING_MESSAGES, (String) null, true); // g: TRUE
+// Elapsed time: 232 seconds
+selectTab((HResource) null, (HResource) null, "Log", 2); // aL
+// Elapsed time: 308 seconds
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTab((HResource) null, (HResource) null, "Log", 2); // aL
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTab((HResource) null, (HResource) null, "Log", 2); // aL
+selectCodeEditor(PAResourceItoN.LogMonitor_MONITOR, 741, 263); // T
+selectButton((HResource) null, "Compilation_copy"); // D
+selectCodeEditor(PAResourceItoN.LogMonitor_MONITOR, 858, 155); // T
+// Elapsed time: 12 seconds
+selectButton((HResource) null, "Compilation_copy"); // D
+selectButton((HResource) null, "Compilation_copy"); // D
+// Elapsed time: 31 seconds
+selectCodeEditor(PAResourceItoN.LogMonitor_MONITOR, 1025, 116); // T
+selectCodeEditor(PAResourceItoN.LogMonitor_MONITOR, 1075, 132); // T
+// Elapsed time: 153 seconds
+selectCodeEditor(PAResourceItoN.LogMonitor_MONITOR, 769, 176); // T
+// HMemoryUtils.trashcanNow. Engine heap size: 4,304 MB. GUI used memory: 96 MB. Current time: 4/8/25, 11:17:06 PM HKT
+// Elapsed time: 844 seconds
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+selectTab((HResource) null, (HResource) null, "Design Runs", 4); // aL
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // aL
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTab((HResource) null, (HResource) null, "Tcl Console", 0); // aL
+// Elapsed time: 170 seconds
+selectTab((HResource) null, (HResource) null, "Design Runs", 4); // aL
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+selectTab((HResource) null, (HResource) null, "Log", 2); // aL
+// HMemoryUtils.trashcanNow. Engine heap size: 4,297 MB. GUI used memory: 95 MB. Current time: 4/8/25, 11:47:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,297 MB. GUI used memory: 93 MB. Current time: 4/9/25, 12:17:06 AM HKT
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// HMemoryUtils.trashcanNow. Engine heap size: 4,291 MB. GUI used memory: 95 MB. Current time: 4/9/25, 12:47:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,292 MB. GUI used memory: 95 MB. Current time: 4/9/25, 1:17:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,292 MB. GUI used memory: 95 MB. Current time: 4/9/25, 1:47:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,292 MB. GUI used memory: 95 MB. Current time: 4/9/25, 2:17:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 2:47:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 3:17:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 3:47:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 4:17:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 4:47:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 5:17:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 5:47:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 6:17:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 6:47:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 7:17:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 7:47:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,289 MB. GUI used memory: 95 MB. Current time: 4/9/25, 8:17:07 AM HKT
+// Elapsed time: 32600 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_RUN_IMPLEMENTATION
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs impl_1 -jobs 20 
+// Tcl Message: [Wed Apr  9 08:34:10 2025] Launched impl_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/impl_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. ]", 4, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;55;-;;-;16;-;"); // ah
+// WARNING: HEventQueue.dispatchEvent() is taking  2210 ms.
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. ]", 4, true, false, false, false, false, true); // ah - Double Click - Node
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 17 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. , [Synth 8-4445] could not open $readmem data file 'sqrt_delta_data.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]. ]", 5, false); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. , [Synth 8-4445] could not open $readmem data file 'sqrt_delta_data.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:56]. ]", 5, false, false, false, false, true, false); // ah - Popup Trigger
+// Elapsed time: 52 seconds
+selectCodeEditor("pwl_hlut.v", 73, 80); // be
+selectCodeEditor("pwl_hlut.v", 72, 83); // be
+selectButton(RDIResourceCommand.RDICommands_COPY, (String) null); // D
+// Elapsed time: 15 seconds
+selectCodeEditor("pwl_hlut.v", 127, 97); // be
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+dismissDialog("Implementation Completed"); // ag
+// Elapsed time: 10 seconds
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Implementation, Open Implemented Design]", 18, true); // n - Node
+// Run Command: PAResourceCommand.PACommandNames_GOTO_IMPLEMENTED_DESIGN
+// Tcl Message: open_run impl_1 
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: POWER_CNS_STALE
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: FLOORPLAN_MODIFY
+// TclEventType: DESIGN_NEW
+// HMemoryUtils.trashcanNow. Engine heap size: 4,353 MB. GUI used memory: 97 MB. Current time: 4/9/25, 8:36:41 AM HKT
+// Xgd.load filename: /tools/Xilinx/Vivado/2021.2/data/parts/xilinx/zynquplus/devint/zynquplus/xczu9eg/xczu9eg.xgd; ZipEntry: xczu9eg_detail.xgd elapsed time: 0.6s
+// DeviceModel: Load Xgds SwingWorker Join Forever elapsed time: 0.7s
+// TclEventType: DESIGN_NEW
+// DeviceView Instantiated
+// WARNING: HEventQueue.dispatchEvent() is taking  1032 ms.
+// TclEventType: CURR_DESIGN_SET
+// Tcl Message: Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243367 ; free virtual = 257982 
+// Tcl Message: INFO: [Netlist 29-17] Analyzing 24 Unisim elements for replacement INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds INFO: [Project 1-479] Netlist was created with Vivado 2021.2 INFO: [Project 1-570] Preparing netlist for logic optimization INFO: [Timing 38-478] Restoring timing data from binary archive. INFO: [Timing 38-479] Binary timing data restore complete. INFO: [Project 1-856] Restoring constraints from binary archive. INFO: [Project 1-853] Binary constraint restore complete. 
+// Tcl Message: Reading XDEF placement. Reading placer database... Reading XDEF routing. 
+// Tcl Message: Read XDEF File: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243247 ; free virtual = 257863 
+// Tcl Message: Restored from archive | CPU: 0.090000 secs | Memory: 0.466576 MB | 
+// Tcl Message: Finished XDEF File Restore: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243247 ; free virtual = 257863 Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243247 ; free virtual = 257863 
+// Tcl Message: INFO: [Project 1-111] Unisim Transformation Summary:   A total of 22 instances were transformed.   DSP48E2 => DSP48E2 (DSP_ALU, DSP_A_B_DATA, DSP_C_DATA, DSP_MULTIPLIER, DSP_M_DATA, DSP_OUTPUT, DSP_PREADD, DSP_PREADD_DATA): 3 instances   IBUF => IBUF (IBUFCTRL, INBUF): 19 instances  
+// TclEventType: HFED_INIT_ROUTE_STORAGE_COMPLETED
+// RouteApi::loadEngineXgdAndInitRouteStorage elapsed time: 1.6s
+// Tcl Message: open_run: Time (s): cpu = 00:00:16 ; elapsed = 00:00:08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 243103 ; free virtual = 257719 
+// RouteApi: Init Delay Mediator Swing Worker Finished
+// TclEventType: DRC_ADDED
+// Device view-level: 0.0
+// TclEventType: DRC_ADDED
+// TclEventType: METHODOLOGY_ADDED
+// TclEventType: POWER_UPDATED
+// TclEventType: TIMING_SUMMARY_UPDATED
+// 'el' command handler elapsed time: 10 seconds
+// Elapsed time: 10 seconds
+dismissDialog("Open Implemented Design"); // bA
+expandTree(PAResourceItoN.NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE, "[Root, Check Timing]", 4); // a
+selectTree(PAResourceItoN.NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE, "[Root, Check Timing, partial_input_delay]", 14, false); // a
+selectTree(PAResourceItoN.NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE, "[Root, Check Timing, partial_output_delay]", 15, false); // a
+collapseTree(PAResourceItoN.NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE, "[Root, Check Timing]", 4); // a
+selectTab((HResource) null, (HResource) null, "Methodology", 7); // aL
+selectTab((HResource) null, (HResource) null, "Design Runs", 5); // aL
+selectTab((HResource) null, (HResource) null, "Intelligent Design Runs", 4); // aL
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Project Summary", 0); // m
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Device", 1); // m
+// HMemoryUtils.trashcanNow. Engine heap size: 4,444 MB. GUI used memory: 166 MB. Current time: 4/9/25, 8:37:17 AM HKT
+selectTab((HResource) null, (HResource) null, "Timing", 9); // aL
+selectTree(PAResourceItoN.NavigableTimingReportTab_TIMING_REPORT_NAVIGATION_TREE, "[Root, General Information]", 0, false); // a
+selectTab((HResource) null, (HResource) null, "Power", 8); // aL
+selectTree(PAResourceOtoP.PowerResultTab_REPORT_NAVIGATION_TREE, "[Report Contents, Utilization Details]", 3, true); // h - Node
+selectTree(PAResourceOtoP.PowerResultTab_REPORT_NAVIGATION_TREE, "[Report Contents, Utilization Details]", 3, true); // h - Node
+selectTree(PAResourceOtoP.PowerResultTab_REPORT_NAVIGATION_TREE, "[Report Contents, Utilization Details]", 3, true, false, false, false, false, true); // h - Double Click - Node
+selectTree(PAResourceOtoP.PowerResultTab_REPORT_NAVIGATION_TREE, "[Report Contents, Utilization Details]", 3, true); // h - Node
+expandTree(PAResourceOtoP.PowerResultTab_REPORT_NAVIGATION_TREE, "[Report Contents, Utilization Details]", 3); // h
+selectTab((HResource) null, (HResource) null, "Design Runs", 5); // aL
+selectTab((HResource) null, (HResource) null, "DRC", 6); // aL
+// Elapsed time: 18 seconds
+selectTab((HResource) null, (HResource) null, "Intelligent Design Runs", 4); // aL
+selectTab((HResource) null, (HResource) null, "Reports", 3); // aL
+// Elapsed time: 11 seconds
+selectTreeTable(PAResourceEtoH.ExpReportTreePanel_EXP_REPORT_TREE_TABLE, "Utilization - Place Design ; report_utilization ;  ; Wed Apr 09 08:35:51 HKT 2025 ; 11193", 15, "Utilization - Place Design", 0, false); // O
+expandTreeTable(PAResourceEtoH.ExpReportTreePanel_EXP_REPORT_TREE_TABLE, "Utilization - Place Design ; report_utilization ;  ; Wed Apr 09 08:35:51 HKT 2025 ; 11193", 15); // O
+selectTreeTable(PAResourceEtoH.ExpReportTreePanel_EXP_REPORT_TREE_TABLE, "Utilization - Place Design ; report_utilization ;  ; Wed Apr 09 08:35:51 HKT 2025 ; 11193", 15, "Utilization - Place Design", 0, false, false, false, false, false, true); // O - Double Click
+// Elapsed time: 18 seconds
+selectCodeEditor("Utilization - Place Design - impl_1", 704, 250, false, false, false, true, false); // E - Popup Trigger
+selectCodeEditor("Utilization - Place Design - impl_1", 656, 250); // E
+// Elapsed time: 22 seconds
+selectTab((HResource) null, (HResource) null, "Methodology", 7); // aL
+collapseTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "TIMING-18 ;  ; ", 3); // P
+collapseTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "Bad Practice (34) ;  ; ", 2); // P
+selectTab((HResource) null, (HResource) null, "Design Runs", 5); // aL
+selectTab((HResource) null, (HResource) null, "Intelligent Design Runs", 4); // aL
+selectTab((HResource) null, (HResource) null, "Log", 2); // aL
+selectTab((HResource) null, (HResource) null, "Power", 8); // aL
+selectTab((HResource) null, (HResource) null, "Timing", 9); // aL
+selectTab((HResource) null, (HResource) null, "Methodology", 7); // aL
+selectTab((HResource) null, (HResource) null, "DRC", 6); // aL
+collapseTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPOP-3 ;  ; ", 10); // P
+collapseTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPIP-2 ;  ; ", 8); // P
+collapseTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPOP-4 ;  ; ", 10); // P
+expandTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPIP-2 ;  ; ", 8); // P
+selectTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPIP #1 ; Warning ; DSP pwl_core_inst/hlut_inst/result3__0 input pwl_core_inst/hlut_inst/result3__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.", 9, "DSP pwl_core_inst/hlut_inst/result3__0 input pwl_core_inst/hlut_inst/result3__0/A[29:0] is not pipelined. Pipelining DSP48 input will improve performance.", 2, false, false, false, false, true, false); // P - Popup Trigger
+selectMenuItem(PAResourceTtoZ.VioTreeTablePanel_COPY_DRC_INFORMATION, "Copy"); // ao
+selectTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "Pipeline (7) ;  ; ", 6, "Pipeline (7)", 0, true); // P - Node
+collapseTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPIP-2 ;  ; ", 8); // P
+expandTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPOP-3 ;  ; ", 9); // P
+selectTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPOP #1 ; Warning ; DSP pwl_core_inst/hlut_inst/result3 output pwl_core_inst/hlut_inst/result3/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.", 10, "DSP pwl_core_inst/hlut_inst/result3 output pwl_core_inst/hlut_inst/result3/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.", 2, false, false, false, false, true, false); // P - Popup Trigger
+selectMenuItem(PAResourceTtoZ.VioTreeTablePanel_COPY_DRC_INFORMATION, "Copy"); // ao
+selectTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPOP #2 ; Warning ; DSP pwl_core_inst/hlut_inst/result3__0 output pwl_core_inst/hlut_inst/result3__0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.", 11, "DSP pwl_core_inst/hlut_inst/result3__0 output pwl_core_inst/hlut_inst/result3__0/P[47:0] is not pipelined (PREG=0). Pipelining the DSP48 output will improve performance and often saves power so it is suggested whenever possible to fully pipeline this function.  If this DSP48 function was inferred, it is suggested to describe an additional register stage after this function.  If the DSP48 was instantiated in the design, it is suggested to set the PREG attribute to 1.", 2, false); // P
+expandTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPOP-4 ;  ; ", 13); // P
+expandTreeTable(PAResourceTtoZ.VioTreeTablePanel_VIO_TREE_TABLE, "DPIP-2 ;  ; ", 8); // P
+// Elapsed time: 179 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "pwl_hlut.v", 2); // m
+selectCodeEditor("pwl_hlut.v", 38, 91); // be
+selectMenu(PAResourceItoN.MainMenuMgr_VIEW, "View"); // ag
+dismissMenu(PAResourceItoN.MainMenuMgr_VIEW, "View"); // ag
+selectCodeEditor("pwl_hlut.v", 265, 167); // be
+selectCodeEditor("pwl_hlut.v", 67, 114); // be
+selectButton(RDIResourceCommand.RDICommands_PASTE, (String) null); // D
+selectCodeEditor("pwl_hlut.v", 70, 83); // be
+selectButton(RDIResourceCommand.RDICommands_COPY, (String) null); // D
+selectCodeEditor("pwl_hlut.v", 205, 130); // be
+selectButton(RDIResourceCommand.RDICommands_PASTE, (String) null); // D
+// Elapsed time: 11 seconds
+selectCodeEditor("pwl_hlut.v", 205, 186); // be
+selectButton(RDIResourceCommand.RDICommands_PASTE, (String) null); // D
+selectButton(RDIResourceCommand.RDICommands_SAVE_FILE, (String) null); // D
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+selectCodeEditor("pwl_hlut.v", 447, 230); // be
+// Elapsed time: 24 seconds
+selectTab((HResource) null, (HResource) null, "Sources", 0); // aL
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 3, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 3, true, false, false, false, false, true); // D - Double Click - Node
+// WARNING: HEventQueue.dispatchEvent() is taking  2171 ms.
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 3); // D
+selectCodeEditor("pwl_core.v", 271, 105); // be
+selectButton(RDIResourceCommand.RDICommands_COPY, (String) null); // D
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "pwl_hlut.v", 2); // m
+selectCodeEditor("pwl_hlut.v", 283, 192); // be
+selectButton(RDIResourceCommand.RDICommands_COPY, (String) null); // D
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 167 MB. Current time: 4/9/25, 9:07:17 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 9:37:17 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 10:07:17 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 10:37:18 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 11:07:18 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 11:37:18 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 12:07:18 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 12:37:18 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 1:07:18 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 1:37:18 PM HKT
+// Elapsed time: 18455 seconds
+selectCodeEditor("pwl_hlut.v", 809, 293); // be
+// HMemoryUtils.trashcanNow. Engine heap size: 4,458 MB. GUI used memory: 165 MB. Current time: 4/9/25, 2:07:18 PM HKT
+// Elapsed time: 2051 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v), hlut_inst : pwl_hlut (pwl_hlut.v)]", 4, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 3, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 3, true, false, false, false, false, true); // D - Double Click - Node
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 3); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v), hlut_inst : pwl_hlut (pwl_hlut.v)]", 4, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v), hlut_inst : pwl_hlut (pwl_hlut.v)]", 4, false, false, false, false, false, true); // D - Double Click
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "pwl_core.v", 4); // m
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Utilization - Place Design - impl_1", 4); // m
+// HMemoryUtils.trashcanNow. Engine heap size: 4,459 MB. GUI used memory: 165 MB. Current time: 4/9/25, 2:37:18 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 1951 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 2, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 2, true); // D - Node
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files]", 2); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 3, false, false, false, false, false, true); // D - Double Click
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 3, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 3, false, false, false, false, false, true); // D - Double Click
+selectTab((HResource) null, (HResource) null, "Messages", 1); // aL
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;232;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 13 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. ]", 9, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;55;-;;-;16;-;"); // ah
+// Elapsed time: 15 seconds
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Verilog Header]", 1); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v)]", 6, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v)]", 6, true, false, false, false, false, true); // D - Double Click - Node
+// WARNING: HEventQueue.dispatchEvent() is taking  2203 ms.
+dismissDialog("Opening Editor"); // bA
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v)]", 6); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 7, true); // D - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 7, true, false, false, false, false, true); // D - Double Click - Node
+dismissDialog("Opening Editor"); // bA
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "pwl_hlut.v", 2); // m
+// Elapsed time: 26 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5, true); // ah - Node
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5, true, false, false, false, false, true); // ah - Double Click - Node
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;232;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5, true, false, false, false, false, true); // ah - Double Click - Node
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sources_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 5); // ah
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 58 seconds
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 4, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 4, false, false, false, false, false, true); // D - Double Click
+// WARNING: HEventQueue.dispatchEvent() is taking  2159 ms.
+dismissDialog("Opening Editor"); // bA
+// Elapsed time: 86 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near else. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:232]. ]", 7, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;232;-;;-;16;-;"); // ah
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed time: 65 seconds
+selectButton(PAResourceAtoD.AbstractFileView_RELOAD, "Reload"); // g
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,572 MB. GUI used memory: 166 MB. Current time: 4/9/25, 3:07:18 PM HKT
+// Elapsed time: 161 seconds
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 4, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, Syntax Error Files, pwl_hlut.v]", 4, false, false, false, false, false, true); // D - Double Click
+// WARNING: HEventQueue.dispatchEvent() is taking  2202 ms.
+dismissDialog("Opening Editor"); // bA
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near endmodule. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:284]. ]", 5, false); // ah
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;284;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near endmodule. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:284]. ]", 5, false, false, false, false, true, false); // ah - Popup Trigger
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// Elapsed time: 208 seconds
+selectButton(PAResourceAtoD.AbstractFileView_RELOAD, "Reload"); // g
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+// Elapsed time: 27 seconds
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-3917] design pwl_top has port s_axis_tready driven by constant 1. ]", 11); // ah
+collapseTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-3917] design pwl_top has port s_axis_tready driven by constant 1. ]", 11); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-3848] Net group_info in module/entity pwl_hlut does not have driver. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:50]. ]", 8, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 11 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. ]", 4, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 50 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Project Summary", 0); // m
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. ]", 4, true); // ah - Node
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-4445] could not open $readmem data file 'sqrt_group_info.hex'; please make sure the file is added to project and has read permission, ignoring [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:55]. ]", 4, true, false, false, false, false, true); // ah - Double Click - Node
+// Elapsed time: 80 seconds
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v)]", 4); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v), hlut_inst : pwl_hlut (pwl_hlut.v)]", 5, false); // D
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, pwl_top (pwl_top.v), pwl_core_inst : pwl_core (pwl_core.v), hlut_inst : pwl_hlut (pwl_hlut.v)]", 5, false, false, false, false, false, true); // D - Double Click
+// WARNING: HEventQueue.dispatchEvent() is taking  2177 ms.
+dismissDialog("Opening Editor"); // bA
+// Elapsed time: 1377 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Run Synthesis"); // A
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+closeView(PAResourceOtoP.PAViews_PAR_REPORT, "PAR Report"); // c
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// HMemoryUtils.trashcanNow. Engine heap size: 4,594 MB. GUI used memory: 170 MB. Current time: 4/9/25, 3:37:18 PM HKT
+// Tcl Message: INFO: [Project 1-1160] Copying file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/pwl_top.dcp to /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.srcs/utils_1/imports/synth_1 and adding it to utils fileset 
+// WARNING: HSwingWorker (Update Runs Swing Worker) is taking 1216 ms. Increasing delay to 3000 ms.
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_runs: Time (s): cpu = 00:00:08 ; elapsed = 00:00:13 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 241815 ; free virtual = 256177 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Wed Apr  9 15:37:29 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+// 'k' command handler elapsed time: 15 seconds
+// Elapsed time: 13 seconds
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 625 seconds
+selectTab((HResource) null, (HResource) null, "Log", 2); // aL
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// HMemoryUtils.trashcanNow. Engine heap size: 4,595 MB. GUI used memory: 168 MB. Current time: 4/9/25, 4:07:18 PM HKT
+// Elapsed time: 1341 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_RUN_IMPLEMENTATION
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs impl_1 -jobs 20 
+// Tcl Message: [Wed Apr  9 16:10:17 2025] Launched impl_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/impl_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_COMPLETED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 799 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_GOTO_IMPLEMENTED_DESIGN
+// TclEventType: DESIGN_REFRESH
+// HMemoryUtils.trashcanNow. Engine heap size: 4,592 MB. GUI used memory: 156 MB. Current time: 4/9/25, 4:23:37 PM HKT
+// TclEventType: TIMING_RESULTS_UNLOAD
+// Engine heap size: 4,592 MB. GUI used memory: 157 MB. Current time: 4/9/25, 4:23:37 PM HKT
+// Tcl Message: refresh_design 
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: POWER_CNS_STALE
+// TclEventType: SDC_CONSTRAINT_ADD
+// TclEventType: FLOORPLAN_MODIFY
+// TclEventType: DESIGN_REFRESH
+// HMemoryUtils.trashcanNow. Engine heap size: 4,528 MB. GUI used memory: 104 MB. Current time: 4/9/25, 4:23:44 PM HKT
+// Xgd.load filename: /tools/Xilinx/Vivado/2021.2/data/parts/xilinx/zynquplus/devint/zynquplus/xczu9eg/xczu9eg.xgd; ZipEntry: xczu9eg_detail.xgd elapsed time: 0.7s
+// DeviceModel: Load Xgds SwingWorker Join Forever elapsed time: 0.8s
+// DeviceView Instantiated
+// WARNING: HEventQueue.dispatchEvent() is taking  2558 ms.
+// TclEventType: HFED_INIT_ROUTE_STORAGE_COMPLETED
+// RouteApi::loadEngineXgdAndInitRouteStorage elapsed time: 1.5s
+// Tcl Message: Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239890 ; free virtual = 255008 
+// Tcl Message: INFO: [Netlist 29-17] Analyzing 24 Unisim elements for replacement INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds INFO: [Project 1-479] Netlist was created with Vivado 2021.2 INFO: [Project 1-570] Preparing netlist for logic optimization INFO: [Timing 38-478] Restoring timing data from binary archive. INFO: [Timing 38-479] Binary timing data restore complete. INFO: [Project 1-856] Restoring constraints from binary archive. INFO: [Project 1-853] Binary constraint restore complete. 
+// Tcl Message: Reading XDEF placement. Reading placer database... Reading XDEF routing. 
+// Tcl Message: Read XDEF File: Time (s): cpu = 00:00:00.08 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239793 ; free virtual = 254911 
+// Tcl Message: Restored from archive | CPU: 0.090000 secs | Memory: 0.451164 MB | 
+// Tcl Message: Finished XDEF File Restore: Time (s): cpu = 00:00:00.09 ; elapsed = 00:00:00.08 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239793 ; free virtual = 254911 
+// RouteApi: Init Delay Mediator Swing Worker Finished
+// TclEventType: DRC_ADDED
+// Tcl Message: refresh_design: Time (s): cpu = 00:00:18 ; elapsed = 00:00:10 . Memory (MB): peak = 10269.684 ; gain = 0.000 ; free physical = 239733 ; free virtual = 254851 
+// TclEventType: DRC_ADDED
+// TclEventType: METHODOLOGY_ADDED
+// TclEventType: POWER_UPDATED
+// TclEventType: TIMING_SUMMARY_UPDATED
+// Elapsed time: 11 seconds
+dismissDialog("Reloading"); // bA
+// Elapsed time: 445 seconds
+selectTreeTable(PAResourceEtoH.ExpReportTreePanel_EXP_REPORT_TREE_TABLE, "Utilization - Synth Design ; report_utilization ;  ; Wed Apr 09 15:55:46 HKT 2025 ; 7903", 2, "Utilization - Synth Design", 0, false); // O
+expandTreeTable(PAResourceEtoH.ExpReportTreePanel_EXP_REPORT_TREE_TABLE, "Utilization - Synth Design ; report_utilization ;  ; Wed Apr 09 15:55:46 HKT 2025 ; 7903", 2); // O
+selectTreeTable(PAResourceEtoH.ExpReportTreePanel_EXP_REPORT_TREE_TABLE, "Utilization - Synth Design ; report_utilization ;  ; Wed Apr 09 15:55:46 HKT 2025 ; 7903", 2, "Utilization - Synth Design", 0, false, false, false, false, false, true); // O - Double Click
+// Elapsed time: 40 seconds
+closeView(PAResourceOtoP.PAViews_PAR_REPORT, "PAR Report"); // c
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 170 MB. Current time: 4/9/25, 4:53:48 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 5:23:48 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 5:53:48 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 6:23:48 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 6:53:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 7:23:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 7:53:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 8:23:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 8:53:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 9:23:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 9:53:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 10:23:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 10:53:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 11:23:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/9/25, 11:53:49 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 12:23:49 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 12:53:49 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 1:23:49 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 1:53:49 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 2:23:49 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 2:53:49 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 3:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 3:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 4:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 4:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 5:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 5:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 6:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 6:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 7:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 7:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 8:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 8:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 9:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 9:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 10:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 10:53:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 11:23:50 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 11:53:51 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 12:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 12:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 1:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 1:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 2:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 2:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 3:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 3:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 4:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 4:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 5:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 5:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 6:23:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 6:53:51 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 7:23:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 7:53:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 8:23:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 8:53:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 9:23:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 9:53:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 10:23:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 10:53:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 11:23:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/10/25, 11:53:52 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 12:23:52 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 12:53:52 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 1:23:52 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 1:53:52 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 2:23:52 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 2:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 3:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 3:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 4:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 4:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 5:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 5:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 6:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 6:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 7:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 7:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 8:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 8:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 9:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 9:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 10:23:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 10:53:53 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 11:23:54 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 11:53:54 AM HKT
+// Elapsed time: 156881 seconds
+selectCodeEditor("pwl_hlut.v", 114, 186); // be
+// Elapsed time: 24 seconds
+selectCheckBox(PAResourceItoN.MsgView_WARNING_MESSAGES, (String) null, false); // g: FALSE
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Common 17-55] 'set_property' expects at least one object. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc:33]. ]", 2); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Implementation, Design Initialization, [Common 17-55] 'set_property' expects at least one object. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc:33]. ]", 9, true); // ah - Node
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Implementation, Design Initialization, [Common 17-55] 'set_property' expects at least one object. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/constraints/pwl_constraints.xdc:33]. ]", 9); // ah
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 12:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 167 MB. Current time: 4/11/25, 12:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 1:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 1:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 2:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 2:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 3:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 3:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 4:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 4:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 5:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 5:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 6:23:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 6:53:54 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,546 MB. GUI used memory: 166 MB. Current time: 4/11/25, 7:23:55 PM HKT
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: update_compile_order -fileset sources_1 
+// HMemoryUtils.trashcanNow. Engine heap size: 4,634 MB. GUI used memory: 167 MB. Current time: 4/11/25, 7:53:55 PM HKT
+// Elapsed time: 29140 seconds
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+// Device view-level: 0.0
+// Elapsed time: 131 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+dismissDialog("Run Synthesis"); // A
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: INFO: [Project 1-1161] Replacing file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.srcs/utils_1/imports/synth_1/pwl_top.dcp with file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/pwl_top.dcp 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// TclEventType: FILE_SET_CHANGE
+// Tcl Message: [Fri Apr 11 20:15:09 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+// 'k' command handler elapsed time: 5 seconds
+// TclEventType: FILE_SET_CHANGE
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 49 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-1766] cannot open include file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/sqrt/sqrt_config.vh [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:6]. ]", 8, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// HMemoryUtils.trashcanNow. Engine heap size: 4,634 MB. GUI used memory: 169 MB. Current time: 4/11/25, 8:22:07 PM HKT
+// Elapsed time: 648 seconds
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-1766] cannot open include file /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/sqrt/sqrt_config.vh [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:6]. ]", 8); // ah
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// HMemoryUtils.trashcanNow. Engine heap size: 4,666 MB. GUI used memory: 169 MB. Current time: 4/11/25, 8:30:00 PM HKT
+// Elapsed time: 200 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Fri Apr 11 20:30:17 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// HMemoryUtils.trashcanNow. Engine heap size: 4,667 MB. GUI used memory: 169 MB. Current time: 4/11/25, 8:46:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,667 MB. GUI used memory: 169 MB. Current time: 4/11/25, 9:16:05 PM HKT
+// Elapsed time: 2951 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// [Engine Memory]: 4,683 MB (+6590kb) [98:35:46]
+// Elapsed time: 39 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Fri Apr 11 21:20:09 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 65 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2); // ah
+collapseTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-2715] syntax error near initial [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 6, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh;-;;-;16;-;line;-;6;-;;-;16;-;"); // ah
+// Elapsed time: 53 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis]", 5, true, false, false, false, true, false); // ah - Popup Trigger - Node
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-2715] syntax error near initial [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 6, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 85 seconds
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+// Device view-level: 0.1
+// HMemoryUtils.trashcanNow. Engine heap size: 4,684 MB. GUI used memory: 170 MB. Current time: 4/11/25, 9:46:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,684 MB. GUI used memory: 169 MB. Current time: 4/11/25, 10:14:22 PM HKT
+// Elapsed time: 3055 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Fri Apr 11 22:14:51 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 166 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+// Elapsed time: 35 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh;-;;-;16;-;line;-;6;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. , [HDL 9-806] Syntax error near ;. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]. ]", 4, false, false, false, false, false, true); // ah - Double Click
+// Elapsed time: 101 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. , [HDL 9-806] Syntax error near a. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]. ]", 3, false); // ah
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh;-;;-;16;-;line;-;35;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. , [HDL 9-806] Syntax error near a. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]. ]", 3, false, false, false, false, false, true); // ah - Double Click
+// Elapsed time: 15 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2, true, false, false, false, true, false); // ah - Popup Trigger - Node
+// Elapsed time: 17 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. , [HDL 9-806] Syntax error near a. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]. ]", 3, false, false, false, false, true, false); // ah - Popup Trigger
+// Elapsed time: 19 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. , [HDL 9-806] Syntax error near a. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]. ]", 3, false, false, false, false, true, false); // ah - Popup Trigger
+// Elapsed time: 83 seconds
+collapseTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-2715] syntax error near a [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:34]. ]", 6, true, false, false, false, true, false); // ah - Popup Trigger - Node
+selectMenu(PAResourceItoN.MsgTreePanel_MESSAGE_SEVERITY, "Message Severity"); // al
+// HMemoryUtils.trashcanNow. Engine heap size: 4,684 MB. GUI used memory: 170 MB. Current time: 4/11/25, 10:44:25 PM HKT
+// Elapsed time: 2155 seconds
+selectCodeEditor("tanh_inline_lut_data.vh", 530, 292); // be
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Fri Apr 11 22:58:27 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+selectButton("OptionPane.button", "OK"); // JButton
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Fri Apr 11 22:58:45 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+// 'k' command handler elapsed time: 9 seconds
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+// Elapsed time: 95 seconds
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+selectCodeEditor("tanh_inline_lut_data.vh", 166, 337); // be
+selectCodeEditor("tanh_inline_lut_data.vh", 168, 329); // be
+// Elapsed time: 65 seconds
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh;-;;-;16;-;line;-;6;-;;-;16;-;"); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. , [HDL 9-806] Syntax error near ;. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:35]. ]", 4, false, false, false, false, false, true); // ah - Double Click
+// Elapsed time: 15 seconds
+selectTree(PAResourceEtoH.FlowNavigatorTreePanel_FLOW_NAVIGATOR_TREE, "[, Synthesis, Run Synthesis]", 14, false); // n
+// Run Command: PAResourceCommand.PACommandNames_RUN_SYNTHESIS
+// TclEventType: RUN_MODIFY
+// TclEventType: DESIGN_STALE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_RESET
+// TclEventType: RUN_MODIFY
+// Tcl Message: reset_run synth_1 
+// TclEventType: RUN_LAUNCH
+// TclEventType: RUN_MODIFY
+// TclEventType: RUN_STATUS_CHANGE
+// Tcl Message: launch_runs synth_1 -jobs 20 
+// Tcl Message: [Fri Apr 11 23:01:50 2025] Launched synth_1... Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log 
+dismissDialog("Starting Design Runs"); // bA
+// TclEventType: RUN_STATUS_CHANGE
+// Elapsed time: 38 seconds
+selectCodeEditor("tanh_inline_lut_data.vh", 536, 145); // be
+closeView(PAResourceOtoP.PAViews_CODE, "Code"); // D
+// TclEventType: RUN_FAILED
+// TclEventType: RUN_STATUS_CHANGE
+// TclEventType: RUN_STEP_COMPLETED
+selectButton(RDIResource.BaseDialog_OK, "OK"); // a
+// Run Command: PAResourceCommand.PACommandNames_MESSAGE_WINDOW
+dismissDialog("Synthesis Failed"); // ag
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Analysis Results, sim_1, [HDL 9-806] Syntax error near initial. [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:6]. ]", 2, true); // ah - Node
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh;-;;-;16;-;line;-;6;-;;-;16;-;"); // ah
+// Elapsed time: 12 seconds
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-6156] failed synthesizing module 'pwl_hlut' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:11]. ]", 7); // ah
+// HMemoryUtils.trashcanNow. Engine heap size: 4,685 MB. GUI used memory: 170 MB. Current time: 4/11/25, 11:14:25 PM HKT
+// Elapsed time: 1134 seconds
+expandTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-6156] failed synthesizing module 'pwl_hlut' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:11]. ]", 7); // ah
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-6156] failed synthesizing module 'pwl_hlut' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:11]. , [Synth 8-6156] failed synthesizing module 'pwl_core' [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v:5]. ]", 8, false); // ah
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v;-;;-;16;-;line;-;5;-;;-;16;-;"); // ah
+// WARNING: HEventQueue.dispatchEvent() is taking  2191 ms.
+// HMemoryUtils.trashcanNow. Engine heap size: 4,700 MB. GUI used memory: 171 MB. Current time: 4/11/25, 11:22:00 PM HKT
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-280] expression must be constant: argument to $clog2 [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:159]. ]", 6, false); // ah
+messagesViewCrossProbe(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "src;-;/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v;-;;-;16;-;line;-;159;-;;-;16;-;"); // ah
+// WARNING: HEventQueue.dispatchEvent() is taking  2211 ms.
+// Elapsed time: 16 seconds
+selectCodeEditor("pwl_hlut.v", 303, 24, false, false, false, true, false); // be - Popup Trigger
+selectTree(PAResourceItoN.MsgTreePanel_MESSAGE_VIEW_TREE, "[, Synthesis, [Synth 8-280] expression must be constant: argument to $clog2 [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v:159]. ]", 6, false, false, false, false, true, false); // ah - Popup Trigger
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/11/25, 11:52:00 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 12:22:00 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 12:52:00 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 1:22:00 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 1:52:00 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 2:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 2:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 3:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 3:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 4:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 4:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 5:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 5:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 6:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 6:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 7:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 7:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 8:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 8:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 9:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 9:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 10:22:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 10:52:01 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 11:22:02 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 11:52:02 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 12:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 12:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 1:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 1:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 2:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 2:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 3:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 3:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 4:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 4:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 5:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 5:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 6:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 6:52:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 7:22:02 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 7:52:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 8:22:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 8:52:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 9:22:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 9:52:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 10:22:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 10:52:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 11:22:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/12/25, 11:52:03 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 12:22:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 12:52:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 1:22:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 1:52:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 2:22:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 2:52:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 3:22:03 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 3:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 4:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 4:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 5:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 5:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 6:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 6:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 7:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 7:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 8:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 8:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 9:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 9:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 10:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 10:52:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 11:22:04 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 11:52:05 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 12:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 12:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 1:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 1:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 2:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 2:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 3:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 3:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 4:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 4:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 5:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 5:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 6:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 6:52:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 7:22:05 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 7:52:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 8:22:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 8:52:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 9:22:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 9:52:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 10:22:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 10:52:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 11:22:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/13/25, 11:52:06 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 12:22:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 12:52:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 1:22:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 1:52:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 2:22:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 2:52:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 3:22:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 3:52:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 4:22:06 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 4:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 5:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 5:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 6:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 6:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 7:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 7:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 8:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 8:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 9:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 9:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 10:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 10:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 11:22:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 11:52:07 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 12:22:07 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 12:52:07 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 1:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 1:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 2:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 2:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 3:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 3:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 4:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 4:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 5:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 5:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 6:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 6:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 7:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 7:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 8:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 8:52:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 9:22:08 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 9:52:09 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 10:22:09 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 10:52:09 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 11:22:09 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/14/25, 11:52:09 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 12:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 12:52:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 1:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 1:52:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 2:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 2:52:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 3:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 3:52:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 4:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 4:52:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 5:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 5:52:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 6:22:09 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 6:52:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 7:22:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 7:52:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 8:22:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 8:52:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 9:22:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 9:52:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 10:22:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 10:52:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 11:22:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 11:52:10 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 12:22:10 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 12:52:10 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 1:22:10 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 1:52:10 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 2:22:10 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 2:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,705 MB. GUI used memory: 171 MB. Current time: 4/15/25, 3:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 3:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 4:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 4:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 5:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 5:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 6:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 6:52:11 PM HKT
+// Elapsed time: 330338 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "tanh_inline_lut_data.vh", 2); // m
+selectCodeEditor("tanh_inline_lut_data.vh", 5, 188); // be
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 7:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 7:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 8:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 8:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 9:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 9:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 10:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 10:52:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 11:22:11 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/15/25, 11:52:12 PM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 12:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 12:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 1:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 1:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 2:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 2:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 3:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 3:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 4:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 4:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 5:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 5:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 6:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 6:52:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 7:22:12 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 7:52:13 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 8:22:13 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 8:52:13 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 9:22:13 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 9:52:13 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 10:22:13 AM HKT
+// HMemoryUtils.trashcanNow. Engine heap size: 4,710 MB. GUI used memory: 171 MB. Current time: 4/16/25, 10:52:13 AM HKT
