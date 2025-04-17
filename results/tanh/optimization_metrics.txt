@@ -5,11 +5,15 @@ Best Epsilon: 0.0001
 Initial Intervals: 2049
 Final Intervals: 24
 Compression Ratio: 0.011713
-Final Error: 8.02005e-05
 Error Analysis:
 - Acceptable Error Threshold: 0.0001
-- Error/Threshold Ratio: 0.802005
+- Achieved Error: 8.933e-05
+- Error/Threshold Ratio: 0.8933
 - Status: PASS
+Hardware Parameters:
+- Initial Fractional Bits: 16
+- Optimized Fractional Bits: 16
+- Scale Factor: 65536
 ROM Generation:
 - Parameters Count: 24
 - Memory Footprint: 1344 bytes

@@ -25,19 +25,21 @@ set_property IOSTANDARD LVCMOS33 [get_ports m_axis_tvalid]
 set_property IOSTANDARD LVCMOS33 [get_ports m_axis_tready]
 
 # Configuration options
-set_property CFGBVS VCCO [current_design]
 set_property CONFIG_VOLTAGE 3.3 [current_design]
 
 # ADDED: Memory and DSP optimization constraints
-# Force LUT-based distributed RAM implementation
-set_property RAM_STYLE DISTRIBUTED [get_cells -hierarchical *group_info_reg*]
-set_property RAM_STYLE DISTRIBUTED [get_cells -hierarchical *delta_data_reg*]
+# Force LUT-based distributed RAM implementation - adjusted patterns to match RTL
+set_property RAM_STYLE DISTRIBUTED [get_cells -quiet -hierarchical *group_info*]
+set_property RAM_STYLE DISTRIBUTED [get_cells -quiet -hierarchical *delta_data*]
 
-# Force DSP usage for multiplication operations
-set_property USE_DSP48 YES [get_cells -hierarchical *a_x*]
-set_property USE_DSP48 YES [get_cells -hierarchical *b_x*]
-set_property USE_DSP48 YES [get_cells -hierarchical *scaled_delta*]
-set_property USE_DSP48 YES [get_cells -hierarchical *a_x2*]
+# Force DSP usage for multiplication operations - adjusted patterns to match RTL
+# Find all multiplications
+set_property USE_DSP48 YES [get_cells -quiet -hierarchical *scaled_delta_slope*]
+set_property USE_DSP48 YES [get_cells -quiet -hierarchical *scaled_delta_intercept*]
+set_property USE_DSP48 YES [get_cells -quiet -hierarchical *b_x*]
+set_property USE_DSP48 YES [get_cells -quiet -hierarchical *interval_calc*]
 
-# Pipeline optimization
-set_property SHREG_EXTRACT NO [get_cells -hierarchical *valid_pipe*]
+# Pipeline optimization - use -quiet flag to prevent errors if cells don't exist
+set_property SHREG_EXTRACT NO [get_cells -quiet -hierarchical *valid_reg*]
+set_property SHREG_EXTRACT NO [get_cells -quiet -hierarchical *valid_pipe*]
+set_property SHREG_EXTRACT NO [get_cells -quiet -hierarchical *out_valid*]

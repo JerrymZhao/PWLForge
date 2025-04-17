@@ -1,0 +1,19 @@
+Vivado Simulator v2021.2
+Copyright 1986-1999, 2001-2021 Xilinx, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2021.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip --snapshot tb_pwl_core_behav xil_defaultlib.tb_pwl_core xil_defaultlib.glbl -log elaborate.log 
+Using 8 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" Line 7. Module pwl_core doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" Line 8. Module pwl_hlut doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" Line 7. Module pwl_core doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" Line 8. Module pwl_hlut doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.pwl_hlut
+Compiling module xil_defaultlib.pwl_core
+Compiling module xil_defaultlib.tb_pwl_core
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot tb_pwl_core_behav

@@ -1,5 +1,5 @@
 //================================================================================
-// tb_pwl_top.v - System-level testbench with AXI Stream interfaces
+// tb_pwl_top.v - System-level testbench with AXI Stream interfaces for tanh function
 //================================================================================
 
 `timescale 1ns/1ps
@@ -27,6 +27,9 @@ module tb_pwl_top;
     integer fail_count = 0;
     integer timeout_count = 0;
     
+    // Timeout flag declared at module level
+    reg timeout_flag;
+    
     // DUT instance
     pwl_top dut (
         .clk(clk),
@@ -42,17 +45,17 @@ module tb_pwl_top;
     // Clock generation
     always #(CLK_PERIOD/2) clk = ~clk;
     
-    // Timeout task
+    // Modified timeout task - returns when valid is detected or timeout occurs
     task wait_for_valid_with_timeout;
-        input integer timeout_cycles;
-        output reg timeout_occurred;
+        input integer max_cycles;
         begin
-            timeout_occurred = 0;
-            repeat (timeout_cycles) begin
+            timeout_flag = 0;
+            repeat (max_cycles) begin
                 @(posedge clk);
-                if (m_axis_tvalid) break;
-                if (timeout_cycles == 1) timeout_occurred = 1;
+                if (m_axis_tvalid) return; // Exit task if valid detected
             end
+            // If we get here, timeout occurred
+            timeout_flag = 1;
         end
     endtask
     
@@ -64,8 +67,8 @@ module tb_pwl_top;
         s_axis_tvalid = 0;
         m_axis_tready = 1; // Always ready to receive output
         
-        // Load test vectors - path should be adjusted based on the function being tested
-        $readmemh("../../results/function_name/sim/test_vectors/function_name_vectors.txt", test_vectors);
+        // Load test vectors - updated path for tanh function
+        $readmemh("tanh_vectors.txt", test_vectors);
         
         // Reset sequence
         repeat (5) @(posedge clk);
@@ -87,20 +90,20 @@ module tb_pwl_top;
             s_axis_tvalid = 1'b0;
             
             // Wait for output valid with timeout
-            reg timeout;
-            wait_for_valid_with_timeout(100, timeout);
+            timeout_flag = 0;
+            wait_for_valid_with_timeout(100);
             
-            if (timeout) begin
+            if (timeout_flag) begin
                 $display("Vector %0d: TIMEOUT - No response within 100 cycles", vec_count);
                 timeout_count = timeout_count + 1;
             end else begin
                 // Check result
                 if (m_axis_tdata == test_vectors[vec_count][15:0]) begin
-                    $display("Vector %0d: PASS - x=%h, y=%h", 
+                    $display("Vector %0d: PASS - x=%h, y=%h (tanh)", 
                              vec_count, test_vectors[vec_count][31:16], m_axis_tdata);
                     pass_count = pass_count + 1;
                 end else begin
-                    $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h", 
+                    $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h (tanh)", 
                              vec_count, test_vectors[vec_count][31:16], 
                              m_axis_tdata, test_vectors[vec_count][15:0]);
                     fail_count = fail_count + 1;
@@ -112,7 +115,7 @@ module tb_pwl_top;
         end
         
         // Test summary
-        $display("\nSystem Test Summary:");
+        $display("\nTanh System Test Summary:");
         $display("Total vectors: %0d", vec_count);
         $display("Passed: %0d", pass_count);
         $display("Failed: %0d", fail_count);
@@ -123,7 +126,7 @@ module tb_pwl_top;
     
     // VCD generation
     initial begin
-        $dumpfile("pwl_top_sim.vcd");
+        $dumpfile("tanh_pwl_top_sim.vcd");
         $dumpvars(0, tb_pwl_top);
     end
 endmodule

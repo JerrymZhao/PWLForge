@@ -31145,3 +31145,4 @@ CRITICAL WARNING: [HDL 9-806] Syntax error near "f". [/vol/datastore/jmzhao/Comp
 CRITICAL WARNING: [HDL 9-806] Syntax error near ";". [/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/results/tanh/tanh_inline_lut_data.vh:124]
 [Fri Apr 11 23:01:50 2025] Launched synth_1...
 Run output will be captured here: /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/pwl_recover/project_1/project_1.runs/synth_1/runme.log
+set_property include_dirs /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware [get_filesets sim_1]

@@ -2,6 +2,9 @@
 // pwl_top.v - AXI Stream interface wrapper for PWL function
 //================================================================================
 
+`include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/include/tanh_config.vh"
+`include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/include/tanh_optimized_bitwidths.vh"
+
 module pwl_top (
     input wire clk, // Clock
     input wire rst_n, // Active low reset

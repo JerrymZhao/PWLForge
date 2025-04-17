@@ -209,6 +209,12 @@ struct FunctionProcessingResult {
     std::vector<IntervalGroup> compressed_groups;
     std::vector<Interval> intervals;
     std::vector<FitParameters> fit_params;
+
+    // Hardware implementation details
+    int optimized_frac_bits;
+    double optimized_scale_factor;
+    double final_error;
+    bool hw_verification_success;
 };
 FunctionProcessingResult processFunction(const std::string& expression_str,
                     const std::string& results_dir,
@@ -529,13 +535,9 @@ FunctionProcessingResult processFunction(const std::string& expression_str,
 
         saveCompressedGroupsToFile(compressed_groups, groups_file, best_intervals,
                                 best_fit_params_list, expression_str, start, end);
-        // Generate test vectors for hardware verification
-        std::cout << "Generating test vectors for hardware verification...\n";
-        
-        // Call the function to generate test vectors
-        generateSimulationVectors(expression_str, func_dir, clean_name, start, end, scale_factor, frac_bits);    
 
         double max_error_value = 0.0;
+        int suggested_frac_bits = frac_bits; // 初始使用之前计算的值
         double compressed_error = evaluateCompressedErrorWithQuantization(
                                 expression_str,
                                 best_intervals,
@@ -545,10 +547,93 @@ FunctionProcessingResult processFunction(const std::string& expression_str,
                                 &max_error_value,    // Optional max_error_value
                                 config.acceptable_error);
         
+        if (compressed_error > config.acceptable_error) {
+            int min_required_bits = static_cast<int>(std::ceil(std::log2(1.0 / max_error_value)));
+            if (min_required_bits > frac_bits && min_required_bits <= 24) {
+                suggested_frac_bits = min_required_bits;
+                std::cout << "Adjusting fractional bits from " << frac_bits 
+                          << " to " << suggested_frac_bits 
+                          << " based on error analysis" << std::endl;
+            }
+        } else if (compressed_error < config.acceptable_error / 4 && frac_bits > 10) {
+            int reduced_bits = frac_bits - 1;
+            double test_error = evaluateCompressedErrorWithQuantization(
+                               expression_str,
+                               best_intervals,
+                               best_fit_params_list,
+                               compressed_groups,
+                               reduced_bits,
+                               nullptr,
+                               config.acceptable_error);
+            
+            if (test_error <= config.acceptable_error) {
+                suggested_frac_bits = reduced_bits;
+                std::cout << "Reduced fractional bits from " << frac_bits 
+                          << " to " << suggested_frac_bits 
+                          << " (error: " << test_error << " still meets target)" << std::endl;
+
+                if (test_error < config.acceptable_error / 2 && reduced_bits > 10) {
+                    int further_reduced = reduced_bits - 1;
+                    test_error = evaluateCompressedErrorWithQuantization(
+                                 expression_str,
+                                 best_intervals,
+                                 best_fit_params_list,
+                                 compressed_groups,
+                                 further_reduced,
+                                 nullptr,
+                                 config.acceptable_error);
+                                 
+                    if (test_error <= config.acceptable_error) {
+                        suggested_frac_bits = further_reduced;
+                        std::cout << "Further reduced to " << suggested_frac_bits 
+                                  << " bits (error: " << test_error << ")" << std::endl;
+                    }
+                }
+            }
+        }
+
+        // Make sure using the best fractional bits
+        int hw_frac_bits = suggested_frac_bits;
+        int hw_scale_factor = 1 << hw_frac_bits;
+        std::cout << "\n===== Hardware Parameter Optimization =====\n";
+        std::cout << "Function: " << expression_str << "\n";
+        std::cout << "Target error: " << config.acceptable_error << "\n";
+        std::cout << "Initial analysis: " << frac_bits << " bits (error: " << compressed_error << ")\n";
+        std::cout << "Optimized parameters: " << hw_frac_bits << " bits (scale factor: " << hw_scale_factor << ")\n";
+        // Generate test vectors for hardware verification
+        std::cout << "Generating test vectors for hardware verification...\n";
+        generateSimulationVectors(
+            expression_str, 
+            func_dir, 
+            clean_name, 
+            start, 
+            end, 
+            static_cast<int>(scale_factor),
+            frac_bits,
+            100                             // 100 test vectors
+        );
+        // Hardware verification step
+        bool hw_verification_success = verifyHardwareImplementation(
+            expression_str,
+            compressed_groups,
+            suggested_frac_bits,     // Use optimized bit width
+            config.acceptable_error,
+            func_dir,
+            clean_name,
+            start, end,              // Range for test point generation if needed
+            false                    // Use average-based verification
+        );
+        
+        // Store verification result
+        result.hw_verification_success = hw_verification_success;
+
         // Store results in the return structure
         result.compressed_groups = compressed_groups;
         result.intervals = best_intervals;
         result.fit_params = best_fit_params_list;
+        result.optimized_frac_bits = hw_frac_bits;        // 新增：存储优化后的位宽
+        result.optimized_scale_factor = hw_scale_factor;  // 新增：存储优化后的缩放因子
+        result.final_error = compressed_error;            // 新增：存储最终误差值
         
         // Save metrics
         std::ofstream metrics(metrics_file);
@@ -559,11 +644,15 @@ FunctionProcessingResult processFunction(const std::string& expression_str,
                 << "Initial Intervals: " << initial_interval_count << "\n"
                 << "Final Intervals: " << best_intervals.size() << "\n"
                 << "Compression Ratio: " << best_compression_ratio << "\n"
-                << "Final Error: " << best_error << "\n"
                 << "Error Analysis:\n"
                 << "- Acceptable Error Threshold: " << config.acceptable_error << "\n"
-                << "- Error/Threshold Ratio: " << (best_error/config.acceptable_error) << "\n"
-                << "- Status: " << (best_error <= config.acceptable_error ? "PASS" : "FAIL") << "\n"
+                << "- Achieved Error: " << compressed_error << "\n"
+                << "- Error/Threshold Ratio: " << (compressed_error/config.acceptable_error) << "\n"
+                << "- Status: " << (compressed_error <= config.acceptable_error ? "PASS" : "FAIL") << "\n"
+                << "Hardware Parameters:\n"
+                << "- Initial Fractional Bits: " << frac_bits << "\n"
+                << "- Optimized Fractional Bits: " << hw_frac_bits << "\n"
+                << "- Scale Factor: " << hw_scale_factor << "\n"
                 << "ROM Generation:\n"
                 << "- Parameters Count: " << best_fit_params_list.size() << "\n"
                 << "- Memory Footprint: " << (best_fit_params_list.size() * sizeof(FitParameters)) << " bytes\n";
@@ -611,7 +700,7 @@ int main(int argc, char* argv[]) {
     config.epsilon_steps = 1;
     config.acceptable_error = 1e-4;
 
-    // 硬件配置参数
+    // Hareware implementation parameters
     double hw_scale_factor = 1024.0;  // 10-bit fixed point precision
     double hw_target_error = 1e-4;    // Target error for hardware implementation
     bool generate_hw = false;         // Flag to generate hardware files
@@ -645,13 +734,10 @@ int main(int argc, char* argv[]) {
                 std::cout << "\nProcessing function: " << (is_custom ? "Custom" : "built-in")
                         << " function: " << expr << std::endl;
                 
-                // 处理函数并获取结果
                 FunctionProcessingResult result = processFunction(parsed_expr, results_dir, start, end, num_points, config, custom_functions);
-                
-                // 提取函数名用于文件命名
+
                 std::string func_name = expr.substr(0, expr.find('('));
                 
-                // 如果需要，生成硬件参数
                 if (generate_hw) {
                     generateHardwareImplementation(
                         results_dir, func_name, result.compressed_groups, 
@@ -671,7 +757,7 @@ int main(int argc, char* argv[]) {
                     config.acceptable_error = error_acceptable;
                     config.min_unit_length = (end - start) / (num_points * 16);
                     
-                    // 检查是否请求硬件生成
+                    // Check if hardware option is provided
                     if (iss >> hw_option) {
                         if (hw_option == "hw" || hw_option == "HW") {
                             generate_hw = true;
@@ -703,13 +789,11 @@ int main(int argc, char* argv[]) {
             std::cout << "Processing " << (is_custom ? "custom" : "built-in") 
                     << " function: " << expression_str << std::endl;
             
-            // 处理函数并获取结果
+            // Core processing function, return compressed groups
             FunctionProcessingResult result = processFunction(expression_str, results_dir, start, end, num_points, config, custom_functions);
             
-            // 提取函数名用于文件命名
             std::string func_name = expression_str.substr(0, expression_str.find('('));
-            
-            // 如果需要，生成硬件参数文件
+            // Hardware implementation
             if (generate_hw) {
                 generateHardwareImplementation(
                     results_dir, func_name, result.compressed_groups, 

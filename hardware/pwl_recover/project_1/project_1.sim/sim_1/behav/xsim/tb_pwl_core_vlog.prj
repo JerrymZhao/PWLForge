@@ -1,0 +1,11 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  -i "../../../../../../" \
+"../../../../../../rtl/pwl_core.v" \
+"../../../../../../rtl/pwl_hlut.v" \
+"../../../../../../sim/tb_pwl_core.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

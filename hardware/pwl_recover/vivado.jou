@@ -114,3 +114,4 @@ wait_on_run synth_1
 reset_run synth_1
 launch_runs synth_1 -jobs 20
 wait_on_run synth_1
+set_property include_dirs /vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware [get_filesets sim_1]

@@ -1,5 +1,5 @@
 //================================================================================
-// tb_pwl_core.v - Testbench for PWL Core module
+// tb_pwl_core.v - Testbench for PWL Core module with tanh function
 //================================================================================
 
 `timescale 1ns/1ps
@@ -41,8 +41,8 @@ module tb_pwl_core;
     
     // Stimulus
     initial begin
-        // Load test vectors - path should be adjusted based on the function being tested
-        $readmemh("../../results/function_name/sim/test_vectors/function_name_vectors.txt", test_vectors);
+        // Load test vectors - updated path for tanh function
+        $readmemh("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/test_vectors/tanh_vectors.txt", test_vectors);
         
         // Reset sequence
         rst_n = 0;
@@ -67,10 +67,10 @@ module tb_pwl_core;
             
             // Check result
             if (y_out == test_vectors[vec_count][15:0]) begin
-                $display("Vector %0d: PASS - x=%h, y=%h", vec_count, x_in, y_out);
+                $display("Vector %0d: PASS - x=%h, y=%h (tanh)", vec_count, x_in, y_out);
                 pass_count = pass_count + 1;
             end else begin
-                $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h", 
+                $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h (tanh)", 
                          vec_count, x_in, y_out, test_vectors[vec_count][15:0]);
                 fail_count = fail_count + 1;
             end
@@ -79,7 +79,7 @@ module tb_pwl_core;
         end
         
         // Test summary
-        $display("\nTest Summary:");
+        $display("\nTanh Core Test Summary:");
         $display("Total vectors: %0d", vec_count);
         $display("Passed: %0d", pass_count);
         $display("Failed: %0d\n", fail_count);
@@ -89,7 +89,7 @@ module tb_pwl_core;
     
     // VCD generation
     initial begin
-        $dumpfile("pwl_core_sim.vcd");
+        $dumpfile("tanh_pwl_core_sim.vcd");
         $dumpvars(0, tb_pwl_core);
     end
 endmodule
