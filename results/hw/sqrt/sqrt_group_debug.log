@@ -1,0 +1,16 @@
+===== Group 0 ===== 
+Storage Type: NORMAL
+Base Interval: [-2, -1.99658]
+Base Params: b=-nan, c=-nan
+Scale Factors: start=1, slope=256, intercept=256
+Quantized: start=-512, length=1 (original end=-511), b=-2147483648, c=-2147483648
+Verification: start + length = -511 should be approximately equal to end = -511
+
+===== Group 1 ===== 
+Storage Type: ORPHAN
+Base Interval: [0, 0]
+Base Params: b=0, c=0
+Scale Factors: start=1, slope=65536, intercept=65536
+Quantized: start=0, length=0 (original end=0), b=0, c=0
+Verification: start + length = 0 should be approximately equal to end = 0
+

@@ -6,14 +6,14 @@ Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" Line 7. Module pwl_core doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" Line 8. Module pwl_hlut doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" Line 7. Module pwl_core doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" Line 8. Module pwl_hlut doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" Line 7. Module pwl_core(FUNCTION_TYPE="GENERIC") doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" Line 4. Module pwl_hlut doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" Line 7. Module pwl_core(FUNCTION_TYPE="GENERIC") doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" Line 4. Module pwl_hlut doesn't have a timescale but at least one module in design has a timescale.
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.pwl_hlut
-Compiling module xil_defaultlib.pwl_core
+Compiling module xil_defaultlib.pwl_core(FUNCTION_TYPE="GENERIC"...
 Compiling module xil_defaultlib.tb_pwl_core
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot tb_pwl_core_behav

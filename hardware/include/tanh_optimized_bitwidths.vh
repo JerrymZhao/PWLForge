@@ -1,11 +1,17 @@
 // Auto-generated bit width configuration for tanh
 // Alignment mode: 1
 
-`define OPT_SCALE_FACTOR 1024
-`define OPT_FRAC_BITS 10
+`define OPT_SCALE_FACTOR 32768
+`define OPT_FRAC_BITS 15
+
+// Input/Output data width configuration
+`define INPUT_DATA_WIDTH 16
+`define OUTPUT_DATA_WIDTH 16
+`define INPUT_INT_BITS 1
+`define OUTPUT_INT_BITS 1
 
 `define OPT_NUM_GROUPS 3
-`define OPT_TOTAL_INTERVALS 32
+`define OPT_TOTAL_INTERVALS 28
 `define OPT_MAX_INTERVALS_PER_GROUP 16
 
 `define OPT_GROUP_ADDR_WIDTH 2
@@ -65,5 +71,5 @@
 
 // Memory sizing
 `define OPT_GROUP_MEMORY_BITS 480
-`define OPT_DELTA_MEMORY_BITS 2048
-`define OPT_TOTAL_MEMORY_BITS 2528
+`define OPT_DELTA_MEMORY_BITS 1792
+`define OPT_TOTAL_MEMORY_BITS 2272

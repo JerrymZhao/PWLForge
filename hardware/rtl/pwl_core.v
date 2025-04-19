@@ -5,17 +5,18 @@
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/include/tanh_optimized_bitwidths.vh"
 
 module pwl_core #(
-    parameter INPUT_REG_STAGES = 1, // Number of input register stages
-    parameter OUTPUT_REG_STAGES = 1 // Number of output register stages
+    parameter FUNCTION_TYPE = 0,     // 添加缺失的FUNCTION_TYPE参数
+    parameter INPUT_REG_STAGES = 1,  // Number of input register stages
+    parameter OUTPUT_REG_STAGES = 1  // Number of output register stages
 ) (
-    input wire clk, // Clock
-    input wire rst_n, // Active low reset
-    input wire [15:0] x_in, // Input value
-    input wire in_valid, // Input valid signal
-    output wire in_ready, // Input ready signal
-    output wire [15:0] y_out, // Output value
-    output wire out_valid, // Output valid signal
-    input wire out_ready // Output ready signal
+    input wire clk,             // Clock
+    input wire rst_n,           // Active low reset
+    input wire [15:0] x_in,     // Input value
+    input wire in_valid,        // Input valid signal
+    output wire in_ready,       // Input ready signal
+    output wire [15:0] y_out,   // Output value
+    output wire out_valid,      // Output valid signal
+    input wire out_ready        // Output ready signal
 );
 
     // Input buffer stage
@@ -80,14 +81,14 @@ module pwl_core #(
         end
     end
 
-    // HLUT instantiation
+    // HLUT instantiation - 修复端口名称映射
     pwl_hlut hlut_inst (
         .clk(clk),
         .rst_n(rst_n),
         .x_in(x_buffered),
-        .in_valid(hlut_in_valid),
+        .valid_in(hlut_in_valid),   // 修改: in_valid → valid_in
         .y_out(hlut_y_out),
-        .out_valid(hlut_out_valid)
+        .valid_out(hlut_out_valid)  // 修改: out_valid → valid_out
     );
 
     // Connect input to HLUT

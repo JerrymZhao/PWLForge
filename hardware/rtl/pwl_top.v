@@ -6,8 +6,8 @@
 `include "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/include/tanh_optimized_bitwidths.vh"
 
 module pwl_top (
-    input wire clk, // Clock
-    input wire rst_n, // Active low reset
+    input wire clk,                  // Clock
+    input wire rst_n,                // Active low reset
 
     // AXI Stream slave interface
     input wire [15:0] s_axis_tdata,  // Input data
@@ -22,6 +22,7 @@ module pwl_top (
 
     // Instantiate the core processor
     pwl_core #(
+        .FUNCTION_TYPE(0),           // 添加FUNCTION_TYPE参数，默认为0
         .INPUT_REG_STAGES(1),
         .OUTPUT_REG_STAGES(1)
     ) pwl_core_inst (

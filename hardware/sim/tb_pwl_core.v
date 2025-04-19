@@ -1,5 +1,5 @@
 //================================================================================
-// tb_pwl_core.v - Testbench for PWL Core module with tanh function
+// tb_pwl_core.v - Testbench for Generic PWL Core module
 //================================================================================
 
 `timescale 1ns/1ps
@@ -15,16 +15,21 @@ module tb_pwl_core;
     wire out_valid;
     reg out_ready = 1;
     
-    // Test vectors
+    // Test vectors and configuration
     reg [31:0] test_vectors [0:99];
     integer vec_count = 0;
     integer pass_count = 0;
     integer fail_count = 0;
     
+    // Function selection (configurable parameter)
+    parameter FUNCTION_TYPE = "GENERIC";
+    parameter TEST_VECTOR_PATH = "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/test_vectors/tanh_vectors.txt";
+    
     // DUT instance
     pwl_core #(
         .INPUT_REG_STAGES(1),
-        .OUTPUT_REG_STAGES(1)
+        .OUTPUT_REG_STAGES(1),
+        .FUNCTION_TYPE(FUNCTION_TYPE)
     ) dut (
         .clk(clk),
         .rst_n(rst_n),
@@ -41,8 +46,8 @@ module tb_pwl_core;
     
     // Stimulus
     initial begin
-        // Load test vectors - updated path for tanh function
-        $readmemh("/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/test_vectors/tanh_vectors.txt", test_vectors);
+        // Load test vectors - generic path that can be overridden
+        $readmemh(TEST_VECTOR_PATH, test_vectors);
         
         // Reset sequence
         rst_n = 0;
@@ -67,11 +72,12 @@ module tb_pwl_core;
             
             // Check result
             if (y_out == test_vectors[vec_count][15:0]) begin
-                $display("Vector %0d: PASS - x=%h, y=%h (tanh)", vec_count, x_in, y_out);
+                $display("Vector %0d: PASS - x=%h, y=%h (%s)", 
+                         vec_count, x_in, y_out, FUNCTION_TYPE);
                 pass_count = pass_count + 1;
             end else begin
-                $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h (tanh)", 
-                         vec_count, x_in, y_out, test_vectors[vec_count][15:0]);
+                $display("Vector %0d: FAIL - x=%h, got y=%h, expected=%h (%s)", 
+                         vec_count, x_in, y_out, test_vectors[vec_count][15:0], FUNCTION_TYPE);
                 fail_count = fail_count + 1;
             end
             
@@ -79,7 +85,7 @@ module tb_pwl_core;
         end
         
         // Test summary
-        $display("\nTanh Core Test Summary:");
+        $display("\nPWL Core Test Summary for %s:", FUNCTION_TYPE);
         $display("Total vectors: %0d", vec_count);
         $display("Passed: %0d", pass_count);
         $display("Failed: %0d\n", fail_count);
@@ -89,7 +95,7 @@ module tb_pwl_core;
     
     // VCD generation
     initial begin
-        $dumpfile("tanh_pwl_core_sim.vcd");
+        $dumpfile("pwl_core_sim.vcd");
         $dumpvars(0, tb_pwl_core);
     end
 endmodule

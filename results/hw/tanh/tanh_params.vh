@@ -8,8 +8,8 @@
 // Function parameters
 `define tanh_DOMAIN_START 0
 `define tanh_DOMAIN_END 1
-`define tanh_SCALE_FACTOR 1024
-`define tanh_DATA_WIDTH 10
+`define tanh_SCALE_FACTOR 32768
+`define tanh_DATA_WIDTH 15
 
 // Group parameters
 `define tanh_GROUP_COUNT 3

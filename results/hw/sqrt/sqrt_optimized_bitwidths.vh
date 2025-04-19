@@ -1,38 +1,39 @@
-// Auto-generated bit width definitions for sqrt
-// Generated using 16-bit aligned memory layout with power-of-two optimization
+// Auto-generated bit width configuration for sqrt
+// Alignment mode: 1
 
-`ifndef sqrt_OPTIMIZED_BITWIDTHS_VH
-`define sqrt_OPTIMIZED_BITWIDTHS_VH
-
-// Common parameters
-`define OPT_FRAC_BITS 10
 `define OPT_SCALE_FACTOR 1024
-`define OPT_NUM_GROUPS 8
-`define OPT_TOTAL_INTERVALS 80
-`define OPT_MAX_INTERVALS_PER_GROUP 24
+`define OPT_FRAC_BITS 10
 
-// Power-of-two optimization
-`define OPT_USE_POWER_OF_TWO 1
+// Input/Output data width configuration
+`define INPUT_DATA_WIDTH 16
+`define OUTPUT_DATA_WIDTH 16
+`define INPUT_INT_BITS 6
+`define OUTPUT_INT_BITS 6
 
-// Group entry parameters
+`define OPT_NUM_GROUPS 2
+`define OPT_TOTAL_INTERVALS 2049
+`define OPT_MAX_INTERVALS_PER_GROUP 2048
+
+`define OPT_GROUP_ADDR_WIDTH 1
+`define OPT_INTERVAL_ADDR_WIDTH 11
+`define OPT_DELTA_ADDR_WIDTH 12
+
 `define OPT_GROUP_ENTRY_BITS 160
 `define OPT_GROUP_ENTRY_BYTES 20
-`define OPT_GROUP_GROUP_START_POS 0
-`define OPT_GROUP_GROUP_START_WIDTH 16
-`define OPT_GROUP_GROUP_END_POS 16
-`define OPT_GROUP_GROUP_END_WIDTH 16
-`define OPT_GROUP_BASE_B_POS 32
-`define OPT_GROUP_BASE_B_WIDTH 16
-`define OPT_GROUP_BASE_C_POS 48
-`define OPT_GROUP_BASE_C_WIDTH 16
-`define OPT_GROUP_FLAGS_POS 64
-`define OPT_GROUP_FLAGS_WIDTH 1
-`define OPT_GROUP_SIZE_POS 65
-`define OPT_GROUP_SIZE_WIDTH 8
-`define OPT_GROUP_USE_POW2_POS 80
-`define OPT_GROUP_USE_POW2_WIDTH 1
-`define OPT_GROUP_SHIFT_AMOUNT_POS 81
-`define OPT_GROUP_SHIFT_AMOUNT_WIDTH 5
+
+// Group field positions and widths
+`define OPT_GROUP_START_POS 0
+`define OPT_GROUP_START_WIDTH 16
+`define OPT_GROUP_END_POS 16
+`define OPT_GROUP_END_WIDTH 16
+`define OPT_GROUP_B_POS 32
+`define OPT_GROUP_B_WIDTH 16
+`define OPT_GROUP_C_POS 48
+`define OPT_GROUP_C_WIDTH 16
+`define OPT_GROUP_FLAGS_SIZE_POS 64
+`define OPT_GROUP_FLAGS_SIZE_WIDTH 16
+`define OPT_GROUP_POW2_POS 80
+`define OPT_GROUP_POW2_WIDTH 16
 `define OPT_GROUP_OFFSET_POS 96
 `define OPT_GROUP_OFFSET_WIDTH 16
 `define OPT_GROUP_START_SCALE_POS 112
@@ -42,22 +43,33 @@
 `define OPT_GROUP_INTERCEPT_SCALE_POS 144
 `define OPT_GROUP_INTERCEPT_SCALE_WIDTH 16
 
-// Delta entry parameters
+// Group subfield positions
+`define OPT_GROUP_FLAGS_POS 64
+`define OPT_GROUP_SIZE_POS 65
+`define OPT_GROUP_USE_POW2_POS 80
+`define OPT_GROUP_SHIFT_AMOUNT_POS 81
+
 `define OPT_DELTA_ENTRY_BITS 64
 `define OPT_DELTA_ENTRY_BYTES 8
-`define OPT_DELTA_DELTA_START_POS 0
-`define OPT_DELTA_DELTA_START_WIDTH 16
-`define OPT_DELTA_DELTA_SLOPE_POS 16
-`define OPT_DELTA_DELTA_SLOPE_WIDTH 16
-`define OPT_DELTA_DELTA_INTERCEPT_POS 32
-`define OPT_DELTA_DELTA_INTERCEPT_WIDTH 16
+
+// Delta field positions and widths
+`define OPT_DELTA_START_POS 0
+`define OPT_DELTA_START_WIDTH 16
+`define OPT_DELTA_SLOPE_POS 16
+`define OPT_DELTA_SLOPE_WIDTH 16
+`define OPT_DELTA_INTERCEPT_POS 32
+`define OPT_DELTA_INTERCEPT_WIDTH 16
+`define OPT_DELTA_REFLECTION_WORD_POS 48
+
+// Special compatibility macros
 `define OPT_DELTA_REFLECTION_POS 48
 `define OPT_DELTA_REFLECTION_WIDTH 2
 
-// Memory size requirements
-`define OPT_TOTAL_GROUP_BITS 1280
-`define OPT_TOTAL_DELTA_BITS 5120
-`define OPT_TOTAL_MEMORY_BITS 6400
-`define OPT_TOTAL_MEMORY_BYTES 800
+// Reflection flag positions
+`define OPT_DELTA_REFLECTION_X_POS 48
+`define OPT_DELTA_REFLECTION_Y_POS 49
 
-`endif // sqrt_OPTIMIZED_BITWIDTHS_VH
+// Memory sizing
+`define OPT_GROUP_MEMORY_BITS 320
+`define OPT_DELTA_MEMORY_BITS 131136
+`define OPT_TOTAL_MEMORY_BITS 131456

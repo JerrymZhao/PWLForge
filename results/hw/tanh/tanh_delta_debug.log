@@ -1,0 +1,158 @@
+===== Group 0 ===== 
+Storage Type: NORMAL
+Interval Count: 8
+Base Params: b=0.981285, c=0.001682
+Scale Factors: start=65536, slope=65536, intercept=65536
+
+Interval 0:
+  Original: start=0.12213, slope=0, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=8004, slope=0, intercept=0
+  Recovered (relative): start=0.122131, slope=0, intercept=0
+
+Interval 1:
+  Original: start=0.183195, slope=-1293, intercept=219, x_refl=0, y_refl=0
+  Quantized: start=12006, slope=-1293, intercept=219
+  Recovered (relative): start=0.183197, slope=-8.4738e+07, intercept=1.43524e+07
+
+Interval 2:
+  Original: start=0.24426, slope=-3001, intercept=611, x_refl=0, y_refl=0
+  Quantized: start=16008, slope=-3001, intercept=611
+  Recovered (relative): start=0.244263, slope=-1.96674e+08, intercept=4.00425e+07
+
+Interval 3:
+  Original: start=0.305325, slope=-5076, intercept=1215, x_refl=0, y_refl=0
+  Quantized: start=20010, slope=-5076, intercept=1215
+  Recovered (relative): start=0.305328, slope=-3.32661e+08, intercept=7.96262e+07
+
+Interval 4:
+  Original: start=0.36639, slope=-7466, intercept=2055, x_refl=0, y_refl=0
+  Quantized: start=24012, slope=-7466, intercept=2055
+  Recovered (relative): start=0.366394, slope=-4.89292e+08, intercept=1.34676e+08
+
+Interval 5:
+  Original: start=0.427455, slope=-9767, intercept=2999, x_refl=0, y_refl=0
+  Quantized: start=28014, slope=-9767, intercept=2999
+  Recovered (relative): start=0.42746, slope=-6.4009e+08, intercept=1.96542e+08
+
+Interval 6:
+  Original: start=0.882267, slope=-32634, intercept=18325, x_refl=0, y_refl=0
+  Quantized: start=-7716, slope=-32634, intercept=18325
+  Recovered (relative): start=-0.117737, slope=-2.1387e+09, intercept=1.20095e+09
+
+Interval 7:
+  Original: start=0, slope=0, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=0, slope=0, intercept=0
+  Recovered (relative): start=0, slope=0, intercept=0
+
+===== Group 1 ===== 
+Storage Type: NORMAL
+Interval Count: 16
+Base Params: b=0.789279, c=0.0674626
+Scale Factors: start=65536, slope=65536, intercept=65536
+
+Interval 0:
+  Original: start=0.48852, slope=0, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=32016, slope=0, intercept=0
+  Recovered (relative): start=0.488525, slope=0, intercept=0
+
+Interval 1:
+  Original: start=0.518808, slope=-1455, intercept=744, x_refl=0, y_refl=0
+  Quantized: start=-31535, slope=-1455, intercept=744
+  Recovered (relative): start=-0.481186, slope=-9.53549e+07, intercept=4.87588e+07
+
+Interval 2:
+  Original: start=0.549096, slope=-2937, intercept=1546, x_refl=0, y_refl=0
+  Quantized: start=-29550, slope=-2937, intercept=1546
+  Recovered (relative): start=-0.450897, slope=-1.92479e+08, intercept=1.01319e+08
+
+Interval 3:
+  Original: start=0.579384, slope=-4440, intercept=2406, x_refl=0, y_refl=0
+  Quantized: start=-27565, slope=-4440, intercept=2406
+  Recovered (relative): start=-0.420609, slope=-2.9098e+08, intercept=1.5768e+08
+
+Interval 4:
+  Original: start=0.609673, slope=-5958, intercept=3320, x_refl=0, y_refl=0
+  Quantized: start=-25580, slope=-5958, intercept=3320
+  Recovered (relative): start=-0.39032, slope=-3.90463e+08, intercept=2.1758e+08
+
+Interval 5:
+  Original: start=0.639961, slope=-7483, intercept=4285, x_refl=0, y_refl=0
+  Quantized: start=-23596, slope=-7483, intercept=4285
+  Recovered (relative): start=-0.360046, slope=-4.90406e+08, intercept=2.80822e+08
+
+Interval 6:
+  Original: start=0.670249, slope=-9774, intercept=5820, x_refl=0, y_refl=0
+  Quantized: start=-21611, slope=-9774, intercept=5820
+  Recovered (relative): start=-0.329758, slope=-6.40549e+08, intercept=3.8142e+08
+
+Interval 7:
+  Original: start=0.700537, slope=-11294, intercept=6897, x_refl=0, y_refl=0
+  Quantized: start=-19626, slope=-11294, intercept=6897
+  Recovered (relative): start=-0.299469, slope=-7.40164e+08, intercept=4.52002e+08
+
+Interval 8:
+  Original: start=0.730826, slope=-12804, intercept=8011, x_refl=0, y_refl=0
+  Quantized: start=-17641, slope=-12804, intercept=8011
+  Recovered (relative): start=-0.26918, slope=-8.39123e+08, intercept=5.25009e+08
+
+Interval 9:
+  Original: start=0.761114, slope=-14298, intercept=9159, x_refl=0, y_refl=0
+  Quantized: start=-15656, slope=-14298, intercept=9159
+  Recovered (relative): start=-0.238892, slope=-9.37034e+08, intercept=6.00244e+08
+
+Interval 10:
+  Original: start=0.791402, slope=-15772, intercept=10337, x_refl=0, y_refl=0
+  Quantized: start=-13671, slope=-15772, intercept=10337
+  Recovered (relative): start=-0.208603, slope=-1.03363e+09, intercept=6.77446e+08
+
+Interval 11:
+  Original: start=0.82169, slope=-17223, intercept=11541, x_refl=0, y_refl=0
+  Quantized: start=-11686, slope=-17223, intercept=11541
+  Recovered (relative): start=-0.178314, slope=-1.12873e+09, intercept=7.56351e+08
+
+Interval 12:
+  Original: start=0.851979, slope=-18648, intercept=12765, x_refl=0, y_refl=0
+  Quantized: start=-9701, slope=-18648, intercept=12765
+  Recovered (relative): start=-0.148026, slope=-1.22212e+09, intercept=8.36567e+08
+
+Interval 13:
+  Original: start=0, slope=0, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=0, slope=0, intercept=0
+  Recovered (relative): start=0, slope=0, intercept=0
+
+Interval 14:
+  Original: start=0, slope=0, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=0, slope=0, intercept=0
+  Recovered (relative): start=0, slope=0, intercept=0
+
+Interval 15:
+  Original: start=0, slope=0, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=0, slope=0, intercept=0
+  Recovered (relative): start=0, slope=0, intercept=0
+
+===== Group 2 ===== 
+Storage Type: ORPHAN
+Interval Count: 4
+Base Params: b=0, c=0
+Scale Factors: start=65536, slope=65536, intercept=65536
+
+Interval 0:
+  Original: start=0, slope=65455, intercept=0, x_refl=0, y_refl=0
+  Quantized: start=0, slope=-81, intercept=0
+  Recovered (absolute): start=0, slope=-81, intercept=0
+
+Interval 1:
+  Original: start=0.943332, slope=28232, intercept=21682, x_refl=0, y_refl=0
+  Quantized: start=-3714, slope=28232, intercept=21682
+  Recovered (absolute): start=-0.0566711, slope=28232, intercept=21682
+
+Interval 2:
+  Original: start=0.996092, slope=27605, intercept=22306, x_refl=0, y_refl=0
+  Quantized: start=-256, slope=27605, intercept=22306
+  Recovered (absolute): start=-0.00390625, slope=27605, intercept=22306
+
+Interval 3:
+  Original: start=0.99658, slope=27595, intercept=22317, x_refl=0, y_refl=0
+  Quantized: start=-224, slope=27595, intercept=22317
+  Recovered (absolute): start=-0.00341797, slope=27595, intercept=22317
+

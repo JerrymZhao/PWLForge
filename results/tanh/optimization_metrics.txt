@@ -6,14 +6,17 @@ Initial Intervals: 2049
 Final Intervals: 24
 Compression Ratio: 0.011713
 Error Analysis:
-- Acceptable Error Threshold: 0.0001
-- Achieved Error: 8.933e-05
-- Error/Threshold Ratio: 0.8933
+- Acceptable Error Target: 0.0001
+- Approximation Error: 7.98458e-05
+- Hardware Error: 9.65147e-05
+- Error/Target Ratio: 0.965147
 - Status: PASS
 Hardware Parameters:
-- Initial Fractional Bits: 16
-- Optimized Fractional Bits: 16
-- Scale Factor: 65536
+- Initial Fractional Bits: 15
+- Optimized Fractional Bits: 15
+- Scale Factor: 32768
+- Input Width: 16 bits
+- Output Width: 16 bits
 ROM Generation:
 - Parameters Count: 24
 - Memory Footprint: 1344 bytes

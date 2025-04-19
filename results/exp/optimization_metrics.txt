@@ -3,13 +3,20 @@ Function Analysis for: exp(x)
 Type: Built-in
 Best Epsilon: 0.0001
 Initial Intervals: 2049
-Final Intervals: 47
-Compression Ratio: 0.022938
-Final Error: 5.92446e-05
+Final Intervals: 2048
+Compression Ratio: 0.999512
 Error Analysis:
-- Acceptable Error Threshold: 0.0001
-- Error/Threshold Ratio: 0.592446
+- Acceptable Error Target: 0.0001
+- Approximation Error: 5.60544e-07
+- Hardware Error: 4.97418e-05
+- Error/Target Ratio: 0.497418
 - Status: PASS
+Hardware Parameters:
+- Initial Fractional Bits: 15
+- Optimized Fractional Bits: 13
+- Scale Factor: 8192
+- Input Width: 24 bits
+- Output Width: 24 bits
 ROM Generation:
-- Parameters Count: 47
-- Memory Footprint: 2632 bytes
+- Parameters Count: 2048
+- Memory Footprint: 114688 bytes
