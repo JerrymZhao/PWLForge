@@ -1,6 +1,0 @@
-INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_core.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module pwl_core
-INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/rtl/pwl_hlut.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module pwl_hlut
-INFO: [VRFC 10-2263] Analyzing Verilog file "/vol/datastore/jmzhao/CompressedLUT/b-spline/testCPP/hardware/sim/tb_pwl_core.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module tb_pwl_core

@@ -1,1205 +1,765 @@
 #include <iostream>
 #include <vector>
-#include <functional>
+#include <string>
 #include <cmath>
+#include <iomanip>
+#include <numeric> 
+#include <algorithm>
+#include <fstream>
+#include <sstream>
 #include <sys/stat.h>
+
+#include "exprtk.hpp"
+#include "common_types.hpp"
+#include "common_utils.hpp"
+#include "interval_types.hpp"
 #include "interval_optimizer.hpp"
 #include "function_fitter.hpp"
-#include "interval_group_compressor.hpp"
+#include "quantization_eval.hpp"
+#include "group_types.hpp"
+#include "group_grouping.hpp"
+#include "group_quantization.hpp"
+#include "group_symmetry.hpp"
+#include "group_encode.hpp"
 #include "hw_mapping.hpp"
 
-// double relu(double x) { return x > 0 ? x : 0; }
-// double gelu(double x) { return 0.5 * x * (1.0 + std::erf(x / std::sqrt(2.0))); }
-// double swishglu(double x) { return x / (1.0 + std::exp(-x)); }
-
-template <typename T>
-struct relu_fn : public exprtk::igeneric_function<T>
-{
-    std::size_t min_param_count() { return 1; }
-    std::size_t max_param_count() { return 1; }
-    inline T operator()(const std::vector<T>& params)
-    {
-        T x = params[0];
-        return (x > T(0)) ? x : T(0);
-    }
-};
-
-template <typename T>
-struct gelu_fn : public exprtk::igeneric_function<T>
-{
-    std::size_t min_param_count() { return 1; }
-    std::size_t max_param_count() { return 1; }
-    inline T operator()(const std::vector<T>& params)
-    {
-        T x = params[0];
-        return T(0.5) * x * (T(1.0) + std::erf(x / std::sqrt(T(2.0))));
-    }
-};
-
-template <typename T>
-struct swishglu_fn : public exprtk::igeneric_function<T>
-{
-    std::size_t min_param_count() { return 1; }
-    std::size_t max_param_count() { return 1; }
-    inline T operator()(const std::vector<T>& params)
-    {
-        T x = params[0];
-        return x / (T(1.0) + std::exp(-x));
-    }
-};
-
-void replaceAll(std::string& str, const std::string& from, const std::string& to) {
-    if(from.empty())
-        return;
-    size_t start_pos = 0;
-    while ((start_pos = str.find(from, start_pos)) != std::string::npos) {
-        size_t open_paren = str.find("(", start_pos);
-        if(open_paren == std::string::npos) break;
-
-        int count = 1;
-        size_t end_pos = open_paren + 1;
-        while(end_pos < str.size() && count > 0) {
-            if(str[end_pos] == '(') count++;
-            else if(str[end_pos] == ')') count--;
-            end_pos++;
-        }
-
-        if(count != 0) {
-            std::cerr << "Mismatched parentheses in the expression!" << std::endl;
-            return;
-        }
-
-        std::string arg = str.substr(open_paren + 1, end_pos - open_paren - 2);
-
-        if(from == "relu") {
-            // relu(x) => (x > 0 ? x : 0)
-            std::string replacement = "(" + arg + " > 0 ? " + arg + " : 0)";
-            str.replace(start_pos, end_pos - start_pos, replacement);
-            start_pos += replacement.length();
-        } else if(from == "gelu") {
-            // gelu(x) => 0.5 * x * (1.0 + erf(x / sqrt(2.0)))
-            std::string replacement = "0.5 * " + arg + " * (1.0 + erf(" + arg + " / sqrt(2.0)))";
-            str.replace(start_pos, end_pos - start_pos, replacement);
-            start_pos += replacement.length();
-        } else if(from == "swishglu") {
-            // swishglu(x) => x / (1.0 + exp(-x))
-            std::string replacement = "(" + arg + " / (1.0 + exp(-" + arg + "))";
-            str.replace(start_pos, end_pos - start_pos, replacement);
-            start_pos += replacement.length();
-        }
-        else {
-            start_pos = end_pos;
-        }
-    }
-}
+//================================================================================
+// Utilities
+//================================================================================
 
 void createDirectory(const std::string& path) {
-    mkdir(path.c_str(), 0777);
-}
-
-struct RangeCoverage {
-    double start;
-    double end;
-    bool is_covered;
-};
-
-inline void verifyIntervalCoverage(
-    const std::string& stage,
-    const std::vector<Interval>& intervals,
-    const std::vector<IntervalGroup>& groups,
-    double function_start,
-    double function_end) {
+    int ret;
+    #ifdef _WIN32
+        ret = system(("mkdir " + path + " 2>nul").c_str());
+    #else
+        ret = system(("mkdir -p " + path).c_str());
+    #endif
     
-    std::vector<std::pair<double, double>> ranges;
-    
-    if (stage == "Initial" || stage == "Split" || stage == "Merge") {
-        // Process raw intervals
-        for (const auto& interval : intervals) {
-            ranges.emplace_back(interval.start, interval.end);
-        }
-    } else {
-        // Process compressed groups
-        for (const auto& group : groups) {
-            if (group.storage_type == ORPHAN_GROUP) {
-                // Handle ORPHAN_GROUP: Use original intervals directly
-                for (const auto& delta : group.delta_encodings) {
-                    size_t idx = delta.original_index;
-                    if (idx < intervals.size()) {
-                        const auto& orig_iv = intervals[idx];
-                        ranges.emplace_back(orig_iv.start, orig_iv.end);
-                    } else {
-                        std::cerr << "Invalid original_index in ORPHAN_GROUP: " 
-                                  << idx << "/" << intervals.size() << "\n";
-                    }
-                }
-            } else {
-                // Handle normal compressed groups
-                for (const auto& delta : group.delta_encodings) {
-                    // Quantize and dequantize delta_start to simulate compression effect
-                    int quantized_delta_start = static_cast<int>(
-                        std::round(delta.delta_start / group.start_scale_factor));
-                    double dequantized_delta_start = quantized_delta_start * group.start_scale_factor;
-                    
-                    double current_start = group.base_interval.start + dequantized_delta_start;
-                    double current_end = current_start + group.length;
-                    
-                    ranges.emplace_back(current_start, current_end);
-                }
-            }
-        }
-    }
-    
-    // Sort ranges by start
-    std::sort(ranges.begin(), ranges.end(),
-              [](const std::pair<double, double>& a, const std::pair<double, double>& b) -> bool {
-                  return a.first < b.first;
-              });
-    
-    // Identify gaps
-    std::vector<std::pair<double, double>> gaps;
-    double current_end = function_start;
-    
-    for (const auto& range : ranges) {
-        if (range.first > current_end + 1e-10) {
-            gaps.emplace_back(current_end, range.first);
-        }
-        current_end = std::max(current_end, range.second);
-    }
-    
-    if (current_end < function_end - 1e-10) {
-        gaps.emplace_back(current_end, function_end);
-    }
-    
-    // Print coverage analysis
-    std::cout << "\nInterval Coverage Analysis (" << stage << "):\n"
-              << "------------------------\n"
-              << "Function range: [" << function_start << ", " << function_end << "]\n"
-              << "Total intervals: " << intervals.size() << "\n";
-    
-    if (!gaps.empty()) {
-        std::cout << "WARNING: Found " << gaps.size() << " gaps in " << stage << " stage:\n";
-        // for (const auto& gap : gaps) {
-        //     std::cout << "Gap: [" << gap.first << ", " << gap.second << "]\n";
-        // }
-    } else {
-        std::cout << "Complete coverage achieved in " << stage << " stage!\n";
+    if (ret != 0) {
+        std::cerr << "Warning: Failed to create directory: " << path << "\n";
     }
 }
 
-struct ParetoResult {
-    double epsilon;
-    double min_unit_length;
-    size_t final_interval_count;
-    double final_error;
-    double compression_ratio;
-};
-
-std::string getFunctionName(const std::string& expression_str) {
-    // Find the first occurrence of '('
-    size_t pos = expression_str.find('(');
-    if (pos != std::string::npos) {
-        // Return everything before the first '('
-        return expression_str.substr(0, pos);
+std::string sanitizeName(const std::string& name) {
+    std::string result = name;
+    
+    // Replace special characters with safe equivalents
+    std::replace(result.begin(), result.end(), '.', '_');
+    std::replace(result.begin(), result.end(), '(', '_');
+    std::replace(result.begin(), result.end(), ')', '_');
+    std::replace(result.begin(), result.end(), ' ', '_');
+    std::replace(result.begin(), result.end(), ',', '_');
+    std::replace(result.begin(), result.end(), '/', '_');
+    std::replace(result.begin(), result.end(), '\\', '_');
+    std::replace(result.begin(), result.end(), '*', 'x');
+    std::replace(result.begin(), result.end(), '+', 'p');
+    std::replace(result.begin(), result.end(), '-', 'm');
+    std::replace(result.begin(), result.end(), '^', '_');
+    
+    // Remove consecutive underscores
+    auto new_end = std::unique(result.begin(), result.end(), 
+        [](char a, char b) { return a == '_' && b == '_'; });
+    result.erase(new_end, result.end());
+    
+    // Remove leading/trailing underscores
+    if (!result.empty() && result.front() == '_') {
+        result.erase(result.begin());
     }
-    // If there are no parentheses, return the original string
-    return expression_str;
-}
-
-struct FunctionProcessingResult {
-    std::vector<IntervalGroup> compressed_groups;
-    std::vector<Interval> intervals;
-    std::vector<FitParameters> fit_params;
-
-    // Hardware implementation details
-    int optimized_frac_bits;
-    double optimized_scale_factor;
-    double final_error;
-    bool hw_verification_success;
-    int input_width;
-    int output_width;
-};
-
-int roundToStandardWidth(int width, bool allow_nonstandard = false) {
-    // If non-standard widths are allowed (for special cases), return as-is
-    if (allow_nonstandard)
-        return width;
-    
-    // Standard hardware-friendly bit widths
-    // For widths up to 10 bits, use 8 or 10 based on proximity
-    if (width <= 8) return 8;
-    if (width <= 10) return 10;  // Added 10-bit option for resource efficiency
-    
-    // For widths between 10 and 16 bits, use the more appropriate option
-    if (width <= 13) return 10;  // Closer to 10 than 16
-    if (width <= 16) return 16;
-    
-    // For widths between 16 and 24 bits, consider whether 24 is more appropriate
-    if (width <= 24) {
-        // If close to 24 bits, use 24 instead of 32 to reduce resource waste
-        return 24;
-    }
-    
-    // For widths close to 32 bits, use the 32-bit standard
-    if (width <= 32) return 32;
-    
-    // For rare cases exceeding 32 bits, align to 32-bit boundaries
-    return ((width + 31) / 32) * 32;
-}
-
-// 计算最佳位宽的改进函数
-int calculateOptimalBitWidths(const std::string& expression_str, 
-                             double start, double end, 
-                             double target_error, 
-                             int& input_width, 
-                             int& output_width) {
-    
-    // 检查是否为窄范围函数 (例如 tanh、sin、cos在小范围内)
-    bool is_narrow_range = false;
-    double range_size = end - start;
-    
-    if (range_size <= 1.0 && 
-        (expression_str.find("tanh") != std::string::npos || 
-         expression_str.find("sin") != std::string::npos || 
-         expression_str.find("cos") != std::string::npos || 
-         expression_str.find("sigmoid") != std::string::npos ||
-         expression_str.find("1/(1+exp") != std::string::npos)) {
-        is_narrow_range = true;
-    }
-    
-    // 基于误差目标计算所需分数位
-    int frac_bits;
-    bool is_transcendental = (expression_str.find("tanh") != std::string::npos || 
-                            expression_str.find("sin") != std::string::npos || 
-                            expression_str.find("cos") != std::string::npos ||
-                            expression_str.find("exp") != std::string::npos ||
-                            expression_str.find("log") != std::string::npos);
-    
-    // 理论上需要的分数位：log2(1/target_error)
-    int theory_bits = static_cast<int>(std::ceil(std::log2(1.0 / target_error)));
-    
-    // 为超越函数提供额外保护，但避免过度分配
-    if (is_transcendental) {
-        // 修改位宽分配逻辑，避免过度分配
-        if (target_error <= 1e-7) {
-            frac_bits = std::min(24, theory_bits + 2);
-        } else if (target_error <= 1e-6) {
-            frac_bits = std::min(20, theory_bits + 2);
-        } else if (target_error <= 1e-5) {
-            frac_bits = std::min(18, theory_bits + 1);
-        } else if (target_error <= 1e-4) {
-            // 对于10^-4级别的误差，理论上需要14位左右
-            frac_bits = std::min(16, theory_bits + 1);
-        } else if (target_error <= 1e-3) {
-            frac_bits = std::min(14, theory_bits + 1);
-        } else {
-            frac_bits = std::min(12, theory_bits);
-        }
-        
-        // 对于窄范围函数，可以进一步减少位宽
-        if (is_narrow_range) {
-            frac_bits = std::min(frac_bits, theory_bits + 2);
-        }
-    } else {
-        // 非超越函数通常需要更少的额外位
-        if (target_error <= 1e-7) {
-            frac_bits = std::min(20, theory_bits + 1);
-        } else if (target_error <= 1e-6) {
-            frac_bits = std::min(18, theory_bits + 1);
-        } else if (target_error <= 1e-5) {
-            frac_bits = std::min(16, theory_bits);
-        } else if (target_error <= 1e-4) {
-            frac_bits = std::min(14, theory_bits);
-        } else if (target_error <= 1e-3) {
-            frac_bits = std::min(12, theory_bits);
-        } else {
-            frac_bits = std::min(10, theory_bits);
-        }
-    }
-    
-    // 根据函数类型和范围进行调整
-    double function_range = 0.0;
-    
-    if (expression_str.find("tanh") != std::string::npos) {
-        function_range = 2.0; // tanh的范围是[-1, 1]
-    } else if (expression_str.find("sin") != std::string::npos || 
-            expression_str.find("cos") != std::string::npos) {
-        function_range = 2.0; // sin/cos的范围是[-1, 1]
-    } else if (expression_str.find("exp") != std::string::npos) {
-        function_range = std::exp(end) - std::exp(start);
-        // 仅对大范围指数增加位数
-        if (function_range > 1000) frac_bits += 3;
-        else if (function_range > 100) frac_bits += 1;
-    } else if (expression_str.find("log") != std::string::npos) {
-        if (start <= 0.01) frac_bits += 1; // 对于接近0的对数，增加精度
-    }
-    
-    // 对于非常小或非常大的范围，适度调整
-    if (range_size > 10.0) {
-        frac_bits += 1;
-    } else if (range_size < 0.1) {
-        frac_bits += 1;
-    }
-
-    // 确保超越函数的最小精度
-    if (is_transcendental && frac_bits < 10) {
-        frac_bits = 10;
-    }
-    
-    // 计算输入整数位
-    int input_int_bits;
-    double abs_max_input = std::max(std::abs(start), std::abs(end));
-    
-    if (abs_max_input < 1.0) {
-        input_int_bits = 2; // 1符号位 + 1整数位
-    } else {
-        input_int_bits = std::ceil(std::log2(abs_max_input)) + 1; // +1用于符号位
-    }
-    
-    // 计算输出整数位
-    int output_int_bits;
-    
-    if (expression_str.find("tanh") != std::string::npos ||
-        expression_str.find("sin") != std::string::npos ||
-        expression_str.find("cos") != std::string::npos ||
-        expression_str.find("sigmoid") != std::string::npos ||
-        expression_str.find("1/(1+exp") != std::string::npos) {
-        // 范围是[-1,1]或[0,1]
-        output_int_bits = 2; // 1符号位 + 1整数位
-    }
-    else if (expression_str.find("exp") != std::string::npos) {
-        // 指数函数
-        double max_output = std::exp(end);
-        output_int_bits = std::ceil(std::log2(max_output)) + 1;
-    }
-    else if (expression_str.find("log") != std::string::npos) {
-        // 对数函数
-        double min_val = start > 0 ? start : 0.00001; // 避免log(0)
-        double max_output = std::max(std::abs(std::log(min_val)), std::abs(std::log(end)));
-        output_int_bits = std::ceil(std::log2(max_output)) + 1;
-    }
-    else if (expression_str.find("relu") != std::string::npos) {
-        // ReLU: [0, max(0,x)]
-        double max_output = std::max(0.0, end);
-        output_int_bits = max_output < 1.0 ? 2 : std::ceil(std::log2(max_output)) + 1;
-    }
-    else {
-        // 默认情况，稍微保守一点
-        output_int_bits = input_int_bits + 1;
-    }
-    
-    // 对于特殊的窄范围函数，可以使用更紧凑的表示
-    bool use_custom_width = false;
-    if (is_narrow_range && target_error >= 1e-5) {
-        use_custom_width = true;
-    }
-    
-    // 计算总位宽
-    input_width = input_int_bits + frac_bits;
-    output_width = output_int_bits + frac_bits;
-    
-    // 对于窄范围函数允许非标准位宽，否则取整到标准宽度
-    input_width = roundToStandardWidth(input_width, use_custom_width);
-    output_width = roundToStandardWidth(output_width, use_custom_width);
-    
-    // 对于tanh(x)这样的函数，确保在简单情况下不会超过16位
-    if (is_narrow_range && range_size <= 1.0 && target_error >= 1e-5) {
-        if (input_width > 16) input_width = 16;
-        if (output_width > 16) output_width = 16;
-    }
-    
-    return frac_bits;
-}
-
-FunctionProcessingResult processFunction(const std::string& expression_str,
-                                        const std::string& results_dir,
-                                        double start, double end,
-                                        size_t num_points,
-                                        const FittingParametersConfig& config,
-                                        const std::vector<std::string>& custom_functions) {
-    FunctionProcessingResult result;
-
-    std::cout << "\n╔══════════════════════════════════════════════════════════════╗" << std::endl;
-    std::cout << "║ PROCESSING FUNCTION: " << std::left << std::setw(40) << expression_str << "║" << std::endl;
-    std::cout << "╚══════════════════════════════════════════════════════════════╝" << std::endl;
-    
-    // ====== STAGE 1: SETUP AND INITIALIZATION ======
-    std::cout << "\n[STAGE 1: SETUP AND INITIALIZATION]" << std::endl;
-    
-    // Create a clean directory name
-    std::string clean_name = getFunctionName(expression_str);
-    std::string func_dir = results_dir + "/" + clean_name;
-    createDirectory(func_dir);
-    std::cout << "• Created directory: " << func_dir << std::endl;
-
-    // Determine if this is a custom function
-    bool is_custom = false;
-    std::string parsed_expr = expression_str;
-    for (const auto& func : custom_functions) {
-        if (parsed_expr.find(func + "(") != std::string::npos) {
-            is_custom = true;
-            break;
-        }
-    }
-    std::cout << "• Function type: " << (is_custom ? "Custom" : "Built-in") << std::endl;
-
-    // Setup symbol table with function definitions
-    double x = 0.0;
-    exprtk::symbol_table<double> symbol_table;
-    symbol_table.add_constants();
-    symbol_table.add_variable("x", x);
-
-    // Add custom functions
-    for (const auto& func : custom_functions) {
-        if (func == "relu") {
-            relu_fn<double> relu_f;
-            symbol_table.add_function("relu", relu_f);
-        } else if (func == "gelu") {
-            gelu_fn<double> gelu_f;
-            symbol_table.add_function("gelu", gelu_f);
-        } else if (func == "swishglu") {
-            swishglu_fn<double> swish_f;
-            symbol_table.add_function("swishglu", swish_f);
-        }
-    }
-    
-    // Parse the expression
-    exprtk::expression<double> expression;
-    expression.register_symbol_table(symbol_table);
-    exprtk::parser<double> parser;
-
-    if (!parser.compile(parsed_expr, expression)) {
-        std::cerr << "ERROR: Failed to parse expression: " << parser.error() << std::endl;
-        for (std::size_t i = 0; i < parser.error_count(); ++i) {
-            exprtk::parser_error::type error = parser.get_error(i);
-            std::cerr << "  - " << std::string(error.diagnostic) << std::endl;
-        }
-        return result; // Return empty result on error
-    }
-    std::cout << "• Successfully parsed expression" << std::endl;
-    std::cout << "• Target accuracy: " << config.acceptable_error << std::endl;
-    std::cout << "• Input range: [" << start << ", " << end << "]" << std::endl;
-
-    // Initialize merge parameters
-    MergeParams merge_params;
-    merge_params.base_len_tol = 0.15 + 0.05 * log10(config.acceptable_error * 1e4);
-    merge_params.base_continuity_tol = 0.05 * (config.acceptable_error * 1e3);
-    merge_params.curvature_base = 0.8 / (1.0 + 5.0 * config.acceptable_error);
-    merge_params.slope_base = 0.3 * sqrt(config.acceptable_error * 1e3);
-    merge_params.curvature_sensitivity = 1.5 + 0.5 * sin(config.acceptable_error * 1e4);
-
-    // ====== STAGE 2: INITIAL INTERVAL GENERATION ======
-    std::cout << "\n[STAGE 2: INITIAL INTERVAL GENERATION]" << std::endl;
-    double initial_unit_length = (end - start) / num_points;
-    OptimizationConfig opt_config;
-    
-    std::cout << "• Generating initial intervals with unit length " << initial_unit_length << "..." << std::endl;
-    std::vector<Interval> initial_intervals = 
-        generateInitialIntervals(start, end, num_points, initial_unit_length, parsed_expr, opt_config);
-    verifyIntervalCoverage("Initial", initial_intervals, {}, start, end);
-    
-    size_t initial_interval_count = initial_intervals.size();
-    std::cout << "• Generated " << initial_interval_count << " initial intervals" << std::endl;
-
-    // ====== STAGE 3: INTERVAL REFINEMENT ======
-    std::cout << "\n[STAGE 3: INTERVAL REFINEMENT]" << std::endl;
-    std::cout << "• Splitting intervals to improve accuracy..." << std::endl;
-    
-    // Generate fine intervals
-    std::vector<Interval> fine_intervals;
-    for (const auto& interval : initial_intervals) {
-        splitInterval(interval, config.epsilon_start, config.min_unit_length, 
-                     parsed_expr, fine_intervals, config.acceptable_error, 1.0);
-    }
-    verifyIntervalCoverage("Refined", fine_intervals, {}, start, end);
-    std::cout << "• Generated " << fine_intervals.size() << " refined intervals" << std::endl;
-
-    // ====== STAGE 4: INTERVAL OPTIMIZATION ======
-    std::cout << "\n[STAGE 4: INTERVAL OPTIMIZATION]" << std::endl;
-    std::cout << "• Starting optimization with:" << std::endl;
-    std::cout << "  - Initial intervals: " << initial_interval_count << std::endl;
-    std::cout << "  - Epsilon range: " << config.epsilon_start << " to " << config.epsilon_end << std::endl;
-    std::cout << "  - Steps: " << config.epsilon_steps << std::endl;
-    std::cout << "  - Target approximation error: " << config.acceptable_error << std::endl;
-
-    // Initialize optimization variables
-    double best_epsilon = config.epsilon_start;
-    double best_compression_ratio = 1.0;
-    double best_approximation_error = std::numeric_limits<double>::max();
-    std::vector<Interval> best_intervals;
-    std::vector<FitParameters> best_fit_params_list;
-    std::vector<CompressedFitParameters> best_compressed_params_list;
-
-    std::vector<ParetoResult> pareto_results;
-    
-    std::cout << "• Running optimization iterations..." << std::endl;
-    // Optimization loop
-    for (size_t i = 0; i < config.epsilon_steps; ++i) {
-        // Handle single step case to avoid division by zero
-        double epsilon = (config.epsilon_steps == 1) ? 
-                        config.epsilon_start :
-                        config.epsilon_start + (config.epsilon_end - config.epsilon_start) * 
-                        i / (config.epsilon_steps - 1);
-        
-        std::cout << "  [Iteration " << (i+1) << "/" << config.epsilon_steps << "] Testing epsilon=" << epsilon << std::endl;
-        
-        std::vector<Interval> merged_intervals = initial_intervals;
-        mergeIntervals(merged_intervals, epsilon, config.acceptable_error, parsed_expr, merge_params, config.min_unit_length, 1.0);
-        std::cout << "    - Merged intervals: " << merged_intervals.size() << std::endl;
-        verifyIntervalCoverage("Merged", merged_intervals, {}, start, end);
-        
-        std::vector<FitParameters> fit_params_list;
-        fitAllSegments(parsed_expr, merged_intervals, fit_params_list, config.acceptable_error);
-        
-        std::vector<CompressedFitParameters> compressed_params_list;
-        compressFitParameters(fit_params_list, merged_intervals, 
-                            compressed_params_list, config.acceptable_error);
-        
-        double approximation_error = 
-            evaluateCompressedError(parsed_expr, merged_intervals, compressed_params_list);
-        double compression_ratio = 
-            static_cast<double>(merged_intervals.size()) / initial_interval_count;
-        
-        ParetoResult pr;
-        pr.epsilon = epsilon;
-        pr.min_unit_length = config.min_unit_length;
-        pr.final_interval_count = merged_intervals.size();
-        pr.final_error = approximation_error;
-        pr.compression_ratio = compression_ratio;
-        pareto_results.push_back(pr);
-
-        std::cout << "    - Compression ratio: " << compression_ratio << "x" << std::endl;
-        std::cout << "    - Approximation error: " << approximation_error;
-        
-        if (approximation_error <= config.acceptable_error && 
-            compression_ratio < best_compression_ratio) {
-            best_epsilon = epsilon;
-            best_compression_ratio = compression_ratio;
-            best_approximation_error = approximation_error;
-            best_intervals = merged_intervals;
-            best_fit_params_list = fit_params_list;
-            best_compressed_params_list = compressed_params_list;
-            std::cout << " ✓ (New best solution)" << std::endl;
-        } else {
-            std::cout << std::endl;
-        }
-    }
-
-    // ====== STAGE 5: PARETO ANALYSIS ======
-    std::cout << "\n[STAGE 5: PARETO ANALYSIS]" << std::endl;
-    
-    // Calculate Pareto front results
-    std::vector<ParetoResult> pareto_front;
-    for (size_t i = 0; i < pareto_results.size(); i++) {
-        bool dominated = false;
-        for (size_t j = 0; j < pareto_results.size(); j++) {
-            if (j != i) {
-                if (pareto_results[j].final_error <= pareto_results[i].final_error &&
-                    pareto_results[j].compression_ratio <= pareto_results[i].compression_ratio &&
-                    (pareto_results[j].final_error < pareto_results[i].final_error ||
-                     pareto_results[j].compression_ratio < pareto_results[i].compression_ratio)) {
-                    dominated = true;
-                    break;
-                }
-            }
-        }
-        if (!dominated) {
-            pareto_front.push_back(pareto_results[i]);
-        }
-    }
-
-    std::cout << "• Pareto-Optimal Solutions:" << std::endl;
-    std::cout << "  ----------------------------------------------------------------------" << std::endl;
-    std::cout << "  | Epsilon | Intervals | Compression Ratio | Approximation Error      |" << std::endl;
-    std::cout << "  ----------------------------------------------------------------------" << std::endl;
-    
-    for (const auto& pr : pareto_front) {
-        std::cout << "  | " << std::setw(7) << pr.epsilon << " | " 
-                  << std::setw(9) << pr.final_interval_count << " | "
-                  << std::setw(17) << pr.compression_ratio << " | "
-                  << std::setw(24) << pr.final_error << " |" << std::endl;
-    }
-    std::cout << "  ----------------------------------------------------------------------" << std::endl;
-
-    // Save Pareto results to file
-    std::string pareto_file = func_dir + "/pareto_front.csv";
-    std::ofstream pareto_out(pareto_file);
-    if (pareto_out.is_open()) {
-        pareto_out << "Epsilon,FinalIntervals,CompressionRatio,ApproximationError\n";
-        for (const auto& pr : pareto_results) {
-            pareto_out << pr.epsilon << ","
-                       << pr.final_interval_count << "," 
-                       << pr.compression_ratio << ","
-                       << pr.final_error << "\n";
-        }
-        pareto_out.close();
-        std::cout << "• Pareto front results saved to: " << pareto_file << std::endl;
-    }
-
-    // ====== STAGE 6: SOLUTION SELECTION ======
-    std::cout << "\n[STAGE 6: SOLUTION SELECTION]" << std::endl;
-    
-    // Use the best solution or find the best if none was found
-    if (best_intervals.empty()) {
-        auto min_error_it = std::min_element(pareto_results.begin(), pareto_results.end(),
-            [](const ParetoResult& a, const ParetoResult& b) { return a.final_error < b.final_error; });
-    
-        // Use the precomputed values directly from the best ParetoResult
-        best_epsilon = min_error_it->epsilon;
-        best_compression_ratio = min_error_it->compression_ratio;
-        best_approximation_error = min_error_it->final_error;
-        
-        std::cout << "• No solution met target error. Using best error solution:" << std::endl;
-        std::cout << "  - Epsilon: " << best_epsilon << std::endl; 
-        std::cout << "  - Approximation error: " << best_approximation_error << std::endl;
-        
-        // Retrieve the best result by running just one iteration with the selected epsilon
-        std::vector<Interval> merged_intervals = initial_intervals;
-        mergeIntervals(merged_intervals, best_epsilon, config.acceptable_error, 
-                      parsed_expr, merge_params, config.min_unit_length, 1.0);
-        best_intervals = merged_intervals;
-        
-        // Only compute fit parameters once
-        fitAllSegments(parsed_expr, best_intervals, best_fit_params_list, config.acceptable_error);
-        
-        // Save parameters and log results
-        saveFitParametersToFile(best_fit_params_list, func_dir + "/fit_params.csv");
-        double fit_error = evaluateError(parsed_expr, best_intervals, best_fit_params_list);
-        std::cout << "  - Raw fit error: " << fit_error << std::endl;
-    } else {
-        std::cout << "• Using best solution found:" << std::endl;
-        std::cout << "  - Epsilon: " << best_epsilon << std::endl;
-        std::cout << "  - Intervals: " << best_intervals.size() << " (from " << initial_interval_count << ")" << std::endl;
-        std::cout << "  - Compression ratio: " << best_compression_ratio << "x" << std::endl;
-        std::cout << "  - Approximation error: " << best_approximation_error << std::endl;
-        std::cout << "  - Target error: " << config.acceptable_error << std::endl;
-        std::cout << "  - Status: " << (best_approximation_error <= config.acceptable_error ? "PASS" : "FAIL") << std::endl;
-    }
-
-    // ====== STAGE 7: HARDWARE MODEL GENERATION ======
-    // Save results with compressed groups
-    if (!best_intervals.empty()) {
-        std::cout << "\n[STAGE 7: HARDWARE MODEL GENERATION]" << std::endl;
-        
-        // Save compressed parameters
-        std::string params_file = func_dir + "/compressed_params.csv";
-        std::string groups_file = func_dir + "/compressed_groups.csv";
-        std::string metrics_file = func_dir + "/optimization_metrics.txt";
-
-        std::cout << "• Creating parameter groups for hardware implementation..." << std::endl;
-
-        // std::cout << "\n===== Debug: Detailed intervals before compression =====\n";
-        // std::cout << "Total intervals: " << best_intervals.size() << std::endl;
-        // for (size_t i = 0; i < best_intervals.size(); i++) {
-        //     const auto& interval = best_intervals[i];
-        //     const auto& params = best_fit_params_list[i];
-            
-        //     std::cout << "Interval[" << i << "]: ["
-        //               << std::fixed << std::setprecision(6) << interval.start << ", " 
-        //               << interval.end << "], "
-        //               << "Length: " << (interval.end - interval.start) << ", "
-        //               << "Hessian: " << interval.hessian << ", "
-        //               << "Level: " << interval.level << std::endl;
-            
-        //     std::cout << "  Fit Parameters: method=" << static_cast<int>(params.method)
-        //               << ", a=" << std::setprecision(8) << params.a
-        //               << ", b=" << params.b 
-        //               << ", c=" << params.c
-        //               << ", order=" << params.order
-        //               << ", range=[" << params.range_start << ", " << params.range_end << "]" << std::endl;
-        // }
-        // std::cout << "=================================================\n" << std::endl;
-        
-        std::vector<IntervalGroup> compressed_groups;
-        groupAndCompressIntervals(expression_str, best_intervals, best_fit_params_list, compressed_groups, config.acceptable_error);
-        std::cout << "\n===== Debug: Compressed interval groups =====\n";
-        std::cout << "Total groups: " << compressed_groups.size() << std::endl;
-        for (size_t i = 0; i < compressed_groups.size(); i++) {
-            const auto& group = compressed_groups[i];
-            bool is_orphan = (group.storage_type == ORPHAN_GROUP);
-            
-            // 计算量化后的base_b和base_c值
-            int16_t q_base_b = static_cast<int16_t>(std::round(group.base_params.b * 65536.0));
-            int16_t q_base_c = static_cast<int16_t>(std::round(group.base_params.c * 65536.0));
-            
-            // 计算group_length的量化值
-            int16_t q_group_length = 0;
-            if (!is_orphan) {
-                q_group_length = static_cast<int16_t>(std::round(group.length * 65536.0));
-            }
-            
-            // 计算flags_size (orphan标志位 + 区间数)
-            uint16_t flags_size = (is_orphan ? 0x1 : 0x0) | (static_cast<uint16_t>(group.delta_encodings.size()) << 1);
-            
-            std::cout << "\nGroup[" << i << "]:" << std::endl;
-            std::cout << "  ID: " << group.id << std::endl;
-            std::cout << "  Storage Type: " << (is_orphan ? "ORPHAN" : "NORMAL") << std::endl;
-            std::cout << "  Group Length: " << std::fixed << std::setprecision(6) << group.length 
-                      << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_group_length & 0xFFFF) << std::dec << std::setfill(' ') << ")" << std::endl;
-            std::cout << "  Base Length: " << group.base_length << std::endl;
-            std::cout << "  Base Interval: [" << group.base_interval.start << ", " << group.base_interval.end << "]" << std::endl;
-            
-            std::cout << "  Base Parameters: method=" << static_cast<int>(group.base_params.method)
-                      << ", a=" << std::setprecision(8) << group.base_params.a
-                      << ", b=" << group.base_params.b << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_base_b & 0xFFFF) << std::dec << std::setfill(' ') << ")"
-                      << ", c=" << group.base_params.c << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_base_c & 0xFFFF) << std::dec << std::setfill(' ') << ")"
-                      << ", order=" << group.base_params.order
-                      << ", range=[" << group.base_params.range_start << ", " << group.base_params.range_end << "]" << std::endl;
-            
-            std::cout << "  FLAGS_SIZE: 0x" << std::hex << std::setw(4) << std::setfill('0') << flags_size 
-                      << " (type=" << (is_orphan ? "1" : "0") << ", size=" << std::dec << group.delta_encodings.size() << ")" << std::endl;
-            
-            std::cout << "  Scale Factors: start=65536.00000000, slope=65536.00000000, intercept=65536.00000000, primary=65536.00000000"
-                      << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << 0x10000 << std::dec << std::setfill(' ') << ")" << std::endl;
-            
-            std::cout << "  Delta Encodings (" << group.delta_encodings.size() << " intervals):" << std::dec << std::endl;
-        
-            for (size_t j = 0; j < group.delta_encodings.size(); j++) {
-                const auto& delta = group.delta_encodings[j];
-                
-                // 统一使用65536.0作为缩放因子进行量化
-                int16_t q_delta_start = static_cast<int16_t>(std::round(delta.delta_start * 65536.0));
-                
-                // 对于orphan组，计算interval的end
-                int16_t q_delta_end = 0;
-                if (is_orphan && delta.original_interval.end > 0) {
-                    q_delta_end = static_cast<int16_t>(std::round(delta.original_interval.end * 65536.0));
-                }
-                
-                // 计算reflection flags (仅用于normal组)
-                uint16_t refl_flags = 0;
-                if (!is_orphan) {
-                    if (delta.is_y_reflected) refl_flags |= 0x2;
-                    if (delta.is_x_reflected) refl_flags |= 0x1;
-                }
-                
-                // 直接转换delta_slope和delta_intercept为整数，因为它们在代码中应该已经是量化的整数值
-                int16_t q_slope = static_cast<int16_t>(delta.delta_slope);
-                int16_t q_intercept = static_cast<int16_t>(delta.delta_intercept);
-                
-                std::cout << "    Delta[" << j << "]: "
-                          << "start=" << std::fixed << std::setprecision(6) << delta.delta_start 
-                          << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_delta_start & 0xFFFF) << std::dec << std::setfill(' ') << "), "
-                          << "slope=" << delta.delta_slope 
-                          << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_slope & 0xFFFF) << std::dec << std::setfill(' ') << "), "
-                          << "intercept=" << delta.delta_intercept 
-                          << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_intercept & 0xFFFF) << std::dec << std::setfill(' ') << "), ";
-                
-                if (is_orphan) {
-                    std::cout << "end=" << std::fixed << std::setprecision(6) << delta.original_interval.end
-                              << " (hex: 0x" << std::hex << std::setw(4) << std::setfill('0') << (q_delta_end & 0xFFFF) << std::dec << std::setfill(' ') << ")";
-                } else {
-                    std::cout << "x_refl=" << delta.is_x_reflected
-                              << ", y_refl=" << delta.is_y_reflected
-                              << " (refl_flags=0x" << std::hex << std::setw(4) << std::setfill('0') << refl_flags << std::dec << std::setfill(' ') << ")";
-                }
-                std::cout << std::endl;
-                
-                // 如果有原始区间信息，也显示出来
-                if (delta.original_interval.start != 0 || delta.original_interval.end != 0) {
-                    std::cout << "      Original interval: [" << delta.original_interval.start 
-                              << ", " << delta.original_interval.end << "]" << std::endl;
-                }
-            }
-        }
-        std::cout << "=================================================\n" << std::endl;
-        // printRecoveredIntervals(compressed_groups, best_fit_params_list); 
-        verifyIntervalCoverage("Final", best_intervals, compressed_groups, start, end);
-        std::cout << "• Created " << compressed_groups.size() << " interval groups" << std::endl;
-
-        // ====== STAGE 8: BIT WIDTH OPTIMIZATION ======
-        std::cout << "\n[STAGE 8: BIT WIDTH OPTIMIZATION]" << std::endl;
-        
-        // Use the function to calculate optimal bit widths based on function properties
-        int input_width, output_width;
-        int initial_frac_bits = calculateOptimalBitWidths(
-            expression_str, start, end, config.acceptable_error, 
-            input_width, output_width
-        );
-        
-        double scale_factor = 1 << initial_frac_bits;
-        
-        std::cout << "• Initial bit width analysis:" << std::endl;
-        std::cout << "  - Fractional bits: " << initial_frac_bits << " (scale_factor = " << scale_factor << ")" << std::endl;
-        std::cout << "  - Input width: " << input_width << " bits" << std::endl;
-        std::cout << "  - Output width: " << output_width << " bits" << std::endl;
-
-        // Save the compressed groups to file
-        saveCompressedGroupsToFile(compressed_groups, groups_file, best_intervals,
-                                best_fit_params_list, expression_str, start, end);
-        std::cout << "• Saved compressed groups to: " << groups_file << std::endl;
-
-        // ====== STAGE 9: HARDWARE SIMULATION ======
-        std::cout << "\n[STAGE 9: HARDWARE SIMULATION]" << std::endl;
-        std::cout << "• Simulating hardware implementation with initial precision..." << std::endl;
-        
-        // Fine-tune the fractional bits based on actual error measurement
-        double max_hw_error = 0.0;
-        int suggested_frac_bits = initial_frac_bits; // Start with calculated bits
-        double hardware_error = evaluateCompressedErrorWithQuantization(
-                                expression_str,
-                                best_intervals,
-                                best_fit_params_list,
-                                compressed_groups,
-                                initial_frac_bits,
-                                &max_hw_error,    // Track max error
-                                config.acceptable_error,
-                                input_width,
-                                output_width);
-        
-        std::cout << "• Hardware simulation results:" << std::endl;
-        std::cout << "  - Average hardware error: " << hardware_error << std::endl;
-        std::cout << "  - Maximum hardware error: " << max_hw_error << std::endl;
-        std::cout << "  - Target error: " << config.acceptable_error << std::endl;
-        std::cout << "  - Status: " << (hardware_error <= config.acceptable_error ? "PASS" : "FAIL") << std::endl;
-        
-        // If error is too high, increase precision
-        if (hardware_error > config.acceptable_error) {
-            std::cout << "• Hardware error exceeds target. Trying increased precision..." << std::endl;
-            
-            int min_required_bits = static_cast<int>(std::ceil(std::log2(1.0 / max_hw_error)));
-            if (min_required_bits > initial_frac_bits && min_required_bits <= 24) {
-                suggested_frac_bits = min_required_bits;
-                std::cout << "• Increasing fractional bits from " << initial_frac_bits 
-                          << " to " << suggested_frac_bits 
-                          << " based on error analysis" << std::endl;
-                
-                // Recalculate error with new precision
-                hardware_error = evaluateCompressedErrorWithQuantization(
-                                 expression_str,
-                                 best_intervals,
-                                 best_fit_params_list,
-                                 compressed_groups,
-                                 suggested_frac_bits,
-                                 &max_hw_error,
-                                 config.acceptable_error,
-                                 input_width,
-                                 output_width);
-                
-                std::cout << "• Updated hardware error: " << hardware_error << std::endl;
-            }
-        } 
-        // If error is much lower than needed, try to reduce precision
-        else if (hardware_error < config.acceptable_error / 4 && initial_frac_bits > 10) {
-            std::cout << "• Hardware error well below target. Trying reduced precision..." << std::endl;
-            
-            int reduced_bits = initial_frac_bits - 1;
-            double test_error = evaluateCompressedErrorWithQuantization(
-                               expression_str,
-                               best_intervals,
-                               best_fit_params_list,
-                               compressed_groups,
-                               reduced_bits,
-                               nullptr,
-                               config.acceptable_error,
-                               input_width,
-                               output_width);
-            
-            if (test_error <= config.acceptable_error) {
-                suggested_frac_bits = reduced_bits;
-                std::cout << "• Reduced fractional bits from " << initial_frac_bits 
-                          << " to " << suggested_frac_bits 
-                          << " (error: " << test_error << " still meets target)" << std::endl;
-
-                // Try to reduce further if possible
-                if (test_error < config.acceptable_error / 2 && reduced_bits > 10) {
-                    int further_reduced = reduced_bits - 1;
-                    test_error = evaluateCompressedErrorWithQuantization(
-                                 expression_str,
-                                 best_intervals,
-                                 best_fit_params_list,
-                                 compressed_groups,
-                                 further_reduced,
-                                 nullptr,
-                                 config.acceptable_error,
-                                 input_width,
-                                 output_width);
-                                 
-                    if (test_error <= config.acceptable_error) {
-                        suggested_frac_bits = further_reduced;
-                        std::cout << "• Further reduced to " << suggested_frac_bits 
-                                  << " bits (error: " << test_error << ")" << std::endl;
-                        hardware_error = test_error;
-                    }
-                } else {
-                    hardware_error = test_error;
-                }
-            }
-        }
-
-        // Use the optimized fractional bits
-        int hw_frac_bits = suggested_frac_bits;
-        int hw_scale_factor = 1 << hw_frac_bits;
-        
-        // Recalculate bit widths if fractional bits changed
-        if (hw_frac_bits != initial_frac_bits) {
-            // Update total widths based on new fractional bits
-            int input_int_bits = input_width - initial_frac_bits;
-            int output_int_bits = output_width - initial_frac_bits;
-                        
-            input_width = input_int_bits + hw_frac_bits;
-            output_width = output_int_bits + hw_frac_bits;
-            
-            // Re-round to standard widths
-            input_width = roundToStandardWidth(input_width);
-            output_width = roundToStandardWidth(output_width);
-        }
-        
-        std::cout << "\n[STAGE 10: FINAL HARDWARE PARAMETERS]" << std::endl;
-        std::cout << "• Function: " << expression_str << std::endl;
-        std::cout << "• Target error: " << config.acceptable_error << std::endl;
-        std::cout << "• Optimized parameters:" << std::endl;
-        std::cout << "  - Fractional bits: " << hw_frac_bits << " (scale factor: " << hw_scale_factor << ")" << std::endl;
-        std::cout << "  - Input width: " << input_width << " bits" << std::endl;
-        std::cout << "  - Output width: " << output_width << " bits" << std::endl;
-        std::cout << "  - Final hardware error: " << hardware_error << std::endl;
-        std::cout << "  - Status: " << (hardware_error <= config.acceptable_error ? "PASS" : "FAIL") << std::endl;
-        
-        // ====== STAGE 11: TEST VECTOR GENERATION ======
-        std::cout << "\n[STAGE 11: TEST VECTOR GENERATION]" << std::endl;
-        std::cout << "• Generating test vectors for hardware verification..." << std::endl;
-        generateSimulationVectors(
-            expression_str, 
-            func_dir, 
-            clean_name, 
-            start, 
-            end, 
-            hw_scale_factor,
-            hw_frac_bits,
-            input_width,
-            output_width,
-            100  // 100 test vectors
-        );
-        
-        // ====== STAGE 12: HARDWARE VERIFICATION ======
-        std::cout << "\n[STAGE 12: HARDWARE VERIFICATION]" << std::endl;
-        bool hw_verification_success = verifyHardwareImplementation(
-            expression_str,
-            compressed_groups,
-            hw_frac_bits,
-            config.acceptable_error,
-            func_dir,
-            clean_name,
-            start, end,
-            input_width,
-            output_width,
-            false  // Use average-based verification
-        );
-        
-        // Store verification result and bit widths in the return structure
-        result.hw_verification_success = hw_verification_success;
-        result.compressed_groups = compressed_groups;
-        result.intervals = best_intervals;
-        result.fit_params = best_fit_params_list;
-        result.optimized_frac_bits = hw_frac_bits;
-        result.optimized_scale_factor = hw_scale_factor;
-        result.final_error = hardware_error;
-        result.input_width = input_width;
-        result.output_width = output_width;
-        
-        // Save comprehensive metrics
-        std::ofstream metrics(metrics_file);
-        metrics << "Function Analysis for: " << expression_str << "\n"
-                << "================================\n"
-                << "Type: " << (is_custom ? "Custom" : "Built-in") << "\n"
-                << "Best Epsilon: " << best_epsilon << "\n"
-                << "Initial Intervals: " << initial_interval_count << "\n"
-                << "Final Intervals: " << best_intervals.size() << "\n"
-                << "Compression Ratio: " << best_compression_ratio << "\n"
-                << "Error Analysis:\n"
-                << "- Acceptable Error Target: " << config.acceptable_error << "\n"
-                << "- Approximation Error: " << best_approximation_error << "\n"
-                << "- Hardware Error: " << hardware_error << "\n"
-                << "- Error/Target Ratio: " << (hardware_error/config.acceptable_error) << "\n"
-                << "- Status: " << (hardware_error <= config.acceptable_error ? "PASS" : "FAIL") << "\n"
-                << "Hardware Parameters:\n"
-                << "- Initial Fractional Bits: " << initial_frac_bits << "\n"
-                << "- Optimized Fractional Bits: " << hw_frac_bits << "\n"
-                << "- Scale Factor: " << hw_scale_factor << "\n"
-                << "- Input Width: " << input_width << " bits\n"
-                << "- Output Width: " << output_width << " bits\n"
-                << "ROM Generation:\n"
-                << "- Parameters Count: " << best_fit_params_list.size() << "\n"
-                << "- Memory Footprint: " << (best_fit_params_list.size() * sizeof(FitParameters)) << " bytes\n";
-        metrics.close();
-        
-        // Print summary to console
-        std::cout << "\n╔════════════════════════════ SUMMARY ════════════════════════════╗" << std::endl;
-        std::cout << "║ Function: " << std::left << std::setw(54) << expression_str << "║" << std::endl;
-        std::cout << "╟─────────────────────────────────────────────────────────────────╢" << std::endl;
-        std::cout << "║ Compression Ratio:         " << std::left << std::setw(34) << best_compression_ratio << "x" << "║" << std::endl;
-        std::cout << "║ Approximation Error:       " << std::left << std::setw(35) << best_approximation_error << "║" << std::endl;
-        std::cout << "║ Hardware Error:            " << std::left << std::setw(35) << hardware_error << "║" << std::endl;
-        std::cout << "║ Target Error:              " << std::left << std::setw(35) << config.acceptable_error << "║" << std::endl;
-        std::cout << "║ Hardware Implementation:   " << std::left << std::setw(35) << (hw_verification_success ? "PASS" : "FAIL") << "║" << std::endl;
-        std::cout << "║ Results Directory:         " << std::left << std::setw(35) << func_dir << "║" << std::endl;
-        std::cout << "╚═════════════════════════════════════════════════════════════════╝" << std::endl;
+    if (!result.empty() && result.back() == '_') {
+        result.pop_back();
     }
     
     return result;
 }
 
-int main(int argc, char* argv[]) {
-    std::cout << "\n╔══════════════════════════════════════════════════════════════╗" << std::endl;
-    std::cout << "║             FUNCTION APPROXIMATION TOOLKIT (FAT)             ║" << std::endl;
-    std::cout << "╚══════════════════════════════════════════════════════════════╝" << std::endl;
+std::string extractFunctionName(const std::string& expr) {
+    // Extract main function name
+    std::string lower_expr = expr;
+    std::transform(lower_expr.begin(), lower_expr.end(), lower_expr.begin(), ::tolower);
     
-    std::string results_dir = "results";
-    createDirectory(results_dir);
-    std::cout << "• Created results directory: " << results_dir << std::endl;
-    std::vector<std::string> test_expressions = {
-        "relu(x)", "gelu(x)", "swishglu(x)",
-        "tanh(x)", "sin(x)", "cos(x)", 
-        "exp(x)", "log(x)", "sqrt(x)",
-        "1/(1+exp(-x))", "log(1+x)"
+    // Known function patterns
+    std::vector<std::string> known_functions = {
+        "gelu", "silu", "swish", "hardswish", "hswish", 
+        "hardsigmoid", "hsigmoid", "mish", "softplus",
+        "elu", "selu", "tanh", "sigmoid", "relu", "sin", "cos",
+        "exp", "log", "sqrt", "erf"
     };
-
-    std::vector<std::string> custom_functions = {"relu", "gelu", "swishglu"};
     
-    // Default configuration
-    double start = 0.0;  // Start Point
-    double end = 1.0;    // End Point
-    size_t num_points = 2048;  // Initial Number of Points
-    double initial_unit_length = (end - start) / num_points;
-    bool generate_hw = false;  // Flag to generate hardware files
+    for (const auto& func : known_functions) {
+        if (lower_expr.find(func) != std::string::npos) {
+            return func;
+        }
+    }
+    
+    // If no known function, use sanitized expression
+    return sanitizeName(expr);
+}
 
-    // Parse command-line arguments if provided
-    if (argc >= 3) {
-        start = std::stod(argv[1]);
-        end = std::stod(argv[2]);
+std::string normalizeExpression(const std::string& expr) {
+    std::string result = expr;
+    
+    // Replace x^n with (x*x*...) for small integers
+    size_t pos = 0;
+    while ((pos = result.find("x^2", pos)) != std::string::npos) {
+        result.replace(pos, 3, "(x*x)");
+        pos += 5;
+    }
+    pos = 0;
+    while ((pos = result.find("x^3", pos)) != std::string::npos) {
+        result.replace(pos, 3, "(x*x*x)");
+        pos += 7;
+    }
+    pos = 0;
+    while ((pos = result.find("x^4", pos)) != std::string::npos) {
+        result.replace(pos, 3, "(x*x*x*x)");
+        pos += 9;
+    }
+    
+    return result;
+}
+
+//================================================================================
+// Quantization result structure
+//================================================================================
+
+struct QuantizationEvalResult {
+    std::vector<QuantizedInterval> quantized_intervals;
+    QuantizationConfig config;
+    QuantizationErrorStats stats;
+    double fitting_max_mae;
+    std::string config_name;
+};
+
+//================================================================================
+// Helper functions for quantization
+//================================================================================
+
+QuantizationEvalResult processQuantizationConfig(
+    const std::vector<Interval>& intervals,
+    const std::vector<FitParameters>& params,
+    const QuantizationConfig& config,
+    std::function<double(double)> original_function,
+    bool verbose) {
+    
+    QuantizationEvaluator evaluator(original_function, 500);
+    
+    auto quantized = evaluator.quantize_intervals(intervals, params, config);
+    auto stats = evaluator.evaluate_errors(intervals, params, quantized, config);
+    
+    if (verbose) {
+        std::cout << "  Config: " << config.name() << "\n";
+        std::cout << "    Max MAE:          " << std::scientific << stats.max_mae << "\n";
+        std::cout << "    Avg MAE:          " << stats.avg_mae << "\n";
+        std::cout << "    RMSE:             " << stats.rmse << "\n";
+        std::cout << "    Max param error:  " << stats.max_param_error << "\n";
+        std::cout << "    Compression:      " << std::fixed << std::setprecision(2)
+                  << stats.compression_ratio << "x\n";
+    }
+    
+    return QuantizationEvalResult{
+        quantized,
+        config,
+        stats,
+        stats.max_mae,
+        config.name()
+    };
+}
+
+std::vector<QuantizationEvalResult> processAllQuantizationConfigs(
+    const std::vector<Interval>& intervals,
+    const std::vector<FitParameters>& params,
+    std::function<double(double)> original_function,
+    bool verbose) {
+    
+    // Analyze data range first
+    DataRange range = QuantizationEvaluator::analyze_data_range(intervals, params);
+    
+    if (verbose) {
+        std::cout << "\n=== Phase 2.5: Processing All Quantization Configurations ===\n";
+        range.print();
+        std::cout << "\n";
     }
 
-    // Initialize configuration
-    FittingParametersConfig config;
-    config.min_unit_length = initial_unit_length / 16;
-    config.epsilon_start = 1e-4;
-    config.epsilon_end = 2e-3;
-    config.epsilon_steps = 1;
-    config.acceptable_error = 1e-4;
+    std::vector<QuantizationConfig> candidate_configs;
 
-    // Prompt the user for input
-    std::cout << "\n[INPUT CONFIGURATION]" << std::endl;
-    std::cout << "• Default settings:" << std::endl;
-    std::cout << "  - Range: [" << start << ", " << end << "]" << std::endl;
-    std::cout << "  - Target error: " << config.acceptable_error << std::endl;
-    std::cout << "• Please enter the function expression and options" << std::endl;
-    std::cout << "  Format: <function> <start> <end> <target_error> [hw]" << std::endl;
-    std::cout << "  Example: tanh(x) -3 4 1e-7 hw" << std::endl;
-    std::cout << "  Enter 'test_all' to run all test functions" << std::endl;
-    std::cout << "• Function: ";
+    // ========================================================================
+    // 1. Floating-Point Standards (6 configurations)
+    // ========================================================================
+
+    // Full precision baseline
+    candidate_configs.push_back({
+        PrecisionConfig{NumericFormat::FP64, 0, 0},
+        PrecisionConfig{NumericFormat::FP64, 0, 0}
+    });
+
+    // Standard floating-point
+    candidate_configs.push_back({
+        PrecisionConfig{NumericFormat::FP32, 0, 0}, 
+        PrecisionConfig{NumericFormat::FP32, 0, 0}
+    });
+
+    candidate_configs.push_back({
+        PrecisionConfig{NumericFormat::FP16, 0, 0}, 
+        PrecisionConfig{NumericFormat::FP16, 0, 0}
+    });
+
+    // Mixed floating-point (endpoint precision >= parameter precision)
+    candidate_configs.push_back({
+        PrecisionConfig{NumericFormat::FP64, 0, 0}, 
+        PrecisionConfig{NumericFormat::FP32, 0, 0}
+    });
+
+    candidate_configs.push_back({
+        PrecisionConfig{NumericFormat::FP64, 0, 0}, 
+        PrecisionConfig{NumericFormat::FP16, 0, 0}
+    });
+
+    candidate_configs.push_back({
+        PrecisionConfig{NumericFormat::FP32, 0, 0}, 
+        PrecisionConfig{NumericFormat::FP16, 0, 0}
+    });
+
+    // ========================================================================
+    // 2. Uniform Fixed-Point (6 configurations, exclude 8-bit)
+    // ========================================================================
+
+    // 16-bit: Embedded audio DSP, simple control systems
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(16, 16, range)
+    );
+
+    // 24-bit: Professional audio processing, 24-bit DSP chips
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(24, 24, range)
+    );
+
+    // 32-bit: Standard DSP processing, graphics, financial computing
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(32, 32, range)
+    );
+
+    // 40-bit: Extended precision DSP, scientific instruments
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(40, 40, range)
+    );
+
+    // 48-bit: High-precision fixed-point (FP32 replacement)
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(48, 48, range)
+    );
+
+    // 64-bit: Ultra-high precision fixed-point (FP64 replacement)
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(64, 64, range)
+    );
+
+    // ========================================================================
+    // 3. Mixed Fixed-Point (3 representative configurations)
+    //    Principle: endpoint_bits >= param_bits (endpoint needs higher precision)
+    // ========================================================================
+
+    // Aggressive parameter compression
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(64, 32, range)  // 64-bit endpoint + 32-bit param
+    );
+
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(48, 24, range)  // 48-bit endpoint + 24-bit param
+    );
+
+    candidate_configs.push_back(
+        QuantizationConfig::create_auto_fixed(32, 16, range)  // 32-bit endpoint + 16-bit param
+    );
+
+    // ========================================================================
+    // Total: 15 configurations
+    //   - 6 floating-point (3 uniform + 3 mixed)
+    //   - 6 uniform fixed-point (16/24/32/40/48/64-bit)
+    //   - 3 mixed fixed-point (strategic compression)
+    // ========================================================================
+
+    std::vector<QuantizationEvalResult> results;
     
-    std::string input_line;
-    std::getline(std::cin, input_line);
-    std::istringstream iss(input_line);
-    std::string expression_str;
+    if (verbose) {
+        std::cout << "Total configurations: " << candidate_configs.size() << "\n\n";
+    }
     
-    if (iss >> expression_str) {
-        if (expression_str == "test_all") {
-            std::cout << "\n[BATCH TEST MODE]" << std::endl;
-            std::cout << "• Running tests for " << test_expressions.size() << " functions..." << std::endl;
-            
-            int test_num = 1;
-            for (const auto& expr : test_expressions) {
-                std::cout << "\n• Test " << test_num << "/" << test_expressions.size() 
-                          << ": " << expr << std::endl;
-                
-                bool is_custom = false;
-                std::string parsed_expr = expr;
-                // Check if custom function
-                for (const auto& func : custom_functions) {
-                    if (parsed_expr.find(func + "(") != std::string::npos) {
-                        is_custom = true;
-                        replaceAll(parsed_expr, func, func);
-                    }
-                }
-                
-                // Process function and get results including optimal bit width parameters
-                FunctionProcessingResult result = processFunction(
-                    parsed_expr, results_dir, start, end, num_points, config, custom_functions);
+    for (const auto& config : candidate_configs) {
+        auto result = processQuantizationConfig(
+            intervals, params, config, original_function, verbose);
+        results.push_back(result);
+        
+        if (verbose) std::cout << "\n";
+    }
+    
+    if (verbose) {
+        std::cout << "==========================================\n\n";
+    }
+    
+    return results;
+}
 
-                std::string func_name = expr.substr(0, expr.find('('));
-                
-                if (generate_hw) {
-                    // Use bit width parameters calculated by processFunction
-                    generateHardwareImplementation(
-                        results_dir, func_name, result.compressed_groups, 
-                        result.intervals, result.fit_params, expr,
-                        start, end, result.optimized_scale_factor, config.acceptable_error,
-                        result.input_width, result.output_width
-                    );
-                }
-                
-                test_num++;
-            }
-            std::cout << "\n[BATCH TEST COMPLETED]" << std::endl;
-        } else {
-            // Parse individual function options
-            double input_start, input_end, error_acceptable;
-            std::string hw_option;
-            
-            if (iss >> input_start >> input_end >> error_acceptable) {
-                if (input_start < input_end && error_acceptable > 0) {
-                    std::cout << "• Using custom configuration:" << std::endl;
-                    std::cout << "  - Range: [" << input_start << ", " << input_end << "]" << std::endl;
-                    std::cout << "  - Target error: " << error_acceptable << std::endl;
-                    
-                    start = input_start;
-                    end = input_end;
-                    config.acceptable_error = error_acceptable;
-                    config.min_unit_length = (end - start) / (num_points * 16);
-                    
-                    // Check if hardware option is provided
-                    if (iss >> hw_option) {
-                        if (hw_option == "hw" || hw_option == "HW") {
-                            generate_hw = true;
-                            std::cout << "  - Hardware generation: Enabled" << std::endl;
-                        }
-                    }
-                } else {
-                    std::cout << "• Invalid range or error value. Using default configuration." << std::endl;
-                    std::cout << "  - Range: [" << start << ", " << end << "]" << std::endl;
-                    std::cout << "  - Target error: " << config.acceptable_error << std::endl;
-                }
-            }
+void saveQuantizedIntervalsToFile(
+    const std::vector<QuantizedInterval>& quantized,
+    const std::string& filename) {
+    
+    std::ofstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Cannot open file: " + filename);
+    }
+    
+    file << "index,start_orig,end_orig,start_q,end_q,length_orig,length_q\n";
+    file << std::scientific << std::setprecision(15);
+    
+    for (const auto& qi : quantized) {
+        double len_orig = qi.end_orig - qi.start_orig;
+        double len_q = qi.end_q - qi.start_q;
+        
+        file << qi.index << ","
+             << qi.start_orig << "," << qi.end_orig << ","
+             << qi.start_q << "," << qi.end_q << ","
+             << len_orig << "," << len_q << "\n";
+    }
+}
 
-            // If no expression is provided, use the default function 'tanh(x)'
-            if (expression_str.empty()) {
-                expression_str = "tanh(x)";
-                std::cout << "• No function provided. Using default: tanh(x)" << std::endl;
+void saveQuantizedParametersToFile(
+    const std::vector<QuantizedInterval>& quantized,
+    const std::string& filename) {
+    
+    std::ofstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Cannot open file: " + filename);
+    }
+    
+    file << "index,a_orig,b_orig,c_orig,a_q,b_q,c_q\n";
+    file << std::scientific << std::setprecision(15);
+    
+    for (const auto& qi : quantized) {
+        file << qi.index << ","
+             << qi.a_orig << "," << qi.b_orig << "," << qi.c_orig << ","
+             << qi.a_q << "," << qi.b_q << "," << qi.c_q << "\n";
+    }
+}
+
+void saveQuantizationReport(
+    const QuantizationEvalResult& result,
+    const std::string& filename) {
+    
+    std::ofstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Cannot open file: " + filename);
+    }
+    
+    file << "=== Quantization Report ===\n\n";
+    
+    file << "Configuration:\n";
+    file << "  " << result.config.name() << "\n\n";
+    
+    file << "Statistics:\n";
+    file << std::scientific << std::setprecision(6);
+    
+    file << "Parameter Quantization:\n";
+    file << "  Max param error:     " << result.stats.max_param_error << "\n";
+    file << "  Avg param error:     " << result.stats.avg_param_error << "\n\n";
+    
+    file << "Function Approximation (vs True Function):\n";
+    file << "  Max MAE:             " << result.stats.max_mae << "\n";
+    file << "  Avg MAE:             " << result.stats.avg_mae << "\n";
+    file << "  RMSE:                " << result.stats.rmse << "\n\n";
+    
+    file << std::fixed << std::setprecision(2);
+    file << "Compression:\n";
+    file << "  Compression ratio:   " << result.stats.compression_ratio << "x\n";
+}
+
+void saveAllConfigsSummary(
+    const std::vector<QuantizationEvalResult>& all_results,
+    const std::string& filename) {
+    
+    std::ofstream file(filename);
+    if (!file) {
+        throw std::runtime_error("Cannot open file: " + filename);
+    }
+    
+    file << "config_name,max_mae,avg_mae,rmse,max_param_error,avg_param_error,compression_ratio\n";
+    file << std::scientific << std::setprecision(15);
+    
+    for (const auto& result : all_results) {
+        file << result.config_name << ","
+             << result.stats.max_mae << ","
+             << result.stats.avg_mae << ","
+             << result.stats.rmse << ","
+             << result.stats.max_param_error << ","
+             << result.stats.avg_param_error << ","
+             << std::fixed << std::setprecision(6) 
+             << result.stats.compression_ratio << "\n";
+    }
+}
+
+//================================================================================
+// Pipeline configuration
+//================================================================================
+
+struct PipelineConfig {
+    std::string function_expr;
+    std::string function_name;
+    double x_start, x_end, max_error;
+    std::string result_dir;
+    bool enable_hardware = false;
+    int pos_bits = 16, a_bits = 16, b_bits = 16, c_bits = 16;
+};
+
+//================================================================================
+// Main pipeline
+//================================================================================
+
+class Pipeline {
+private:
+    PipelineConfig config_;
+    
+    std::vector<Interval> intervals_;
+    std::vector<FitParameters> fit_params_;
+    std::vector<double> samples_;
+    
+    std::vector<QuantizationEvalResult> all_quantization_results_;
+    
+public:
+    Pipeline(const PipelineConfig& config) : config_(config) {}
+    
+    bool run() {
+        try {
+            std::cout << "\n╔════════════════════════════════════════════════════════════╗\n";
+            std::cout << "║  Function Approximation Pipeline                          ║\n";
+            std::cout << "╚════════════════════════════════════════════════════════════╝\n\n";
+            
+            std::cout << "Function:    " << config_.function_expr << "\n";
+            std::cout << "Range:       [" << config_.x_start << ", " << config_.x_end << "]\n";
+            std::cout << "Max Error:   " << std::scientific << config_.max_error << "\n";
+            std::cout << "Output Dir:  " << config_.result_dir << "\n\n";
+            
+            createDirectory("results");
+            createDirectory(config_.result_dir);
+            
+            runPhase1and2();
+            runPhase2_5();
+            runStage3ForAllConfigs();
+            
+            std::cout << "\n╔════════════════════════════════════════════════════════════╗\n";
+            std::cout << "║  Pipeline Complete ✓                                       ║\n";
+            std::cout << "╚════════════════════════════════════════════════════════════╝\n\n";
+            std::cout << "Total Intervals:     " << intervals_.size() << "\n";
+            std::cout << "Quant Configs:       " << all_quantization_results_.size() << "\n";
+            std::cout << "Output Directory:    " << config_.result_dir << "/\n\n";
+            
+            return true;
+        } catch (const std::exception& e) {
+            std::cerr << "\n✗ Error: " << e.what() << "\n";
+            return false;
+        }
+    }
+    
+private:
+    void runPhase1and2() {
+        std::cout << "=== Phase 1&2: Interval Optimization & Polynomial Fitting ===\n";
+        
+        // Normalize expression
+        std::string expr = normalizeExpression(config_.function_expr);
+        
+        FittingParametersConfig fit_config;
+        fit_config.epsilon_start = config_.max_error / 10.0;
+        fit_config.epsilon_end = config_.max_error / 2.0;
+        fit_config.acceptable_error = config_.max_error;
+        fit_config.min_unit_length = (config_.x_end - config_.x_start) / 100000.0;
+        fit_config.merge_relax_factor = 1.0;
+        fit_config.epsilon_steps = 1;
+        
+        OptimizationResult opt_result = optimizeIntervals(
+            config_.x_start, config_.x_end, expr, fit_config);
+        
+        intervals_ = opt_result.intervals;
+        
+        fitAllSegments(expr, intervals_, fit_params_, config_.max_error);
+        
+        saveIntervalsToFile(intervals_, config_.result_dir + "/intervals_fp64.csv");
+        saveFitParametersToFile(fit_params_, config_.result_dir + "/fit_params_fp64.csv");
+        
+        // Generate samples
+        int num_samples = std::max(1000, (int)intervals_.size() * 10);
+        double dx = (config_.x_end - config_.x_start) / (num_samples - 1);
+        
+        std::ofstream sf(config_.result_dir + "/samples.csv");
+        sf << "index,x,y\n" << std::scientific << std::setprecision(15);
+        for (int i = 0; i < num_samples; ++i) {
+            double x = config_.x_start + i * dx;
+            double y = computeFunctionValue(expr, x);
+            samples_.push_back(y);
+            sf << i << "," << x << "," << y << "\n";
+        }
+        
+        std::cout << "✓ Generated " << intervals_.size() << " intervals (FP64 baseline)\n\n";
+    }
+    
+    void runPhase2_5() {
+        std::cout << "=== Phase 2.5: Quantization Evaluation ===\n";
+        
+        // Normalize expression
+        std::string expr = normalizeExpression(config_.function_expr);
+        
+        // Use enhanced parser via lambda
+        auto original_function = [expr](double x) -> double {
+            return computeFunctionValue(expr, x);
+        };
+        
+        // Process all quantization configs (auto bit allocation)
+        all_quantization_results_ = processAllQuantizationConfigs(
+            intervals_, fit_params_, original_function, true);
+        
+        // Save summary
+        saveAllConfigsSummary(all_quantization_results_, 
+                             config_.result_dir + "/quantization_summary.csv");
+        
+        std::cout << "\n✓ Quantization evaluation complete\n";
+        std::cout << "  Tested " << all_quantization_results_.size() << " configurations\n\n";
+    }
+    
+    void runStage3ForAllConfigs() {
+        std::cout << "=== Stage 3: Group Encoding & Compression ===\n";
+        
+        // Normalize expression
+        std::string expr = normalizeExpression(config_.function_expr);
+        
+        // Use enhanced parser via lambda
+        auto original_function = [expr](double x) -> double {
+            return computeFunctionValue(expr, x);
+        };
+        
+        for (size_t i = 0; i < all_quantization_results_.size(); ++i) {
+            const auto& quant_result = all_quantization_results_[i];
+            
+            std::cout << "\n[" << (i+1) << "/" << all_quantization_results_.size()
+                      << "] " << quant_result.config_name << "\n";
+            
+            std::string config_output_dir = config_.result_dir + "/stage3_" + quant_result.config_name;
+            createDirectory(config_output_dir);
+            
+            // Prepare quantized intervals
+            std::vector<Interval> quantized_intervals = intervals_;
+            std::vector<FitParameters> quantized_params = fit_params_;
+            
+            for (size_t j = 0; j < quantized_intervals.size(); ++j) {
+                const auto& qi = quant_result.quantized_intervals[j];
+                
+                quantized_intervals[j].is_quantized = true;
+                quantized_intervals[j].start_quantized = qi.start_q;
+                quantized_intervals[j].end_quantized = qi.end_q;
+                
+                quantized_params[j].is_quantized = true;
+                quantized_params[j].a_quantized = qi.a_q;
+                quantized_params[j].b_quantized = qi.b_q;
+                quantized_params[j].c_quantized = qi.c_q;
             }
             
-            // Check if input is custom function
-            bool is_custom = false;
-            for (const auto& func : custom_functions) {
-                if (expression_str.find(func + "(") != std::string::npos) {
-                    is_custom = true;
-                    replaceAll(expression_str, func, func);
-                }
-            }
+            runStage3Single(
+                quantized_intervals, 
+                quantized_params, 
+                original_function, 
+                config_output_dir,
+                quant_result.config);
+        }
+        
+        std::cout << "\n✓ All Stage 3 configurations complete\n";
+    }
+    
+    void printGroupingStatistics(const std::vector<QuantizedGroup>& groups) {
+        size_t total_intervals = 0;
+        size_t orphan_intervals = 0;
+        size_t normal_groups = 0;
+        std::vector<size_t> group_sizes;
+        
+        for (const auto& group : groups) {
+            size_t group_size = group.members.size();
+            total_intervals += group_size;
             
-            // Core processing function, returns results including optimized bit widths
-            FunctionProcessingResult result = processFunction(
-                expression_str, results_dir, start, end, num_points, config, custom_functions);
+            bool is_orphan = (group.storage_type == GroupStorageType::ORPHAN_GROUP);
             
-            std::string func_name = expression_str.substr(0, expression_str.find('('));
-            
-            // Hardware implementation using optimal parameters calculated in processFunction
-            if (generate_hw) {
-                std::cout << "\n[HARDWARE IMPLEMENTATION GENERATION]" << std::endl;
-                std::cout << "• Generating hardware files..." << std::endl;
-                
-                generateHardwareImplementation(
-                    results_dir, func_name, result.compressed_groups, 
-                    result.intervals, result.fit_params, expression_str,
-                    start, end, result.optimized_scale_factor, config.acceptable_error,
-                    result.input_width, result.output_width
-                );
-                
-                std::cout << "• Hardware files generated successfully." << std::endl;
+            if (is_orphan) {
+                orphan_intervals += group_size;
+            } else {
+                normal_groups++;
+                group_sizes.push_back(group_size);
             }
         }
-    } else {
-        std::cout << "• No input provided. Exiting program." << std::endl;
+        
+        std::cout << "  ┌─ Grouping Statistics ─────────────────────┐\n";
+        std::cout << "  │ Total Groups:        " << std::setw(6) << groups.size() << "              │\n";
+        std::cout << "  │ Normal Groups:       " << std::setw(6) << normal_groups << "              │\n";
+        std::cout << "  │ Orphan Groups:       " << std::setw(6) << (groups.size() - normal_groups) << "              │\n";
+        std::cout << "  │ Total Intervals:     " << std::setw(6) << total_intervals << "              │\n";
+        std::cout << "  │ Orphan Intervals:    " << std::setw(6) << orphan_intervals << "              │\n";
+        
+        if (!group_sizes.empty()) {
+            size_t min_size = *std::min_element(group_sizes.begin(), group_sizes.end());
+            size_t max_size = *std::max_element(group_sizes.begin(), group_sizes.end());
+            double avg_size = std::accumulate(group_sizes.begin(), group_sizes.end(), 0.0) / group_sizes.size();
+            
+            std::cout << "  ├─ Normal Group Size ───────────────────────┤\n";
+            std::cout << "  │ Min:                 " << std::setw(6) << min_size << "              │\n";
+            std::cout << "  │ Max:                 " << std::setw(6) << max_size << "              │\n";
+            std::cout << "  │ Average:             " << std::setw(6) << std::fixed << std::setprecision(1) 
+                      << avg_size << "              │\n";
+        }
+        
+        std::cout << "  └───────────────────────────────────────────┘\n";
     }
 
-    return 0;
+    void runStage3Single(
+        const std::vector<Interval>& intervals,
+        const std::vector<FitParameters>& params,
+        const std::function<double(double)>& original_function,
+        const std::string& output_dir,
+        const QuantizationConfig& quant_config) {
+        
+        Stage3Config config;
+        
+        // Auto compute tolerance
+        double auto_tolerance = computeRecommendedLengthTolerance(intervals);
+        config.length_tolerance = std::max(1e-6, std::min(0.01, auto_tolerance));
+        
+        config.min_group_size = 3;
+        config.enable_symmetry = true;
+        config.symmetry_tolerance = 1e-6;
+        config.symmetry_position_tol = 1e-3;
+        config.delta_position_bits = config_.pos_bits;
+        config.delta_a_bits = config_.a_bits;
+        config.delta_b_bits = config_.b_bits;
+        config.delta_c_bits = config_.c_bits;
+        config.adaptive_bitwidth = false;
+        config.bitwidth_error_threshold = 1e-10;
+        config.verbose = false;
+        
+        Stage3Encoder encoder;
+        encoder.initialize(intervals, params, samples_, original_function, config);
+        encoder.groupIntervals();
+        encoder.detectSymmetry();
+        encoder.quantizeGroups();
+        
+        auto quantized_groups = encoder.getQuantizedGroups();
+        
+        printGroupingStatistics(quantized_groups);
+        
+        auto compressed = compressIntervalGroups(quantized_groups, config);
+        saveCompressedData(compressed, output_dir);
+        saveCompressionStats(encoder.getQuantizationStats(), 
+                            encoder.getGroupingStats(), output_dir);
+        
+        if (config_.enable_hardware) {
+            generateHardwareMappingForConfig(
+                output_dir,
+                config_.function_name,
+                quantized_groups,
+                quant_config,
+                false);
+        }
+        
+        std::cout << "  Groups: " << compressed.total_groups 
+                  << " | Compression: " << std::fixed << std::setprecision(2)
+                  << compressed.compression_ratio << "x\n";
+    }
+    
+    double computeRecommendedLengthTolerance(const std::vector<Interval>& intervals) {
+        if (intervals.empty()) return 0.001;
+        
+        std::vector<double> lengths;
+        for (const auto& iv : intervals) {
+            double len = iv.get_end() - iv.get_start();
+            lengths.push_back(len);
+        }
+        
+        std::sort(lengths.begin(), lengths.end());
+        
+        double min_diff = std::numeric_limits<double>::max();
+        for (size_t i = 0; i < lengths.size() - 1; ++i) {
+            double diff = lengths[i+1] - lengths[i];
+            if (diff > 1e-12) {
+                min_diff = std::min(min_diff, diff);
+            }
+        }
+        
+        return min_diff * 0.1;
+    }
+};
+
+//================================================================================
+// Main
+//================================================================================
+
+void printUsage() {
+    std::cout << "\nUsage: optimize_intervals <func> <start> <end> <error> [options]\n\n";
+    std::cout << "Supported Functions:\n";
+    std::cout << "  Activation: gelu, silu, swish, hardswish (hswish), mish, softplus\n";
+    std::cout << "  Standard:   tanh, sigmoid, sin, cos, exp, log, sqrt, erf\n";
+    std::cout << "  Variants:   gelu_tanh, gelu_erf, gelu_quick, elu, selu\n";
+    std::cout << "  Composite:  hardsigmoid, any arithmetic expression\n\n";
+    std::cout << "Options:\n";
+    std::cout << "  hw          Enable hardware file generation\n";
+    std::cout << "  -p BITS     Position bits (default: 16)\n";
+    std::cout << "  -a BITS     Parameter A bits (default: 16)\n";
+    std::cout << "  -b BITS     Parameter B bits (default: 16)\n";
+    std::cout << "  -c BITS     Parameter C bits (default: 16)\n\n";
+    std::cout << "Examples:\n";
+    std::cout << "  ./optimize_intervals \"gelu(x)\" -5 5 1e-4\n";
+    std::cout << "  ./optimize_intervals \"silu(x)\" -6 6 1e-5 hw\n";
+    std::cout << "  ./optimize_intervals \"hardswish(x)\" -3 3 1e-4 hw -p 12\n";
+    std::cout << "  ./optimize_intervals \"tanh(x)\" 0 3 1e-6\n\n";
+}
+
+int main(int argc, char* argv[]) {
+    if (argc < 5) {
+        printUsage();
+        return 1;
+    }
+    
+    try {
+        PipelineConfig config;
+        config.function_expr = argv[1];
+        config.x_start = std::stod(argv[2]);
+        config.x_end = std::stod(argv[3]);
+        config.max_error = std::stod(argv[4]);
+        
+        // Parse optional args
+        for (int i = 5; i < argc; ++i) {
+            std::string arg = argv[i];
+            if (arg == "hw") config.enable_hardware = true;
+            else if (arg == "-p" && i+1 < argc) config.pos_bits = std::stoi(argv[++i]);
+            else if (arg == "-a" && i+1 < argc) config.a_bits = std::stoi(argv[++i]);
+            else if (arg == "-b" && i+1 < argc) config.b_bits = std::stoi(argv[++i]);
+            else if (arg == "-c" && i+1 < argc) config.c_bits = std::stoi(argv[++i]);
+        }
+
+        // Test expression - use enhanced parser from common_utils.hpp
+        std::string normalized_expr = normalizeExpression(config.function_expr);
+        double test_val = computeFunctionValue(normalized_expr, 0.0);
+        (void)test_val;
+        std::cout << "✓ Expression ready: " << config.function_expr << "\n";
+        
+        // Extract function name
+        config.function_name = extractFunctionName(config.function_expr);
+        
+        // Create output directory
+        std::ostringstream oss;
+        oss << "results/" << config.function_name 
+            << "_" << config.x_start 
+            << "_" << config.x_end 
+            << "_" << std::scientific << config.max_error;
+        
+        config.result_dir = sanitizeName(oss.str());
+        
+        // Run pipeline
+        Pipeline pipeline(config);
+        return pipeline.run() ? 0 : 1;
+        
+    } catch (const std::exception& e) {
+        std::cerr << "\n✗ Fatal Error: " << e.what() << "\n\n";
+        return 1;
+    }
 }

@@ -1,1 +1,0 @@
-     reg [15:0] lut [0:15]; // 16 entries for a 4-input LUT
