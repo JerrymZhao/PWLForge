@@ -1,6 +1,28 @@
-backup/
-fx_hw/
-fp_hw/
-hw/
-new_results/
-old_results/
+# Build products
+/build/
+
+# Generated experiment outputs
+/results/
+
+# Local IDE and OS files
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# FPGA/vendor-generated artifacts
+.Xil/
+*.jou
+*.log
+*.str
+*.wdb
+*.xpr
+*.runs/
+*.cache/
+*.sim/
+*.ip_user_files/
+
+# Python notebooks and caches
+.ipynb_checkpoints/
+__pycache__/
+*.py[cod]

@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use PWLForge, please cite the accompanying ICCAD 2026 paper."
+title: "PWLForge: Flexible Non-linear Function Hardware Generator with Error-constrained Optimization"
+authors:
+  - family-names: Zhao
+    given-names: Jingmin
+    affiliation: University of Hong Kong
+    email: jmzhao@eee.hku.hk
+  - family-names: Gao
+    given-names: Yizhao
+    affiliation: University of Hong Kong
+    email: yzgao@eee.hku.hk
+  - family-names: So
+    given-names: Hayden
+    affiliation: University of Hong Kong
+    email: skhay@hku.hk
+doi: 10.1145/3831252.3834169
