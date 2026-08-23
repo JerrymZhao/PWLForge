@@ -81,6 +81,13 @@ This creates an isolated temporary run of `tanh(x)` over `[0, 1]` and checks
 that the `Fixed2_14_Fixed2_14` candidate reports sampled average MAE below
 `1e-4`. It does not replace full RTL simulation or FPGA implementation.
 
+## Clock-frequency note
+
+The paper's 100 MHz setting is a uniform demonstration point, not a maximum-
+frequency claim. In ZCU102 post-route core-only checks, the six tested Fixed16
+cores met 400 MHz and the six tested Fixed32 cores met 300 MHz; these results
+do not generalize to every generated configuration or to floating-point cores.
+
 ## Repository layout
 
 ```text

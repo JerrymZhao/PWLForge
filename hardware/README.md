@@ -57,9 +57,9 @@ with `fp_config.vh` and the wrapper latency constants.
 `core_clk_{200,300,400,500}mhz.xdc` constrain only internal
 register-to-register paths. `clk_{200,300,400,500}mhz.xdc` additionally apply
 illustrative AXI-stream I/O delays.  They support an optional timing sweep;
-they are not a claim that all templates meet those frequencies.  The paper's
-reported hardware measurements use their stated 100 MHz setup, not these
-additional sweep constraints.
+they are not a claim that all templates meet those frequencies. The paper's
+100 MHz setting is a demonstration point; tested ZCU102 core-only runs met
+400 MHz for Fixed16 and 300 MHz for Fixed32.
 
 To implement one shared fixed16 template/example pair, use the parameterized
 entry point:
