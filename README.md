@@ -1,6 +1,6 @@
 # PWLForge
 
-PWLForge is a C++ generator for piecewise-polynomial approximations of
+PWLForge is a C++ generator for piecewise-linear (PWL) approximations of
 non-linear functions. It searches an interval partition, fits each interval,
 evaluates numeric-format candidates, groups compatible data, and can emit
 hardware-mapping artifacts.
@@ -12,15 +12,16 @@ Hardware Generator with Error-constrained Optimization*.
 
 - accepts built-in functions or ExprTk-compatible scalar expressions;
 - builds an optimized or uniform interval partition;
-- fits a per-interval polynomial approximation;
+- fits a per-interval linear approximation;
 - evaluates floating-point and fixed-point candidates;
 - groups and delta-encodes quantized interval data; and
 - writes CSV reports, plus hardware-mapping files with `hw` enabled.
 
-The generator performs a candidate sweep. It does **not** automatically select
-a single minimum-cost implementation that satisfies a constraint: use the
-generated reports to select the implementation point appropriate to the target
-backend.
+The generator evaluates every candidate and automatically selects the valid
+configuration with the smallest quantized representation (breaking ties by
+sampled average MAE). The selected configuration is recorded in
+`selected_config.txt`; all candidate results remain in
+`quantization_summary.csv`.
 
 ## Build
 
@@ -42,20 +43,21 @@ you set `CXX` explicitly.
 ```
 
 Results are written below `results/`. `quantization_summary.csv` records the
-sampled `max_mae`, `avg_mae`, and `rmse` for each numeric-format candidate;
-`stage3_all_configs_summary.csv` records the corresponding compression output.
-The supplied target is evaluated as a sampled metric, not a formal worst-case
-guarantee.
+sampled `max_mae`, `avg_mae`, and `rmse` for every numeric-format candidate;
+`stage3_selected_config_summary.csv` records compression for the automatically
+selected result. The supplied target is evaluated as a sampled metric, not a
+formal worst-case guarantee.
 
-To request hardware-mapping artifacts for every evaluated candidate:
+To request hardware-mapping artifacts for the selected candidate:
 
 ```sh
 ./build/pwlforge 'tanh(x)' 0 1 1e-4 hw
 ```
 
-This writes memory-initialization files, quantized-data CSV files, and a
-per-candidate configuration header. The generated mapping artifacts are not a
-substitute for RTL simulation or FPGA implementation verification.
+This writes memory-initialization files, quantized-data CSV files, and one
+configuration header under `stage3_<selected-config>/`. The generated mapping
+artifacts are not a substitute for RTL simulation or FPGA implementation
+verification.
 
 ## Options
 
@@ -91,6 +93,8 @@ src/pwlforge/
 third_party/exprtk/  bundled expression parser
 tests/               self-contained smoke test
 docs/                implementation notes
+hardware/            shared fixed-/floating-point RTL templates and XDC files
+examples/            function-specific memory/configuration inputs for templates
 ```
 
 ## Citation
@@ -100,6 +104,5 @@ paper. Machine-readable metadata is provided in `CITATION.cff`.
 
 ## License
 
-The project-level license has not yet been selected. Do not redistribute this
-repository until a `LICENSE` file is added by the copyright holders. ExprTk is
-covered separately; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+PWLForge is released under the [MIT License](LICENSE). ExprTk is covered
+separately; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

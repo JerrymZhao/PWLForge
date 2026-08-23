@@ -1,0 +1,15 @@
+metric,value
+total_intervals,23
+total_groups,4
+num_normal_groups,3
+num_orphan_groups,1
+avg_group_size,7.333333333333333e+00
+avg_delta_position_bits,1.600000000000000e+01
+avg_delta_a_bits,1.600000000000000e+01
+avg_delta_b_bits,1.600000000000000e+01
+avg_delta_c_bits,1.600000000000000e+01
+max_quantization_error,1.119214534759521e+00
+max_fitting_error,8.537881290600545e-01
+avg_fitting_error,3.585223037825569e-01
+rmse,4.501579558419070e-01
+compression_ratio,1.666666666666667e+00

@@ -21,6 +21,8 @@
 *.cache/
 *.sim/
 *.ip_user_files/
+/hardware/vivado/ip/generated/
+/examples/*/*/vivado_core_timing_report/
 
 # Python notebooks and caches
 .ipynb_checkpoints/

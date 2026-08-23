@@ -29,7 +29,7 @@ TARGET := $(BUILD_DIR)/pwlforge
 SOURCE := src/pwlforge/pwlforge.cpp
 HEADERS := $(shell find src third_party -type f -name '*.hpp')
 
-.PHONY: all clean test help
+.PHONY: all clean test test-matrix help
 
 all: $(TARGET)
 
@@ -42,10 +42,14 @@ $(TARGET): $(SOURCE) $(HEADERS) | $(BUILD_DIR)
 test: $(TARGET)
 	./tests/smoke_test.sh
 
+test-matrix: $(TARGET)
+	./tests/matrix_test.sh
+
 clean:
 	rm -rf $(BUILD_DIR)
 
 help:
 	@echo "make       Build PWLForge"
-	@echo "make test  Build and run the tanh smoke test"
+	@echo "make test        Build and run the tanh smoke test"
+	@echo "make test-matrix Build and run the four-function regression matrix"
 	@echo "make clean Remove the local build directory"

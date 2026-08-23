@@ -332,6 +332,31 @@ struct QuantizationEvalResult {
     std::string config_name;
 };
 
+const QuantizationEvalResult& selectPreferredValidConfig(
+    const std::vector<QuantizationEvalResult>& results,
+    double average_mae_target) {
+
+    const QuantizationEvalResult* selected = nullptr;
+    for (const auto& result : results) {
+        if (result.stats.avg_mae > average_mae_target) {
+            continue;
+        }
+
+        if (selected == nullptr ||
+            result.stats.quantized_bits < selected->stats.quantized_bits ||
+            (result.stats.quantized_bits == selected->stats.quantized_bits &&
+             result.stats.avg_mae < selected->stats.avg_mae)) {
+            selected = &result;
+        }
+    }
+
+    if (selected == nullptr) {
+        throw std::runtime_error(
+            "No evaluated numeric format satisfies the target sampled average MAE");
+    }
+    return *selected;
+}
+
 //================================================================================
 // Stage3 summary structure
 //================================================================================
@@ -701,6 +726,7 @@ private:
     std::vector<double> samples_;
 
     std::vector<QuantizationEvalResult> all_quantization_results_;
+    QuantizationEvalResult selected_quantization_result_;
     std::vector<Stage3Summary> all_stage3_summaries_;
 
 public:
@@ -729,13 +755,14 @@ public:
 
             runPhase1and2();
             runPhase2_5();
-            runStage3ForAllConfigs();
+            runStage3ForSelectedConfig();
 
             std::cout << "\n╔════════════════════════════════════════════════════════════╗\n";
             std::cout << "║  Pipeline Complete ✓                                      ║\n";
             std::cout << "╚════════════════════════════════════════════════════════════╝\n\n";
             std::cout << "Total Intervals:     " << intervals_.size() << "\n";
-            std::cout << "Quant Configs:       " << all_quantization_results_.size() << "\n";
+            std::cout << "Quant Configs Eval.: " << all_quantization_results_.size() << "\n";
+            std::cout << "Selected Config:     " << selected_quantization_result_.config_name << "\n";
             std::cout << "Output Directory:    " << config_.result_dir << "/\n\n";
 
             return true;
@@ -839,6 +866,27 @@ private:
         saveAllConfigsSummary(all_quantization_results_,
                              config_.result_dir + "/quantization_summary.csv");
 
+        selected_quantization_result_ = selectPreferredValidConfig(
+            all_quantization_results_, config_.max_error);
+
+        std::ofstream selected_file(config_.result_dir + "/selected_config.txt");
+        if (!selected_file) {
+            throw std::runtime_error("Cannot open selected_config.txt for writing");
+        }
+        selected_file << "selection_metric=sampled_average_mae\n";
+        selected_file << "selection_target=" << std::scientific << std::setprecision(15)
+                      << config_.max_error << "\n";
+        selected_file << "selected_config=" << selected_quantization_result_.config_name << "\n";
+        selected_file << "selected_avg_mae=" << selected_quantization_result_.stats.avg_mae << "\n";
+        selected_file << "selected_quantized_bits=" << selected_quantization_result_.stats.quantized_bits << "\n";
+
+        std::cout << "  Selected valid configuration: "
+                  << selected_quantization_result_.config_name
+                  << " (sampled average MAE=" << std::scientific
+                  << selected_quantization_result_.stats.avg_mae
+                  << ", representation bits=" << selected_quantization_result_.stats.quantized_bits
+                  << ")\n\n";
+
         for (const auto& result : all_quantization_results_) {
             std::string safe_cfg = sanitizeName(result.config_name);
             std::string cfg_dir = config_.result_dir + "/quant_eval_" + safe_cfg;
@@ -862,7 +910,7 @@ private:
         std::cout << "  Tested " << all_quantization_results_.size() << " configurations\n\n";
     }
 
-    void runStage3ForAllConfigs() {
+    void runStage3ForSelectedConfig() {
         std::cout << "=== Stage 3: Group Encoding & Compression ===\n";
 
         std::string expr = normalizeExpression(config_.function_expr);
@@ -871,51 +919,43 @@ private:
             return computeFunctionValue(expr, x);
         };
 
-        all_stage3_summaries_.clear();
+        const auto& quant_result = selected_quantization_result_;
+        std::string config_output_dir = config_.result_dir + "/stage3_" + sanitizeName(quant_result.config_name);
+        createDirectory(config_output_dir);
 
-        for (size_t i = 0; i < all_quantization_results_.size(); ++i) {
-            const auto& quant_result = all_quantization_results_[i];
+        std::vector<Interval> quantized_intervals = intervals_;
+        std::vector<FitParameters> quantized_params = fit_params_;
 
-            std::cout << "\n[" << (i + 1) << "/" << all_quantization_results_.size()
-                      << "] " << quant_result.config_name << "\n";
+        for (size_t j = 0; j < quantized_intervals.size(); ++j) {
+            const auto& qi = quant_result.quantized_intervals[j];
 
-            std::string config_output_dir = config_.result_dir + "/stage3_" + sanitizeName(quant_result.config_name);
-            createDirectory(config_output_dir);
+            quantized_intervals[j].is_quantized = true;
+            quantized_intervals[j].start_quantized = qi.start_q;
+            quantized_intervals[j].end_quantized = qi.end_q;
 
-            std::vector<Interval> quantized_intervals = intervals_;
-            std::vector<FitParameters> quantized_params = fit_params_;
-
-            for (size_t j = 0; j < quantized_intervals.size(); ++j) {
-                const auto& qi = quant_result.quantized_intervals[j];
-
-                quantized_intervals[j].is_quantized = true;
-                quantized_intervals[j].start_quantized = qi.start_q;
-                quantized_intervals[j].end_quantized = qi.end_q;
-
-                quantized_params[j].is_quantized = true;
-                quantized_params[j].a_quantized = qi.a_q;
-                quantized_params[j].b_quantized = qi.b_q;
-                quantized_params[j].c_quantized = qi.c_q;
-            }
-
-            Stage3Summary summary = runStage3Single(
-                quantized_intervals,
-                quantized_params,
-                original_function,
-                config_output_dir,
-                quant_result.config);
-
-            summary.quant_config_name = quant_result.config_name;
-            summary.output_dir = config_output_dir;
-            all_stage3_summaries_.push_back(summary);
+            quantized_params[j].is_quantized = true;
+            quantized_params[j].a_quantized = qi.a_q;
+            quantized_params[j].b_quantized = qi.b_q;
+            quantized_params[j].c_quantized = qi.c_q;
         }
+
+        all_stage3_summaries_.clear();
+        Stage3Summary summary = runStage3Single(
+            quantized_intervals,
+            quantized_params,
+            original_function,
+            config_output_dir,
+            quant_result.config);
+        summary.quant_config_name = quant_result.config_name;
+        summary.output_dir = config_output_dir;
+        all_stage3_summaries_.push_back(summary);
 
         saveStage3AllConfigsSummary(
             all_stage3_summaries_,
-            config_.result_dir + "/stage3_all_configs_summary.csv"
+            config_.result_dir + "/stage3_selected_config_summary.csv"
         );
 
-        std::cout << "\n✓ All Stage 3 configurations complete\n";
+        std::cout << "\n✓ Stage 3 complete for the selected configuration\n";
     }
 
     void printGroupingStatistics(const std::vector<QuantizedGroup>& groups) {

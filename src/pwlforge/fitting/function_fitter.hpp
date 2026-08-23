@@ -136,51 +136,16 @@ inline FitParameters fitSegment(const std::string& expression_str,
     FitParameters params;
     params.range_start = interval.start;
     params.range_end = interval.end;
-    double xm = (params.range_start + params.range_end) / 2.0;
-
     double y0 = computeFunctionValue(expression_str, params.range_start);
     double y1 = computeFunctionValue(expression_str, params.range_end);
-    double ym = computeFunctionValue(expression_str, xm);
 
-    // Try linear fit first
+    // PWLForge intentionally uses a linear segment model. The hardware-export
+    // format stores only slope and intercept, matching the paper's PWL backend.
     params.method = FittingMethod::Linear;
     params.a = 0.0;
     params.b = (y1 - y0) / (params.range_end - params.range_start);
     params.c = y0 - params.b * params.range_start;
     params.order = 1;
-
-    double linear_error = std::abs((y1 + y0) / 2.0 - ym);
-
-    // Try quadratic if linear error is too high
-    if (linear_error > error_threshold * 0.8) {
-        params.method = FittingMethod::Quadratic;
-        double denom = (params.range_start - params.range_end) *
-                      (params.range_start - xm) * (params.range_end - xm);
-
-        if (std::abs(denom) > 1e-7) {
-            params.a = (params.range_end * (ym - y0) +
-                       params.range_start * (y1 - ym) +
-                       xm * (y0 - y1)) / denom;
-            params.b = ((params.range_end * params.range_end) * (y0 - ym) +
-                       (params.range_start * params.range_start) * (ym - y1) +
-                       (xm * xm) * (y1 - y0)) / denom;
-            params.c = (params.range_start * (params.range_end * ym - xm * y1) +
-                       params.range_end * xm * y0 -
-                       params.range_start * xm * y1) / denom;
-            params.order = 2;
-
-            double quad_error = estimateSegmentError(expression_str, interval, params);
-
-            // Use linear if quadratic doesn't improve much
-            if (quad_error >= linear_error * 1.2) {
-                params.method = FittingMethod::Linear;
-                params.a = 0.0;
-                params.b = (y1 - y0) / (params.range_end - params.range_start);
-                params.c = y0 - params.b * params.range_start;
-                params.order = 1;
-            }
-        }
-    }
 
     return params;
 }

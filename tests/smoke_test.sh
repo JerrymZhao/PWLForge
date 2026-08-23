@@ -8,7 +8,7 @@ trap 'rm -rf "$work_dir"' EXIT HUP INT TERM
 
 (
   cd "$work_dir"
-  "$binary" 'tanh(x)' 0 1 1e-4 --interval-mode optimized --grouping-mode full >/dev/null
+  "$binary" 'tanh(x)' 0 1 1e-4 hw --interval-mode optimized --grouping-mode full >/dev/null
 )
 
 summary=$(find "$work_dir/results" -name quantization_summary.csv -type f -print -quit)
@@ -28,4 +28,11 @@ awk -F, '
   }
 ' "$summary"
 
-echo "Smoke test passed: Fixed2_14_Fixed2_14 sampled average MAE is below 1e-4."
+selected=$(find "$work_dir/results" -name selected_config.txt -type f -print -quit)
+[ -n "$selected" ]
+grep -qx 'selected_config=Fixed2_14_Fixed2_14' "$selected"
+
+stage3=$(find "$work_dir/results" -name stage3_selected_config_summary.csv -type f -print -quit)
+[ -n "$stage3" ]
+
+echo "Smoke test passed: Fixed2_14_Fixed2_14 is selected and exported."
