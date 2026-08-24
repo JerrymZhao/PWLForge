@@ -1140,7 +1140,7 @@ private:
 //================================================================================
 
 void printUsage() {
-    std::cout << "\nUsage: optimize_intervals <func> <start> <end> <error> [options]\n\n";
+    std::cout << "\nUsage: pwlforge <func> <start> <end> <error> [options]\n\n";
     std::cout << "Supported Functions:\n";
     std::cout << "  Activation: gelu, silu, swish, hardswish (hswish), mish, softplus\n";
     std::cout << "  Standard:   tanh, sigmoid, sin, cos, exp, log, sqrt, erf\n";
@@ -1159,12 +1159,12 @@ void printUsage() {
     std::cout << "  --grouping-mode MODE        full | nogroup | nosym (default: full)\n\n";
 
     std::cout << "Examples:\n";
-    std::cout << "  ./optimize_intervals \"gelu(x)\" -5 5 1e-4\n";
-    std::cout << "  ./optimize_intervals \"silu(x)\" -6 6 1e-5 hw\n";
-    std::cout << "  ./optimize_intervals \"hardswish(x)\" -3 3 1e-4 hw -p 12\n";
-    std::cout << "  ./optimize_intervals \"tanh(x)\" 0 3 1e-6\n";
-    std::cout << "  ./optimize_intervals \"exp(x)\" 0 1 1e-4 --interval-mode uniform --uniform-intervals 16\n";
-    std::cout << "  ./optimize_intervals \"gelu(x)\" -3 3 1e-4 hw --grouping-mode nosym\n\n";
+    std::cout << "  pwlforge \"gelu(x)\" -5 5 1e-4\n";
+    std::cout << "  pwlforge \"silu(x)\" -6 6 1e-5 hw\n";
+    std::cout << "  pwlforge \"hardswish(x)\" -3 3 1e-4 hw -p 12\n";
+    std::cout << "  pwlforge \"tanh(x)\" 0 3 1e-6\n";
+    std::cout << "  pwlforge \"exp(x)\" 0 1 1e-4 --interval-mode uniform --uniform-intervals 16\n";
+    std::cout << "  pwlforge \"gelu(x)\" -3 3 1e-4 hw --grouping-mode nosym\n\n";
 }
 
 int main(int argc, char* argv[]) {
